@@ -1,0 +1,32 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+
+participant server_app
+
+ipc_server -> socket: <<create>>
+ipc_server -> socket: <<listen>>
+
+ipc_client -> socket: <<connect>>
+socket -> ipc_server: <<accept>>
+
+ipc_client -> client_app: <<start>>
+activate client_app
+
+ipc_server -> server_app: <<start>>
+activate server_app
+
+server_app -> server_app: read line
+
+client_app -> socket: send <<stdout>>
+socket -> server_app: receive <<stdin>>
+
+server_app -> socket: send <<stdout>>
+client_app -> client_app: read line
+
+socket -> client_app: receive <<stdin>>
+
+deactivate server_app
+deactivate client_app
+
+@enduml

@@ -1,0 +1,33 @@
+#
+# This docker image shall run hugin as GUI app
+# It utilizes VNC
+#
+# Src: http://hugin.sourceforge.net/
+# Src: http://blog.fx.lv/2017/08/running-gui-apps-in-docker-containers-using-vnc/
+#
+
+FROM ubuntu:18.10
+
+MAINTAINER cdeck3r
+
+USER root
+
+#
+# add other things if required
+#
+
+#
+# pre-requisites
+#
+RUN apt-get update \
+&& apt-get install -y \
+   socat iproute2 lsof \
+   vnc4server \
+&& apt-get install -y \
+   hugin \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/*
+
+EXPOSE 5901
+
+CMD ["/bin/bash"]

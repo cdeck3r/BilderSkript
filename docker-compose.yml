@@ -1,0 +1,90 @@
+version: '3'
+
+services:
+  hugin:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: Dockerfile.hugin
+    image: hugin:latest
+    ports:
+      - "5901:5901"
+    volumes:
+      - ipc:${APP_ROOT}/ipc
+      - images:${APP_ROOT}/images
+      - src:${APP_ROOT}/src
+      - scripts:${APP_ROOT}/scripts
+      - hugin-vnc:/vnc
+    command:
+      /bilderskript/scripts/ipc_socket_server.sh hugin.sock /bilderskript/scripts/hugin/hugin_server_app.sh
+    ipc: host
+    stdin_open: true
+    tty: true
+
+
+  builder:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: Dockerfile.builder
+    image: builder:latest
+    volumes:
+      - repo:/BilderSkriptRepo
+      - ipc:${APP_ROOT}/ipc
+      - pipelines:${APP_ROOT}/pipelines
+      - log:${APP_ROOT}/log
+      - images:${APP_ROOT}/images
+      - src:${APP_ROOT}/src
+      - scripts:${APP_ROOT}/scripts
+      - docs:${APP_ROOT}/docs
+      - docs_site:${APP_ROOT}/docs_site
+    ipc: host
+    stdin_open: true
+    tty: true
+
+volumes:
+  repo:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}
+  ipc:
+  pipelines:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/pipelines
+  log:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/log
+  images:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/images
+  hugin-vnc:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/hugin-vnc
+  src:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/src
+  scripts:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/scripts
+  docs:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/docs
+  docs_site:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/docs_site
+  

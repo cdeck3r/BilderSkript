@@ -1,0 +1,39 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+
+participant hugin.sh
+
+entity hugin.cfg
+
+activate hugin.sh
+
+hugin.sh -> hugin.cfg: <<write>>
+
+hugin.sh -> ipc_socket_client.sh: <<start>>
+ipc_socket_client.sh -> hugin_client_app.sh: <<start>>
+activate hugin_client_app.sh
+
+hugin_client_app.sh -> hugin.sock: <<send>> START
+ipc_server_app.sh -> hugin.sock: <<receive>>
+ipc_server_app.sh -> hugin_server_app.sh: <<start>>
+activate hugin_server_app.sh
+
+hugin_server_app.sh -> hugin.cfg: <<load>>
+hugin_server_app.sh -> hugin: <<run>>
+
+activate hugin
+hugin --> hugin_server_app.sh
+deactivate hugin
+
+hugin_server_app.sh -> hugin.sock: <<stdout>> SUCCESS
+deactivate hugin_server_app.sh
+
+hugin.sock -> hugin_client_app.sh: <<stdin>> SUCCESS
+hugin_client_app.sh -> hugin.sh
+
+deactivate hugin.sh
+
+deactivate hugin_client_app.sh
+
+@enduml

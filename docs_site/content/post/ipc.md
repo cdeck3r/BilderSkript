@@ -1,0 +1,82 @@
++++
+title = "Pipeline Interprocess Communication (IPC)"
+description = "Discussion on IPC across docker containers"
+date = "2019-12-31"
+author = "Christian Decker"
+sec = 35
++++
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+The distribution of pipelines across various docker containers requires interprocess communication between the docker containers. Let's discuss the design for the BilderSkript pipelines.
+
+## IPC Control Problem
+
+We have the `builder` container which controls the execution of all pipelines. A pipeline implements a  sequence of processs executions, where some of the processes run in their respective containers. As an example consider the data preparation pipeline. The pipeline in the `builder` container initiates the image data preparation in the `hugin` container. Once the process in the `hugin` container completes the pipeline can continues with the next step. 
+
+<img src="uml/ipc_call.png" alt="ipc sequence diagram" width="546"/>
+
+Basically, the sequence diagram above depicts a synchronous remote procedure call (RPC). This is a classical function in many programming languages, e.g. [Java RMI](https://en.wikipedia.org/wiki/Java_remote_method_invocation).
+
+**IPC control problem formulation:** 
+> Implement a synchronous RPC to start processes across containers and that seamlessly integrates into pipelined workflows.
+
+Contraints / requirements:
+
+* low effort for additional network setup
+* low effort for access and securing the access control
+* script based, preferrably in bash, as it makes it easy to integrate the RPC as shell command.
+
+In the following sections, we discuss some IPC approaches for their qualification as synchronous RPC.
+
+## File-based IPC
+
+A very simple, but effective approach is the use of files for exchanging messages between container processes. The process in container A writes a message character string into a file on a shared volume from which the process in container B can read the file's content. In this scenario, a single file serves as a buffer between those processes. However, the file access needs to be coordinated, otherwise the processes would overwrite each other's messages. Additionally, to get informed about new messages, the processes need to poll the commonly shared file. 
+
+## Client / Server IPC
+
+Process within different containers may communicate as networked client and servers. Subsequently, some options:
+
+* REST or similar RPC-alike calls across the network
+* SSH remote script execution
+* Shared UNIX sockets
+
+REST requests are easy to implement, addtionally, a webserver such as nginx or apache is required to receive the requests. Alternatively, one could implement a simple webserver using python and flask. SSH remote script execution needs accounts to login to the remote containers. One needs to enter a password before execution, which limits automation capabilities. Public key access can resolve this problem, but needs caution in handling public and private keys. Both options expose containers to the network. As a consequence, it requires network definition between containers and a firewall to block unauthorized access.
+
+Finally, UNIX sockets appear to be an ideal approach to interprocess communication. Sockets are stored on a  shared volume, therewith enabling a local access control. However, this type of interprocess communication is limited between containers on the same host.
+
+
+## Message Queues and Brokers
+
+A message broker maintains a message queue (MQ), where distirbuted processes can register themselve to exchange messages without directly knowing each other. 
+
+Message brokers are a prefered way for decoupled distributed processes, in particular for long running processes executed asynchronously. However, the setup and managment of a MQ takes effort. Processes need to agree on the message format and containers need to reach the broker's queue via the network. 
+
+## Databases for IPC
+
+Databases store information, which are accessible by clients. As such, this is related to the file-based IPC. Process information is organized in tables and table attributes store process states, e.g. process execution start or whether a process successfully completed. 
+
+Similar to file-based IPC, processes are required to poll the database to receive updates on the process state. Addtionally, the setup and maintenance of even simple DBMS is significant. A simple file based database, e.g. [sqlite](https://www.sqlite.org/index.html), is an attractive solution for this last issue. However, write and read access must be coordinated to avoid (orphaned) file locks.
+
+## Final Design Decision
+
+As a result of the discussion, BilderSkript implements an interprocess communication using shared UNIX sockets. It combines the charm of file based approaches with the advantage of bi-directional communication. Tool support for scripting is very mature. The next section provides more details how this approach implemented.
+
+**Limitation.** The use of UNIX limits IPC between containers on the same host. To overcome one may use `socat` to forward the UNIX socket to a TCP one. See this [stackoverflow post](https://stackoverflow.com/questions/24956322/can-docker-port-forward-to-a-unix-file-socket-on-the-host-container) to get an idea how this can be implemented. However, this would re-open the discussion on network access issues, but enables a migration path to evolve the local host approach to distributed network approach. 
+
+
+**Further Ressources:** 
+
+There are a couple of ressources to follow up on these issues.
+
+* https://www.linode.com/docs/security/authentication/use-public-key-authentication-with-ssh/
+* [Dockerize an SSH service](https://docs.docker.com/engine/examples/running_ssh_service/) and [ubuntu sshd](https://hub.docker.com/r/rastasheep/ubuntu-sshd/)
+* [sshpass](https://stackoverflow.com/questions/12202587/automatically-enter-ssh-password-with-script) and [Docker secret](https://docs.docker.com/engine/swarm/#build-support-for-docker-secrets-into-your-images)
+* [Docker ssh considered evil](https://jpetazzo.github.io/2014/06/23/docker-ssh-considered-evil/)
+
+An interesting op-ed from Bozho's tech blog is [You Probably Don’t Need a Message Queue](https://techblog.bozho.net/you-probably-dont-need-a-message-queue/). It inspired some of the disussion above.

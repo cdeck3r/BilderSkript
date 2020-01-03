@@ -1,0 +1,19 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+
+
+builder -> builder: start pipeline
+activate builder
+
+builder -> hugin
+activate hugin
+
+hugin -> hugin: process data
+
+hugin --> builder
+deactivate hugin
+
+deactivate builder
+
+@enduml
