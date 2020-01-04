@@ -3,7 +3,8 @@
 # Edit at https://www.gitignore.io/?templates=ssh,hugo,java,python
 
 
-hugin-vnc
+### BilderSkript ###
+# project specific excludes
 images
 pipelines/.snakemake
 

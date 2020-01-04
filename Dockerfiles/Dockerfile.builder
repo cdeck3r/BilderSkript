@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y \
    wget \
    unzip \
    graphviz libgraphviz-dev pkg-config \
+   imagemagick imagemagick-doc \ 
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/* 
 

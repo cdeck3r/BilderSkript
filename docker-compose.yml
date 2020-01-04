@@ -1,26 +1,29 @@
 version: '3'
 
 services:
+# hugin is an Open Source panorama stitcher and graphical user interface (GUI) 
+# for Panorama tools. 
+# It also provides a number of additional components and command line tools.
+# 
+# Hugin prepares image data taken with fisheye lenses. 
   hugin:
     build: 
       context: ./Dockerfiles
       dockerfile: Dockerfile.hugin
     image: hugin:latest
-    ports:
-      - "5901:5901"
     volumes:
       - ipc:${APP_ROOT}/ipc
       - images:${APP_ROOT}/images
       - src:${APP_ROOT}/src
       - scripts:${APP_ROOT}/scripts
-      - hugin-vnc:/vnc
     command:
       /bilderskript/scripts/ipc_socket_server.sh hugin.sock /bilderskript/scripts/hugin/hugin_server_app.sh
     ipc: host
     stdin_open: true
     tty: true
 
-
+# Builder contains all tooling for the BilderSkript application
+# It defines and runs pipelines.
   builder:
     build: 
       context: ./Dockerfiles
@@ -40,6 +43,31 @@ services:
     stdin_open: true
     tty: true
 
+# hugin, same as above, but with vnc
+# this is for running the Hugin GUI to configure the
+# project (.pto) file.
+  hugin-vnc:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: Dockerfile.hugin
+    image: hugin:latest
+    ports:
+      - "5901:5901"
+    volumes:
+      - images:${APP_ROOT}/images
+      - scripts:${APP_ROOT}/scripts
+      - hugin-vnc:/hugin-vnc
+    command:
+       /bin/bash
+#      /hugin-vnc/hugin.sh
+    ipc: host
+    stdin_open: true
+    tty: true
+
+#
+# Volume definition
+# Note the "ipc" volume for sharing UNIX sockets.
+# 
 volumes:
   repo:
     driver_opts:
