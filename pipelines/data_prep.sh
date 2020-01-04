@@ -15,7 +15,7 @@ SCRIPT_NAME=$0
 # calls the data prep pipeline using snakemake
 snakemake all \
 	--snakefile data_prep.snakefile \
-	--config imgdir=../images/20191219_RTWIBSE outdir=../images/output \
+	--config imgdir=../images/fulltest outdir=../images/fulltest_output \
 	--latency-wait 20 \
 	--cores 1 \
 	$@

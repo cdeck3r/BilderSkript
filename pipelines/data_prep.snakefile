@@ -15,7 +15,9 @@ LOG_DIR=PROJECT_DIR + "/log"
 SCRIPT_DIR=PROJECT_DIR + "/scripts"
 
 HUGIN_CMD=SCRIPT_DIR + "/hugin/hugin.sh"
-HUGIN_PTO_FILE=SCRIPT_DIR + "/hugin/image_fullframefish_equirectangular150x120.pto"
+HUGIN_PTO_FILE=SCRIPT_DIR + "/hugin/image_fullframefish_equirectangular93x70.pto"
+HUGIN_PTO_FILE_PERSPECTIVE=SCRIPT_DIR + "/hugin/perspective_control.pto"
+
 
 #
 # config parameters
@@ -41,18 +43,31 @@ IMG_FILES, = glob_wildcards(IMG_DIR + "/{imgfile}.insp")
 # a pseudo-rule that collects the target files
 rule all:
     input: 
-         expand(OUT_DIR + "/{imgfile}.png", imgfile=IMG_FILES)
+         expand(OUT_DIR + "/{imgfile}_flat_pc.png", imgfile=IMG_FILES)
 
-
+# standard hugin run for fisheye correction
 rule hugin:
     input:
          IMG_DIR + "/{imgfile}.insp"
     output:
-         OUT_DIR + "/{imgfile}.png"
+         OUT_DIR + "/{imgfile}_flat.png"
     threads: 1
     params:
          logfile=LOG_DIR + "/data_prep.log"
     message: 
-        "Hugin image processing"
+        "Hugin image processing (fisheye correction)"
     shell:
         "{HUGIN_CMD} \"{HUGIN_PTO_FILE}\" \"{input}\" \"{output}\" >> {params.logfile} 2>&1 "
+
+# hugin run for perspective control
+rule hugin_perspective:
+    input:
+        OUT_DIR + "/{imgfile}_flat.png"
+    output:
+        OUT_DIR + "/{imgfile}_flat_pc.png"
+    params:
+         logfile=LOG_DIR + "/data_prep.log"
+    message: 
+        "Hugin image processing (perspective control)"
+    shell:
+        "{HUGIN_CMD} \"{HUGIN_PTO_FILE_PERSPECTIVE}\" \"{input}\" \"{output}\" >> {params.logfile} 2>&1 && rm -rf \"{input}\" "
