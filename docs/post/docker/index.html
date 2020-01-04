@@ -121,7 +121,19 @@ body {
             <hr class="section-heading-spacer">
             <div class="clearfix"></div>
             <h2 class="section-heading">Docker Container Toolchain</h2>
-            <p>Docker images contain the various software pipelines from the tool chain. The various responsibilities within the overall system design motivate the system boundaries induced by the distribution of pipelines across docker images. The following table list the docker images and their respective pipeline functionalities.</p>
+            
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<h3 id="docker-images-and-volumes">Docker Images and Volumes</h3>
+
+<p>Docker images contain the various software pipelines from the tool chain. The various responsibilities within the overall system design motivate the system boundaries induced by the distribution of pipelines across docker images. The following table list the docker images and their respective pipeline functionalities.</p>
+
 <table>
 <thead>
 <tr>
@@ -130,22 +142,26 @@ body {
 <th>Notes</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>builder</td>
 <td>Build</td>
 <td>makefile, doc, versioning via git and dvc, mlflow exp.</td>
 </tr>
+
 <tr>
 <td>hugin</td>
 <td>Data prep</td>
 <td>image data preparation</td>
 </tr>
+
 <tr>
 <td>ludwig</td>
 <td>ML training</td>
 <td>training and experimentation</td>
 </tr>
+
 <tr>
 <td>cicd</td>
 <td>Deployment pipeline</td>
@@ -153,8 +169,34 @@ body {
 </tr>
 </tbody>
 </table>
-<p>&hellip; pipeline</p>
 
+<p>When started as docker containers, they run scripts and communicate with each other utilizing shared volumes on the filesystem. The image below illustrates the docker toolchain.</p>
+
+<p><img src="uml/docker_toolchain.png" alt="docker toolchain" /></p>
+
+<p>The most important volumes are:</p>
+
+<ul>
+<li>${APP_ROOT}/ipc : used to store sockets for IPCs between containers</li>
+<li>${APP_ROOT}/pipelines : contains all BilderSkript pipelines</li>
+<li>${APP_ROOT}/images : data directory</li>
+<li>${APP_ROOT}/src : stores source codes</li>
+<li>${APP_ROOT}/scripts : scripts</li>
+<li>${APP_ROOT}/docs :  docu blog directory</li>
+<li>${APP_ROOT}/docs_site : the docu blog&rsquo;s source</li>
+</ul>
+
+<p>By default <code>${APP_ROOT}</code> is set to <code>/bilderskript</code>. For instance, one accesses the pipeline scripts under <code>/bilderskript/pipelines</code>.</p>
+
+<h3 id="build-and-startup">Build and Startup</h3>
+
+<p><a href="https://docs.docker.com/compose/">Docker Compose</a> creates all images, containers and volumes. The configuration is defined in the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/docker-compose.yml">docker-compose.yml</a> file</p>
+
+<p>Building all images using the following command</p>
+<pre><code>docker-compose build</code></pre>
+<p>Start a container from <code>builder</code> image  and get a <code>bash</code> shell. The default container name is <code>bilderskript_builder_1</code></p>
+<pre><code>docker-compose up -d builder
+docker exec -it bilderskript_builder_1 /bin/bash</code></pre>
         </div>
     </div>
 

@@ -7,17 +7,19 @@ author = "Christian Decker"
 
 Information according to § 5 TMG
 
-_first and last name_     
-_address_
+Christian Decker    
+Danziger Str. 6    
+71034 Böblingen    
 
 #### Contact:
-Phone: _phone number_     
-E-Mail: _e-mail address_
+Phone: +49 7121 271 4105    
+E-Mail: info@cdeck3r.com   
 
 #### Responsible for content according to § 55 Abs. 2 RStV:
 
-_first and last name_     
-_address_
+Christian Decker    
+Danziger Str. 6     
+71034 Böblingen    
 
 #### Disclaimer:
 

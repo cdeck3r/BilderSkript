@@ -6,7 +6,7 @@ author = "Christian Decker"
 sec = 2
 +++
 
-## Motivation and Goal
+### Motivation and Goal
 
 A lecturer usually provides a lot of supplemental course material such as a written script, slides, reading material, exercises. 
 
@@ -24,7 +24,7 @@ BilderSkript has the following goals
 * improve the efficiency when working with the supplemental course material
 
 
-## Objectives
+### Objectives
 
 There are a couple of activities to perform 
 

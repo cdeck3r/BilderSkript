@@ -1,6 +1,7 @@
 # BilderSkript
 
 > Bilder [ˈbɪldɐ], (German), images
+
 > Skript [skʁɪpt], (German), a written document or notes
 
 BilderSkript automatically summarizes a lecture as a sequence of interesting images scenes.

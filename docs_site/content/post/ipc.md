@@ -15,15 +15,16 @@ img {
 
 The distribution of pipelines across various docker containers requires interprocess communication between the docker containers. Let's discuss the design for the BilderSkript pipelines.
 
-## IPC Control Problem
+### IPC Control Problem
 
 We have the `builder` container which controls the execution of all pipelines. A pipeline implements a  sequence of processs executions, where some of the processes run in their respective containers. As an example consider the data preparation pipeline. The pipeline in the `builder` container initiates the image data preparation in the `hugin` container. Once the process in the `hugin` container completes the pipeline can continues with the next step. 
 
-<img src="uml/ipc_call.png" alt="ipc sequence diagram" width="546"/>
+<img src="uml/ipc_call.png" alt="ipc sequence diagram" />
 
 Basically, the sequence diagram above depicts a synchronous remote procedure call (RPC). This is a classical function in many programming languages, e.g. [Java RMI](https://en.wikipedia.org/wiki/Java_remote_method_invocation).
 
 **IPC control problem formulation:** 
+
 > Implement a synchronous RPC to start processes across containers and that seamlessly integrates into pipelined workflows.
 
 Contraints / requirements:
@@ -34,11 +35,11 @@ Contraints / requirements:
 
 In the following sections, we discuss some IPC approaches for their qualification as synchronous RPC.
 
-## File-based IPC
+### File-based IPC
 
 A very simple, but effective approach is the use of files for exchanging messages between container processes. The process in container A writes a message character string into a file on a shared volume from which the process in container B can read the file's content. In this scenario, a single file serves as a buffer between those processes. However, the file access needs to be coordinated, otherwise the processes would overwrite each other's messages. Additionally, to get informed about new messages, the processes need to poll the commonly shared file. 
 
-## Client / Server IPC
+### Client / Server IPC
 
 Process within different containers may communicate as networked client and servers. Subsequently, some options:
 
@@ -50,20 +51,19 @@ REST requests are easy to implement, addtionally, a webserver such as nginx or a
 
 Finally, UNIX sockets appear to be an ideal approach to interprocess communication. Sockets are stored on a  shared volume, therewith enabling a local access control. However, this type of interprocess communication is limited between containers on the same host.
 
-
-## Message Queues and Brokers
+### Message Queues and Brokers
 
 A message broker maintains a message queue (MQ), where distirbuted processes can register themselve to exchange messages without directly knowing each other. 
 
 Message brokers are a prefered way for decoupled distributed processes, in particular for long running processes executed asynchronously. However, the setup and managment of a MQ takes effort. Processes need to agree on the message format and containers need to reach the broker's queue via the network. 
 
-## Databases for IPC
+### Databases for IPC
 
 Databases store information, which are accessible by clients. As such, this is related to the file-based IPC. Process information is organized in tables and table attributes store process states, e.g. process execution start or whether a process successfully completed. 
 
 Similar to file-based IPC, processes are required to poll the database to receive updates on the process state. Addtionally, the setup and maintenance of even simple DBMS is significant. A simple file based database, e.g. [sqlite](https://www.sqlite.org/index.html), is an attractive solution for this last issue. However, write and read access must be coordinated to avoid (orphaned) file locks.
 
-## Final Design Decision
+### Final Design Decision
 
 As a result of the discussion, BilderSkript implements an interprocess communication using shared UNIX sockets. It combines the charm of file based approaches with the advantage of bi-directional communication. Tool support for scripting is very mature. The next section provides more details how this approach implemented.
 

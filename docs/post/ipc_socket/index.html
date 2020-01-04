@@ -121,26 +121,43 @@ body {
             <hr class="section-heading-spacer">
             <div class="clearfix"></div>
             <h2 class="section-heading">IPC via Shared UNIX Sockets</h2>
-            <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+            
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
 <p>This is a technical design description on the usage of shared UNIX socket for docker container IPC.</p>
+
 <p>The approach utilizes</p>
+
 <ul>
 <li><a href="https://linux.die.net/man/1/socat"><code>socat</code></a> for creating sockets and socket communication</li>
 <li><a href="https://linux.die.net/man/8/ss"><code>ss</code></a> to check for the presence of the listening socket.</li>
 </ul>
+
 <p>It follows a classical client / server approach where the server initializes the socket and waits for the client to start the communication. The following sequence diagrams depicts the interaction over the socket.</p>
-<!-- raw HTML omitted -->
+
+<p><img src="uml/ipc_socket.png" alt="ipc socket sequence diagram" /></p>
+
 <p>Here are the script calls for the server and client.</p>
-<p><strong><a href="github.com/cdeck3r/BilderSkript/scripts/ipc_socket_server.sh">Server</a>:</strong></p>
-<pre><code>./ipc_socket_server.sh &lt;socket name&gt; &lt;path/to/server_app.sh&gt;
-</code></pre><p><strong><a href="github.com/cdeck3r/BilderSkript/scripts/ipc_socket_client.sh">Client</a>:</strong></p>
-<pre><code>./ipc_socket_client.sh &lt;socket name&gt; &lt;path/to/client_app.sh&gt;
-</code></pre><h2 id="cross-container-ipc-example">Cross Container IPC Example</h2>
+
+<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_server.sh">Server</a>:</strong></p>
+<pre><code>./ipc_socket_server.sh <socket name> <path/to/server_app.sh></code></pre>
+<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_client.sh">Client</a>:</strong></p>
+<pre><code>./ipc_socket_client.sh <socket name> <path/to/client_app.sh></code></pre>
+<h3 id="cross-container-ipc-example">Cross Container IPC Example</h3>
+
 <p>We illustrate the container IPC between the <code>builder</code> container and the <code>hugin</code> container. The <code>hugin</code> container processes all images taken with the 360 camera and converts the fisheye lens images in regular ones using a equirectangular projection. The server script runs on the <code>hugin</code> container while the client script runs on the <code>builder</code> container. The socket between both resides on a shared volume.
 It starts by the snakemake file on the <code>builder</code> calling the <code>hugin.sh</code> script.</p>
-<!-- raw HTML omitted -->
+
+<p><img src="uml/ipc_socket.png" alt="ipc socket communication between builder and hugin" /></p>
+
 <p><strong>Ressources:</strong></p>
+
 <p>A brief tutorial on <code>socat</code> is the <a href="https://blog.travismclarke.com/post/socat-tutorial/">Socat Cheatsheet</a> from Travis Clarke.</p>
 
         </div>

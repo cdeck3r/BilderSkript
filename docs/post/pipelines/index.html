@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="
-		Docu blog
+		Pipelines as fundamental functions
 		"> 
     
 	<meta name="author" content=" cdeck3r ">  
     <base href="http://cdeck3r.com/BilderSkript/">
-    <title>Documentation Generation</title>
+    <title>Pipelines</title>
 
     
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -120,20 +120,52 @@ body {
           <div>
             <hr class="section-heading-spacer">
             <div class="clearfix"></div>
-            <h2 class="section-heading">Documentation Generation</h2>
+            <h2 class="section-heading">Pipelines</h2>
             
 
-<h3 id="docu-blog">Docu Blog</h3>
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
 
-<p>The project&rsquo;s documentation is a form of a single-page blog using the <a href="https://gohugo.io/">Hugo</a> static webpage generator. It lists notes taken during the development and justifies design decisions. The <code>builder</code> docker image takes care of the generation utilizing the <code>snakemake</code> script, <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakemake"><code>pipelines/doc.snakemake</code></a>.</p>
+<p>Pipelines are the fundamental building blocks of BilderSkript.</p>
 
-<p>The blog utilizes the <a href="https://github.com/cdeck3r/OneDly-Theme">OneDly theme</a>. This theme is excluded from git versioning because it originates from a separate repository. One include it as a <a href="https://git-scm.com/docs/git-submodule">git submodule</a>.</p>
-<pre><code>cd docs_site
-git add submodule https://github.com/cdeck3r/OneDly-Theme.git themes/onedly</code></pre>
-<p>The pipeline <code>doc.snakemake</code> generates the complete documentation calling</p>
-<pre><code>cd /bilderskript/pipelines
-snakemake -s doc.snakemake</code></pre>
-<p>The docu blog is available under <a href="http://cdeck3r.com/BilderSkript/">http://cdeck3r.com/BilderSkript/</a>.</p>
+<h3 id="pipeline-definitions">Pipeline Definitions</h3>
+
+<p>The term pipeline is heavily used in machine learning (ML). It generally refers to a sequence of steps to run in order to perform transformations. There are various kinds of pipelines, e.g. data pipelines, machine learning pipelines, deployment pipelines and others. Depending on the pipeline type, it takes a a certain ressource type as input and produces output ressources by the application of the pipeline&rsquo;s transformation steps. For instance, a data pipeline takes data files as an input and prepares them to be fed into a machine learning algorithm of the ML pipeline.</p>
+
+<p>BilderSkript stores pipelines in the <code>pipelines</code> volume usually accessed under <code>/bilderscript/pipelines</code>. They are encoded as snakemake makefiles for version control.</p>
+
+<h3 id="snakemake">Snakemake</h3>
+
+<p><a href="https://snakemake.readthedocs.io/en/stable/">Snakemake</a> is a workflow management system to implement data analysis pipelines.</p>
+
+<p>Snakemake compares the input and output ressources. These ressources are files. If the modification date of any of the input files is newer than the output file, snakemake runs the shell command. This behavior is encoded as rules, which transform input files into output files. All rules of a pipeline are defined in a snakefile. We list some important snakemake commands.</p>
+
+<p>Run the snakemake pipeline</p>
+<pre><code>snakemake -s <snakefile></code></pre>
+<p>Generate a report</p>
+<pre><code>snakemake -s <snakefile> --report <snakefile.html></code></pre>
+<p>Generate a summary table displaying the current state of input and output files.</p>
+<pre><code>snakemake -s <snakefile> --summary</code></pre>
+<p>Before the snakefile is run, snakemake generates a <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a> which shows the dependencies. This command visualizes the DAG.</p>
+<pre><code>snakemake -s <snakefile> --dag | dot -Tpng > snakefile.png</code></pre>
+<h3 id="important-bilderskript-pipelines">Important BilderSkript Pipelines</h3>
+
+<p>The pipelines are named after their snakefile.</p>
+
+<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may see the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p>
+
+<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with <code>hugin</code> container. <code>data_prep.snakefile</code> requires the following parameters:</p>
+
+<ul>
+<li>imgdir: the directory where the camera images are located</li>
+<li>outdir: the directory where prep&rsquo;ed images as a result of the pipeline execution are stored</li>
+</ul>
+
+<p>The pipeline&rsquo;s default behavior is started by the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.sh"><code>data_prep.sh</code></a> script.</p>
 
         </div>
     </div>

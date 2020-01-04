@@ -6,10 +6,20 @@
     <description>Recent content on BilderSkript</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 04 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://cdeck3r.com/BilderSkript/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Pipelines</title>
+      <link>http://cdeck3r.com/BilderSkript/post/pipelines/</link>
+      <pubDate>Sat, 04 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://cdeck3r.com/BilderSkript/post/pipelines/</guid>
+      <description>img { max-width: 100%; height: auto; }  Pipelines are the fundamental building blocks of BilderSkript.
+Pipeline Definitions The term pipeline is heavily used in machine learning (ML). It generally refers to a sequence of steps to run in order to perform transformations. There are various kinds of pipelines, e.g. data pipelines, machine learning pipelines, deployment pipelines and others. Depending on the pipeline type, it takes a a certain ressource type as input and produces output ressources by the application of the pipeline&amp;rsquo;s transformation steps.</description>
+    </item>
     
     <item>
       <title>Introductionary Example</title>
@@ -18,7 +28,7 @@
       
       <guid>http://cdeck3r.com/BilderSkript/post/intro/</guid>
       <description>BilderSkript takes a series of still images as input and compiles visual lecture notes as output. Below we illustrate a step-by-step walkthrough how the software processes the data.
-Image recording: A 360 camera records the entire room. However, the lens towards the audience is covered to maintain privacy. The images have the typical distorted appearance due to the camera&#39;s fisheye lenses. Nevertheless, it creates an approx. 200 degrees, wide-angle recording.</description>
+Image recording: A 360 camera records the entire room. However, the lens towards the audience is covered to maintain privacy. The images have the typical distorted appearance due to the camera&amp;rsquo;s fisheye lenses. Nevertheless, it creates an approx. 200 degrees, wide-angle recording.</description>
     </item>
     
     <item>
@@ -27,9 +37,9 @@ Image recording: A 360 camera records the entire room. However, the lens towards
       <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>http://cdeck3r.com/BilderSkript/post/ipc_socket/</guid>
-      <description>This is a technical design description on the usage of shared UNIX socket for docker container IPC.
+      <description>img { max-width: 100%; height: auto; }  This is a technical design description on the usage of shared UNIX socket for docker container IPC.
 The approach utilizes
- socat for creating sockets and socket communication ss to check for the presence of the listening socket.  It follows a classical client / server approach where the server initializes the socket and waits for the client to start the communication. The following sequence diagrams depicts the interaction over the socket.</description>
+ socat for creating sockets and socket communication ss to check for the presence of the listening socket.  It follows a classical client / server approach where the server initializes the socket and waits for the client to start the communication.</description>
     </item>
     
     <item>
@@ -38,8 +48,8 @@ The approach utilizes
       <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>http://cdeck3r.com/BilderSkript/post/ipc/</guid>
-      <description>The distribution of pipelines across various docker containers requires interprocess communication between the docker containers. Let&#39;s discuss the design for the BilderSkript pipelines.
-IPC Control Problem We have the builder container which controls the execution of all pipelines. A pipeline implements a sequence of processs executions, where some of the processes run in their respective containers. As an example consider the data preparation pipeline. The pipeline in the builder container initiates the image data preparation in the hugin container.</description>
+      <description>img { max-width: 100%; height: auto; }  The distribution of pipelines across various docker containers requires interprocess communication between the docker containers. Let&amp;rsquo;s discuss the design for the BilderSkript pipelines.
+IPC Control Problem We have the builder container which controls the execution of all pipelines. A pipeline implements a sequence of processs executions, where some of the processes run in their respective containers. As an example consider the data preparation pipeline.</description>
     </item>
     
     <item>
@@ -50,7 +60,7 @@ IPC Control Problem We have the builder container which controls the execution o
       <guid>http://cdeck3r.com/BilderSkript/post/about/</guid>
       <description>BilderSkript BilderSkript is a compound created from the following words.
  Bilder [ˈbɪldɐ], (German), images
-  Skript [skʁɪpt], (German), a written document or notes
+Skript [skʁɪpt], (German), a written document or notes
  BilderSkript automatically summarizes a lecture as a sequence of interesting images scenes.
 Technically, it trains a deep neural net on objection recognition and extracts interesting scenes from a large sequence of still image recordings. Theses scenes compile to the BilderSkript</description>
     </item>
@@ -61,8 +71,8 @@ Technically, it trains a deep neural net on objection recognition and extracts i
       <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>http://cdeck3r.com/BilderSkript/post/docker/</guid>
-      <description>Docker images contain the various software pipelines from the tool chain. The various responsibilities within the overall system design motivate the system boundaries induced by the distribution of pipelines across docker images. The following table list the docker images and their respective pipeline functionalities.
-   Image Pipeline Notes     builder Build makefile, doc, versioning via git and dvc, mlflow exp.   hugin Data prep image data preparation   ludwig ML training training and experimentation   cicd Deployment pipeline not yet implemented    &amp;hellip; pipeline</description>
+      <description>img { max-width: 100%; height: auto; }  Docker Images and Volumes Docker images contain the various software pipelines from the tool chain. The various responsibilities within the overall system design motivate the system boundaries induced by the distribution of pipelines across docker images. The following table list the docker images and their respective pipeline functionalities.
+   Image Pipeline Notes     builder Build makefile, doc, versioning via git and dvc, mlflow exp.</description>
     </item>
     
     <item>
@@ -71,8 +81,8 @@ Technically, it trains a deep neural net on objection recognition and extracts i
       <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>http://cdeck3r.com/BilderSkript/post/documentation/</guid>
-      <description>Docu Blog The project&#39;s documentation is a form of a single-page blog using the Hugo static webpage generator. It lists notes taken during the development and justifies design decisions. The builder docker image takes care of the generation utilizing the script, scripts/make_doc.sh.
-The blog utilizes the OneDly theme. This theme is excluded from git versioning because it originates from a separate repository. Usually, one would include it as a git submodule.</description>
+      <description>Docu Blog The project&amp;rsquo;s documentation is a form of a single-page blog using the Hugo static webpage generator. It lists notes taken during the development and justifies design decisions. The builder docker image takes care of the generation utilizing the snakemake script, pipelines/doc.snakemake.
+The blog utilizes the OneDly theme. This theme is excluded from git versioning because it originates from a separate repository. One include it as a git submodule.</description>
     </item>
     
     <item>
@@ -82,7 +92,7 @@ The blog utilizes the OneDly theme. This theme is excluded from git versioning b
       
       <guid>http://cdeck3r.com/BilderSkript/post/project/</guid>
       <description>Motivation and Goal A lecturer usually provides a lot of supplemental course material such as a written script, slides, reading material, exercises.
-However, students visiting the course&#39;s lecture experience an additional channel, which helps them to sort and weight the supplemental material. The way how a lecturer presents the content will let attendees realize the weight and importance of certain parts of the content. Hence, it supports the creation of a red thread throughout entire supplemental material.</description>
+However, students visiting the course&amp;rsquo;s lecture experience an additional channel, which helps them to sort and weight the supplemental material. The way how a lecturer presents the content will let attendees realize the weight and importance of certain parts of the content. Hence, it supports the creation of a red thread throughout entire supplemental material.</description>
     </item>
     
     <item>
@@ -91,9 +101,9 @@ However, students visiting the course&#39;s lecture experience an additional cha
       <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>http://cdeck3r.com/BilderSkript/post/versioning/</guid>
-      <description>Pipeline Code and Data Versioning The builder image takes care of versioning using git and dvc.
+      <description>Pipeline Code and Data Versioning The builder image takes care of versioning using [git]() and [dvc]().
 Pipelines are commonly shared in various volumes.
-Repository Management The project&#39;s repository is mounted as separate volume in the builder container. As a consequence, only makefiles in the project&#39;s root dir are able to commit changes to the repository. Scripts in subdirectories are not aware that the project&#39;s root is under git version control. The volumes are organized under the following two mount points.</description>
+Repository Management The project&amp;rsquo;s repository is mounted as separate volume in the builder container. As a consequence, only makefiles in the project&amp;rsquo;s root dir are able to commit changes to the repository. Scripts in subdirectories are not aware that the project&amp;rsquo;s root is under git version control.</description>
     </item>
     
     <item>
@@ -112,9 +122,14 @@ Repository Management The project&#39;s repository is mounted as separate volume
       
       <guid>http://cdeck3r.com/BilderSkript/imprint-gdpr/imprint/</guid>
       <description>Information according to § 5 TMG
-first and last name address
-Contact: Phone: phone number E-Mail: e-mail address
-Responsible for content according to § 55 Abs. 2 RStV: first and last name address
+Christian Decker
+Danziger Str. 6
+71034 Böblingen
+Contact: Phone: +49 7121 271 4105
+E-Mail: info@cdeck3r.com
+Responsible for content according to § 55 Abs. 2 RStV: Christian Decker
+Danziger Str. 6
+71034 Böblingen
 Disclaimer: Content Liability The contents of our pages were created with great care. However, we can not assume any liability for the accuracy, completeness and timeliness of the content. As a service provider we are responsible according to § 7 Abs.</description>
     </item>
     

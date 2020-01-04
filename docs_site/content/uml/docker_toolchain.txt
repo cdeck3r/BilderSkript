@@ -1,0 +1,23 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+
+interface "File System" as fs
+
+node "Volume" {
+    folder ipc
+    folder "..."
+}
+
+
+node hugin <<container>> 
+node builder <<container>>
+node ludwig <<container>>
+
+hugin ..> fs : use
+builder ..> fs : use
+ludwig ..> fs : use
+
+fs <.. Volume : located
+
+@enduml

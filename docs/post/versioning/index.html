@@ -121,13 +121,22 @@ body {
             <hr class="section-heading-spacer">
             <div class="clearfix"></div>
             <h2 class="section-heading">Versioning and Repository Management</h2>
-            <h2 id="pipeline-code-and-data-versioning">Pipeline Code and Data Versioning</h2>
-<p>The <code>builder</code> image takes care of versioning using <a href="">git</a> and <a href="">dvc</a>.</p>
+            
+
+<h3 id="pipeline-code-and-data-versioning">Pipeline Code and Data Versioning</h3>
+
+<p>The <code>builder</code> image takes care of versioning using [git]() and [dvc]().</p>
+
 <p>Pipelines are commonly shared in various volumes.</p>
-<h2 id="repository-management">Repository Management</h2>
-<p>The <a href="https://github.com/cdeck3r/BilderSkript">project's repository</a> is mounted as separate volume in the <code>builder</code> container. As a consequence, only makefiles in the project's root dir are able to commit changes to the repository. Scripts in subdirectories are not aware that the project's root is under git version control. The volumes are organized under the following two mount points.</p>
+
+<h3 id="repository-management">Repository Management</h3>
+
+<p>The <a href="https://github.com/cdeck3r/BilderSkript">project&rsquo;s repository</a> is mounted as separate volume in the <code>builder</code> container. As a consequence, only makefiles in the project&rsquo;s root dir are able to commit changes to the repository. Scripts in subdirectories are not aware that the project&rsquo;s root is under git version control. The volumes are organized under the following two mount points.</p>
+
 <p><strong>Mount point: <code>/BilderSkriptRepo</code></strong></p>
+
 <p>Scripts which perform pipeline and data versioning start under this mount point. It contains all files and  directories from the project repository:</p>
+
 <ul>
 <li><code>.git/</code></li>
 <li><code>Dockerfiles/</code></li>
@@ -135,8 +144,11 @@ body {
 <li><code>docker_compose.yml</code></li>
 <li><code>README.md</code></li>
 </ul>
+
 <p><strong>Mount point: <code>/bilderskript</code></strong></p>
+
 <p>Scripts which actually execute pipelines start under this mount point. It contains the following directories:</p>
+
 <ul>
 <li><code>docs/</code></li>
 <li><code>docs_site/</code></li>

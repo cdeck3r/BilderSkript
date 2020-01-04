@@ -3,12 +3,22 @@ languageCode = "en-us"
 title = "BilderSkript"
 theme = "onedly"
 
+# Avoid that raw html gets omitted
+# Src: https://discourse.gohugo.io/t/raw-html-getting-omitted-in-0-60-0/22032
+#
+#[markup.goldmark.renderer]
+#    unsafe = true
+
+# default renderer set to the previous renderer "blackfriday"
+[markup]
+  defaultMarkdownHandler = "blackfriday" 
+
 #
 # Personalization params
 #
 [params]
     # project specific params
-    description = "BilderSkript project documentation."
+    description = "Project's Engineering Documentation"
     author_url = "//cdeck3r.com"
     author_name = "cdeck3r"
     project_url = "//github.com/cdeck3r/BilderSkript"
@@ -136,4 +146,3 @@ theme = "onedly"
 
   [services.twitter]
     disableInlineCSS = true
-
