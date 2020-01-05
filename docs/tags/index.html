@@ -285,6 +285,15 @@ body {
 <li>extract interesting images and compile a lecture notebook from which ultimately creates the BilderSkript</li>
 </ul>
 
+<h3 id="research-questions">Research Questions</h3>
+
+<p>BilderSkript relies on widely available open-source ML software. However, there are a couple of interesting research questions on the way.</p>
+
+<ul>
+<li><strong>How to automate image preprocessing?</strong> - Image recording activity does not happen in a controlled environment, i.e. lecture rooms changes, light varies, camera postions are not fixed (resulting in varying field of views), varying colors of background, cloths etc.</li>
+<li><strong>Transfer learning?</strong> - object identfication &hellip; trained on labeled data from one lecture, apply model to different lecture &hellip; relates to transfer learning?</li>
+</ul>
+
                 </div>
             </div>
 
@@ -670,6 +679,104 @@ It starts by the snakemake file on the <code>builder</code> calling the <code>hu
                 <div>
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
+                    <h2 class="section-heading">Labeling</h2>
+                    
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>This activity assigns names or descriptors to components within an image. Any supervised ML algorithm requires labeled data for training. Successfully trained on the labeled data, the ML algorithm is afterwards enabled to identify and name similar components in images which do not have labels.</p>
+
+<p>Labeling is usually done manually. A user marks regions within images and assigns labels therewith identifying objects in the image. Labeled data is not questioned and provides the algorithm with ground truth data.</p>
+
+<p><strong>Problem</strong></p>
+
+<blockquote>
+<p>BilderSkript delivers images from various lectures. We will need to repeat the labeling process to find appropriate features which let the ML based object identification algorithm generalize sufficiently well in order to identify objects in recordings from other lectures.</p>
+</blockquote>
+
+<h3 id="tool-support">Tool Support</h3>
+
+<p>Labeling objects within images has a long history in the computer vision research community. For ML-based products there are a couple of online services available which support labeling activties distributed across a crowd workers, integrate semi-automated quality checks and other functions when it come to large-scale applications.</p>
+
+<p>Quora list not-complete list of labeling tools and services; some are comercial, some are open-source. Check out <a href="https://www.quora.com/What-is-the-best-image-labeling-tool-for-object-detection">https://www.quora.com/What-is-the-best-image-labeling-tool-for-object-detection</a>.</p>
+
+<p>For BilderSkript we found the following open tools tools attractive and discuss them briefly.</p>
+
+<ul>
+<li><a href="https://github.com/NaturalIntelligence/imglab">ImgLab</a>: web based tool; Online service for immediate use available under <a href="https://imglab.in">https://imglab.in</a></li>
+<li><a href="https://github.com/tzutalin/labelImg">LabelImg</a>: the classic one, often mentioned on towardsdatascience.com. Google finds <a href="https://www.google.com/search?client=firefox-b-d&amp;ei=bDQSXqO0GYPVkwXNm6W4CA&amp;q=%22labelimg%22+site%3Atowardsdatascience.com&amp;oq=%22labelimg%22+site%3Atowardsdatascience.com&amp;gs_l=psy-ab.3...24037.25167..25364...0.2..0.96.176.2......0....1..gws-wiz.......0i71.uuzGcOFEKy4&amp;ved=0ahUKEwijmq3DlO3mAhWD6qQKHc1NCYcQ4dUDCAo&amp;uact=5">approx. 45 hits</a>. It is a desktop tool.</li>
+<li><a href="https://alpslabel.wordpress.com/">Alp&rsquo;s Labeling Tool (ALT)</a>: more than just a labeling tool; it&rsquo;s a desktop tool for Windows as well as Linux / Ubuntu.</li>
+<li><a href="https://github.com/opencv/cvat">Computer Vision Annotation Tool (CVAT)</a>: web based online tool. Works with videos, too. Apart from the web GUI, there is also a REST API to programmatically access the tool.</li>
+</ul>
+
+<h3 id="imglab-to-annotate-labels">ImgLab to annotate Labels</h3>
+
+<p>BilderSkript utilizes the <a href="https://github.com/NaturalIntelligence/imglab">ImgLab</a> for label annotations. The web based tool exports label annotation in multiple formats</p>
+
+<ul>
+<li>dlib XML</li>
+<li>dlib pts</li>
+<li>Pascal VOC: <a href="http://host.robots.ox.ac.uk/pascal/VOC/">standardized</a>, however, the annotation data export only works for the current image. One needs to proceed to next image to export the next image&rsquo;s annotation.</li>
+<li>COCO: <a href="http://cocodataset.org/#format-data">standardized</a>, however, the exportet annotation text seems to be incomplete</li>
+</ul>
+
+<p>The dlib XML format originates from the <a href="http://dlib.net/">dlib toolkit</a> containing various machine learning algorithms. Here is an <a href="https://handmap.github.io/dlib-classifier-for-object-detection/">example using the python API</a> for using dlib tools.</p>
+
+<p>The XML format is reduced to the very basic tags required. An example is shown below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-XML" data-lang="XML"><span style="color:#75715e">&lt;?xml version=&#39;1.0&#39; encoding=&#39;ISO-8859-1&#39;?&gt;</span>
+<span style="color:#75715e">&lt;?xml-stylesheet type=&#39;text/xsl&#39; href=&#39;image_metadata_stylesheet.xsl&#39;?&gt;</span>
+<span style="color:#f92672">&lt;dataset</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;name</span><span style="color:#f92672">&gt;</span>dlib face detection dataset generated by ImgLab<span style="color:#f92672">&lt;/name&gt;</span>
+<span style="color:#f92672">&lt;comment</span><span style="color:#f92672">&gt;</span>
+    This dataset is manually crafted or adjusted using ImgLab web tool
+    Check more detail on https://github.com/NaturalIntelligence/imglab
+<span style="color:#f92672">&lt;/comment&gt;</span>
+<span style="color:#f92672">&lt;images</span><span style="color:#f92672">&gt;</span>	<span style="color:#f92672">&lt;image</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;IMG_20191219_094800_001_flat_pc_resize_mirror.png&#39;</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;box</span> <span style="color:#a6e22e">top=</span><span style="color:#e6db74">&#39;36&#39;</span> <span style="color:#a6e22e">left=</span><span style="color:#e6db74">&#39;119&#39;</span> <span style="color:#a6e22e">width=</span><span style="color:#e6db74">&#39;278&#39;</span> <span style="color:#a6e22e">height=</span><span style="color:#e6db74">&#39;208&#39;</span><span style="color:#f92672">&gt;</span>
+			<span style="color:#f92672">&lt;label</span><span style="color:#f92672">&gt;</span>slide<span style="color:#f92672">&lt;/label&gt;</span>
+		<span style="color:#f92672">&lt;/box&gt;</span>
+		<span style="color:#f92672">&lt;box</span> <span style="color:#a6e22e">top=</span><span style="color:#e6db74">&#39;31&#39;</span> <span style="color:#a6e22e">left=</span><span style="color:#e6db74">&#39;-2&#39;</span> <span style="color:#a6e22e">width=</span><span style="color:#e6db74">&#39;206&#39;</span> <span style="color:#a6e22e">height=</span><span style="color:#e6db74">&#39;319&#39;</span><span style="color:#f92672">&gt;</span>
+			<span style="color:#f92672">&lt;label</span><span style="color:#f92672">&gt;</span>person<span style="color:#f92672">&lt;/label&gt;</span>
+		<span style="color:#f92672">&lt;/box&gt;</span>
+	<span style="color:#f92672">&lt;/image&gt;</span>
+	<span style="color:#f92672">&lt;image</span> <span style="color:#a6e22e">file=</span><span style="color:#e6db74">&#39;IMG_20191219_094802_002_flat_pc_resize_mirror.png&#39;</span><span style="color:#f92672">&gt;</span>
+		<span style="color:#f92672">&lt;box</span> <span style="color:#a6e22e">top=</span><span style="color:#e6db74">&#39;44&#39;</span> <span style="color:#a6e22e">left=</span><span style="color:#e6db74">&#39;1&#39;</span> <span style="color:#a6e22e">width=</span><span style="color:#e6db74">&#39;204&#39;</span> <span style="color:#a6e22e">height=</span><span style="color:#e6db74">&#39;304&#39;</span><span style="color:#f92672">&gt;</span>
+			<span style="color:#f92672">&lt;label</span><span style="color:#f92672">&gt;</span>person<span style="color:#f92672">&lt;/label&gt;</span>
+		<span style="color:#f92672">&lt;/box&gt;</span>
+	<span style="color:#f92672">&lt;/image&gt;</span>
+<span style="color:#f92672">&lt;/images&gt;</span><span style="color:#f92672">&lt;/dataset&gt;</span></code></pre></div>
+<h3 id="bilderskript-labels">BilderSkript Labels</h3>
+
+<p>We create rectangular shapes and define the following labels to annotate the shapes:</p>
+
+<ul>
+<li><tbd></li>
+<li><tbd></li>
+</ul>
+
+                </div>
+            </div>
+
+        </div>
+        
+
+    </div>
+
+	 
+    <div class="content-section-a">
+    
+   
+        <div class="container">
+
+            <div class="row">
+                <div>
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
                     <h2 class="section-heading">Versioning and Repository Management</h2>
                     
 
@@ -715,8 +822,8 @@ It starts by the snakemake file on the <code>builder</code> calling the <code>hu
 
     </div>
 
-	 
-    <div class="content-section-a">
+	
+    <div class="content-section-b">
     
    
         <div class="container">

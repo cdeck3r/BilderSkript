@@ -32,3 +32,10 @@ There are a couple of activities to perform
 * train a computer to identify objects within still images
 * define a metric of interestingness from the sequence of recognized objects 
 * extract interesting images and compile a lecture notebook from which ultimately creates the BilderSkript
+
+### Research Questions
+
+BilderSkript relies on widely available open-source ML software. However, there are a couple of interesting research questions on the way.
+
+* **How to automate image preprocessing?** - Image recording activity does not happen in a controlled environment, i.e. lecture rooms changes, light varies, camera postions are not fixed (resulting in varying field of views), varying colors of background, cloths etc.
+* **Transfer learning?** - object identfication ... trained on labeled data from one lecture, apply model to different lecture ... relates to transfer learning?
