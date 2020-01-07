@@ -29,6 +29,10 @@ OUT_DIR=" ".join( expand("{out_dir}", out_dir=config["outdir"]) )
 OUT_DIR=os.path.abspath(OUT_DIR)
 IMG_RESIZE_WIDTH=" ".join( expand("{resize_width}", resize_width=config["width"]) )
 
+# params for cropping
+IMG_SUFFIX=" ".join( expand("{img_suffix}", img_suffix=config["suffix"]) )
+CROP_SPEC=" ".join( expand("{crop_spec}", crop_spec=config["crop"]) )
+
 ##########################
 #
 # Main rules
@@ -88,6 +92,25 @@ rule img_mirror:
     output:
         OUT_DIR + "/{imgfile}_flat_pc_resize_mirror.png"
     message:
-        "Mirrow the image"
+        "Mirror the image"
     shell:
         "convert -flop \"{input}\" \"{output}\"  "
+
+
+#
+# special rule, not part of the default behavior
+# creates additional cropped files 
+#
+rule crop:
+    input:
+        expand(OUT_DIR + "/crop/{imgfile}_" + IMG_SUFFIX + "_crop.png", imgfile=IMG_FILES)
+
+rule img_crop_afile:
+    input:
+        OUT_DIR + "/{imgfile}_" + IMG_SUFFIX + ".png"
+    output:
+        OUT_DIR + "/crop/{imgfile}_" + IMG_SUFFIX + "_crop.png"
+    message:
+        "Crop the image"
+    shell:
+        "convert -crop {CROP_SPEC} \"{input}\" \"{output}\"  "
