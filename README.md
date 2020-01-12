@@ -39,9 +39,9 @@ There are a couple of activities to perform
 
 ## Quickstart
 
-BilderSkript is a composition of several pipelines. The [engineering documentation](//cdeck3r.com/BilderSkript) contains all details about the implementation and configuration of BilderSkript.
+BilderSkript is a composition of several pipelines. The [engineering documentation](http://cdeck3r.com/BilderSkript) contains all details about the implementation and configuration of BilderSkript.
 
-1. Data prep pipeline. The engineering documentation contains the details about the configuration in the [Data prep pipeline section](//cdeck3r.com/BilderSkript#data-prep-pipeline).
+1. Data prep pipeline. The engineering documentation contains the details about the configuration in the [Data prep pipeline section](http://cdeck3r.com/BilderSkript#data-prep-pipeline).
 ```bash
 docker-compose up -d builder hugin
 docker exec -it bilderskript_builder_1 /bin/bash
