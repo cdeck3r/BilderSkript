@@ -21,15 +21,18 @@ PLANTUML_JAR=SUPPLEMENTAL_DIR + "/plantuml/plantuml.jar"
 # these are the files we check for modifications
 POST_FILES, = glob_wildcards(DOCS_SITE + "/content/post/{postfile}.md")
 # UML file creation
-UML_FILE, = glob_wildcards(DOCS_SITE + "/content/uml/{umlfile}.txt")
+UML_FILES, = glob_wildcards(DOCS_SITE + "/content/uml/{umlfile}.txt")
+# img files
+IMG_FILES, = glob_wildcards(DOCS_SITE + "/content/img/{imgfile}")
 
 # to generate the doc we need
 # 1. all UML .png files from plantuml descriptions
 # 2. all .md files
 rule doc:
     input:
-        expand(DOCS_SITE + "/content/uml/{umlfile}.png", umlfile=UML_FILE),
+        expand(DOCS_SITE + "/content/uml/{umlfile}.png", umlfile=UML_FILES),
         expand(DOCS_SITE + "/content/post/{postfile}.md", postfile=POST_FILES),
+        expand(DOCS_SITE + "/content/img/{imgfile}", imgfile=IMG_FILES),
         DOCS_SITE + "/content/imprint-gdpr/gdpr.md", 
         DOCS_SITE + "/content/imprint-gdpr/imprint.md", 
         DOCS_SITE + "/config.toml"

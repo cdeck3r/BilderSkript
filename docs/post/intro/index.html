@@ -122,16 +122,27 @@ body {
             <hr class="section-heading-spacer">
             <div class="clearfix"></div>
             <h2 class="section-heading">Introductionary Example</h2>
-            <p>BilderSkript takes a series of still images as input and compiles visual lecture notes as output.
+            <style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>BilderSkript takes a series of still images as input and compiles visual lecture notes as output.
 Below we illustrate a step-by-step walkthrough how the software processes the data.</p>
 
 <p><strong>Image recording:</strong> A 360 camera records the entire room. However, the lens towards the audience is covered to maintain privacy. The images have the typical distorted appearance due to the camera&rsquo;s fisheye lenses. Nevertheless, it creates an approx. 200 degrees, wide-angle recording.</p>
 
-<p><em>tbd. include image</em></p>
+<p><img src="img/fisheye.jpg" alt="fisheye raw image" width="50%" /></p>
 
 <p><strong>Image preparation:</strong> The BilderSkript projects fisheye images as equirectangular images to correct for the distortion.</p>
 
-<p><em>tbd. include image</em></p>
+<p><img src="img/fisheye_flat.png" alt="fisheye equirectangular projections" width="50%" /></p>
+
+<p>Finally, the perspective control corrects the deformation of vertical and horizontal lines when the camera records the projection wall or blackboard from an inclinded position.</p>
+
+<p><img src="img/fisheye_flat_pc.png" alt="perspective control" width="50%" /></p>
 
 <p><strong>Object identfication:</strong> In this step BilderSkript identifies typical objects, such as blackboard, lecturer, video projection, within each image.</p>
 

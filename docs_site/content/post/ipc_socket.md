@@ -13,7 +13,9 @@ img {
 }
 </style>
 
-This is a technical design description on the usage of shared UNIX socket for docker container IPC.
+This is a technical design description on the usage of shared UNIX socket for docker container IPC. Both containers connect to a socket stored on a shared volume, e.g. under the mount point `ipc`. They exchange simple control messages to run scripts and read and write data from the shared volume.
+
+<img src="uml/ipc_socket_docker.png" alt="ipc socket between docker containers" />
  
 The approach utilizes 
 
@@ -28,13 +30,13 @@ Here are the script calls for the server and client.
 
 **[Server](https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_server.sh):**
 
-```
+```bash
 ./ipc_socket_server.sh <socket name> <path/to/server_app.sh>
 ```
 
 **[Client](https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_client.sh):**
 
-```
+```bash
 ./ipc_socket_client.sh <socket name> <path/to/client_app.sh>
 ```
 

@@ -36,7 +36,7 @@ The most important volumes are:
 * ${APP_ROOT}/images : data directory
 * ${APP_ROOT}/src : stores source codes
 * ${APP_ROOT}/scripts : scripts 
-* ${APP_ROOT}/docs :  docu blog directory
+* ${APP_ROOT}/docs :  github's webserver serves the docu blog from this directory
 * ${APP_ROOT}/docs_site : the docu blog's source
 
 By default `${APP_ROOT}` is set to `/bilderskript`. For instance, one accesses the pipeline scripts under `/bilderskript/pipelines`.
@@ -47,13 +47,13 @@ By default `${APP_ROOT}` is set to `/bilderskript`. For instance, one accesses t
 
 Building all images using the following command
 
-```
+```bash
 docker-compose build
 ```
 
 Start a container from `builder` image  and get a `bash` shell. The default container name is `bilderskript_builder_1`
 
-```
+```bash
 docker-compose up -d builder
 docker exec -it bilderskript_builder_1 /bin/bash
 ```

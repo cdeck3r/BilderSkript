@@ -288,8 +288,8 @@ body {
 <p>BilderSkript relies on widely available open-source ML software. However, there are a couple of interesting research questions on the way.</p>
 
 <ul>
-<li><strong>How to automate image preprocessing?</strong> - Image recording activity does not happen in a controlled environment, i.e. lecture rooms changes, light varies, camera postions are not fixed (resulting in varying field of views), varying colors of background, cloths etc.</li>
-<li><strong>Transfer learning?</strong> - object identfication &hellip; trained on labeled data from one lecture, apply model to different lecture &hellip; relates to transfer learning?</li>
+<li><strong>How to automate image preprocessing?</strong> - Image recording activity does not happen in a controlled environment, i.e. lecture rooms change, the light varies, the camera positions are not fixed (resulting in varying field of views), varying colors of background, cloths etc.</li>
+<li><strong>Can we successfully transfer other object identfication models to lecture recordings?</strong> Object identfication utilizes labeled data from one or few lectures for training. Since labeling is laborious, we are interested to transfer trained models from other areas and apply for object identfication in our lecture recordings.</li>
 </ul>
 
                 </div>
@@ -310,16 +310,27 @@ body {
                 <div>
                     
                     <h2 class="section-heading">Introductionary Example</h2>
-                    <p>BilderSkript takes a series of still images as input and compiles visual lecture notes as output.
+                    <style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>BilderSkript takes a series of still images as input and compiles visual lecture notes as output.
 Below we illustrate a step-by-step walkthrough how the software processes the data.</p>
 
 <p><strong>Image recording:</strong> A 360 camera records the entire room. However, the lens towards the audience is covered to maintain privacy. The images have the typical distorted appearance due to the camera&rsquo;s fisheye lenses. Nevertheless, it creates an approx. 200 degrees, wide-angle recording.</p>
 
-<p><em>tbd. include image</em></p>
+<p><img src="img/fisheye.jpg" alt="fisheye raw image" width="50%" /></p>
 
 <p><strong>Image preparation:</strong> The BilderSkript projects fisheye images as equirectangular images to correct for the distortion.</p>
 
-<p><em>tbd. include image</em></p>
+<p><img src="img/fisheye_flat.png" alt="fisheye equirectangular projections" width="50%" /></p>
+
+<p>Finally, the perspective control corrects the deformation of vertical and horizontal lines when the camera records the projection wall or blackboard from an inclinded position.</p>
+
+<p><img src="img/fisheye_flat_pc.png" alt="perspective control" width="50%" /></p>
 
 <p><strong>Object identfication:</strong> In this step BilderSkript identifies typical objects, such as blackboard, lecturer, video projection, within each image.</p>
 
@@ -347,6 +358,35 @@ Below we illustrate a step-by-step walkthrough how the software processes the da
 
 	
     <div class="content-section-b">
+    
+   
+        <div class="container">
+
+            <div class="row">
+                <div>
+                    
+                    <h2 class="section-heading">System Design</h2>
+                    <style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>This use case diagram depicts BilderSkript&rsquo;s main services.</p>
+
+<p><img src="uml/systemdesign.png" alt="system's dataflow" /></p>
+
+                </div>
+            </div>
+
+        </div>
+        
+
+    </div>
+
+	 
+    <div class="content-section-a">
     
    
         <div class="container">
@@ -416,7 +456,7 @@ img {
 <li>${APP_ROOT}/images : data directory</li>
 <li>${APP_ROOT}/src : stores source codes</li>
 <li>${APP_ROOT}/scripts : scripts</li>
-<li>${APP_ROOT}/docs :  docu blog directory</li>
+<li>${APP_ROOT}/docs :  github&rsquo;s webserver serves the docu blog from this directory</li>
 <li>${APP_ROOT}/docs_site : the docu blog&rsquo;s source</li>
 </ul>
 
@@ -427,10 +467,10 @@ img {
 <p><a href="https://docs.docker.com/compose/">Docker Compose</a> creates all images, containers and volumes. The configuration is defined in the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/docker-compose.yml">docker-compose.yml</a> file</p>
 
 <p>Building all images using the following command</p>
-<pre><code>docker-compose build</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose build</code></pre></div>
 <p>Start a container from <code>builder</code> image  and get a <code>bash</code> shell. The default container name is <code>bilderskript_builder_1</code></p>
-<pre><code>docker-compose up -d builder
-docker exec -it bilderskript_builder_1 /bin/bash</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose up -d builder
+docker exec -it bilderskript_builder_1 /bin/bash</code></pre></div>
                 </div>
             </div>
 
@@ -439,8 +479,8 @@ docker exec -it bilderskript_builder_1 /bin/bash</code></pre>
 
     </div>
 
-	 
-    <div class="content-section-a">
+	
+    <div class="content-section-b">
     
    
         <div class="container">
@@ -473,18 +513,18 @@ img {
 <p>Snakemake compares the input and output ressources. These ressources are files. If the modification date of any of the input files is newer than the output file, snakemake runs the shell command. This behavior is encoded as rules, which transform input files into output files. All rules of a pipeline are defined in a snakefile. We list some important snakemake commands.</p>
 
 <p>Run the snakemake pipeline</p>
-<pre><code>snakemake -s <snakefile></code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt;</code></pre></div>
 <p>Generate a report</p>
-<pre><code>snakemake -s <snakefile> --report <snakefile.html></code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt; --report &lt;snakefile.html&gt;</code></pre></div>
 <p>Generate a summary table displaying the current state of input and output files.</p>
-<pre><code>snakemake -s <snakefile> --summary</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt; --summary</code></pre></div>
 <p>Before the snakefile is run, snakemake generates a <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a> which shows the dependencies. This command visualizes the DAG.</p>
-<pre><code>snakemake -s <snakefile> --dag | dot -Tpng > snakefile.png</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt; --dag | dot -Tpng &gt; snakefile.png</code></pre></div>
 <h3 id="important-bilderskript-pipelines">Important BilderSkript Pipelines</h3>
 
 <p>The pipelines are named after their snakefile.</p>
 
-<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may see the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p>
+<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p>
 
 <p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with <code>hugin</code> container. <code>data_prep.snakefile</code> requires the following parameters:</p>
 
@@ -503,8 +543,8 @@ img {
 
     </div>
 
-	
-    <div class="content-section-b">
+	 
+    <div class="content-section-a">
     
    
         <div class="container">
@@ -605,8 +645,8 @@ img {
 
     </div>
 
-	 
-    <div class="content-section-a">
+	
+    <div class="content-section-b">
     
    
         <div class="container">
@@ -624,7 +664,9 @@ img {
 }
 </style>
 
-<p>This is a technical design description on the usage of shared UNIX socket for docker container IPC.</p>
+<p>This is a technical design description on the usage of shared UNIX socket for docker container IPC. Both containers connect to a socket stored on a shared volume, e.g. under the mount point <code>ipc</code>. They exchange simple control messages to run scripts and read and write data from the shared volume.</p>
+
+<p><img src="uml/ipc_socket_docker.png" alt="ipc socket between docker containers" /></p>
 
 <p>The approach utilizes</p>
 
@@ -640,9 +682,9 @@ img {
 <p>Here are the script calls for the server and client.</p>
 
 <p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_server.sh">Server</a>:</strong></p>
-<pre><code>./ipc_socket_server.sh <socket name> <path/to/server_app.sh></code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ipc_socket_server.sh &lt;socket name&gt; &lt;path/to/server_app.sh&gt;</code></pre></div>
 <p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_client.sh">Client</a>:</strong></p>
-<pre><code>./ipc_socket_client.sh <socket name> <path/to/client_app.sh></code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ipc_socket_client.sh &lt;socket name&gt; &lt;path/to/client_app.sh&gt;</code></pre></div>
 <h3 id="cross-container-ipc-example">Cross Container IPC Example</h3>
 
 <p>We illustrate the container IPC between the <code>builder</code> container and the <code>hugin</code> container. The <code>hugin</code> container processes all images taken with the 360 camera and converts the fisheye lens images in regular ones using a equirectangular projection. The server script runs on the <code>hugin</code> container while the client script runs on the <code>builder</code> container. The socket between both resides on a shared volume.
@@ -662,8 +704,8 @@ It starts by the snakemake file on the <code>builder</code> calling the <code>hu
 
     </div>
 
-	
-    <div class="content-section-b">
+	 
+    <div class="content-section-a">
     
    
         <div class="container">
@@ -759,8 +801,8 @@ img {
 
     </div>
 
-	 
-    <div class="content-section-a">
+	
+    <div class="content-section-b">
     
    
         <div class="container">
@@ -813,8 +855,8 @@ img {
 
     </div>
 
-	
-    <div class="content-section-b">
+	 
+    <div class="content-section-a">
     
    
         <div class="container">

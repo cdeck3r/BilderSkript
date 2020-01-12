@@ -6,10 +6,19 @@
     <description>Recent content on BilderSkript</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 12 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://cdeck3r.com/BilderSkript/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>System Design</title>
+      <link>http://cdeck3r.com/BilderSkript/post/systemdesign/</link>
+      <pubDate>Sun, 12 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://cdeck3r.com/BilderSkript/post/systemdesign/</guid>
+      <description>img { max-width: 100%; height: auto; }  This use case diagram depicts BilderSkript&amp;rsquo;s main services.</description>
+    </item>
     
     <item>
       <title>Labeling</title>
@@ -37,8 +46,8 @@ Pipeline Definitions The term pipeline is heavily used in machine learning (ML).
       <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>http://cdeck3r.com/BilderSkript/post/intro/</guid>
-      <description>BilderSkript takes a series of still images as input and compiles visual lecture notes as output. Below we illustrate a step-by-step walkthrough how the software processes the data.
-Image recording: A 360 camera records the entire room. However, the lens towards the audience is covered to maintain privacy. The images have the typical distorted appearance due to the camera&amp;rsquo;s fisheye lenses. Nevertheless, it creates an approx. 200 degrees, wide-angle recording.</description>
+      <description>img { max-width: 100%; height: auto; }  BilderSkript takes a series of still images as input and compiles visual lecture notes as output. Below we illustrate a step-by-step walkthrough how the software processes the data.
+Image recording: A 360 camera records the entire room. However, the lens towards the audience is covered to maintain privacy. The images have the typical distorted appearance due to the camera&amp;rsquo;s fisheye lenses. Nevertheless, it creates an approx.</description>
     </item>
     
     <item>
@@ -47,9 +56,9 @@ Image recording: A 360 camera records the entire room. However, the lens towards
       <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>http://cdeck3r.com/BilderSkript/post/ipc_socket/</guid>
-      <description>img { max-width: 100%; height: auto; }  This is a technical design description on the usage of shared UNIX socket for docker container IPC.
+      <description>img { max-width: 100%; height: auto; }  This is a technical design description on the usage of shared UNIX socket for docker container IPC. Both containers connect to a socket stored on a shared volume, e.g. under the mount point ipc. They exchange simple control messages to run scripts and read and write data from the shared volume.
 The approach utilizes
- socat for creating sockets and socket communication ss to check for the presence of the listening socket.  It follows a classical client / server approach where the server initializes the socket and waits for the client to start the communication.</description>
+ socat for creating sockets and socket communication ss to check for the presence of the listening socket.</description>
     </item>
     
     <item>

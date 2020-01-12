@@ -146,18 +146,18 @@ img {
 <p>Snakemake compares the input and output ressources. These ressources are files. If the modification date of any of the input files is newer than the output file, snakemake runs the shell command. This behavior is encoded as rules, which transform input files into output files. All rules of a pipeline are defined in a snakefile. We list some important snakemake commands.</p>
 
 <p>Run the snakemake pipeline</p>
-<pre><code>snakemake -s <snakefile></code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt;</code></pre></div>
 <p>Generate a report</p>
-<pre><code>snakemake -s <snakefile> --report <snakefile.html></code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt; --report &lt;snakefile.html&gt;</code></pre></div>
 <p>Generate a summary table displaying the current state of input and output files.</p>
-<pre><code>snakemake -s <snakefile> --summary</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt; --summary</code></pre></div>
 <p>Before the snakefile is run, snakemake generates a <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a> which shows the dependencies. This command visualizes the DAG.</p>
-<pre><code>snakemake -s <snakefile> --dag | dot -Tpng > snakefile.png</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt; --dag | dot -Tpng &gt; snakefile.png</code></pre></div>
 <h3 id="important-bilderskript-pipelines">Important BilderSkript Pipelines</h3>
 
 <p>The pipelines are named after their snakefile.</p>
 
-<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may see the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p>
+<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p>
 
 <p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with <code>hugin</code> container. <code>data_prep.snakefile</code> requires the following parameters:</p>
 

@@ -28,22 +28,22 @@ BilderSkript stores pipelines in the `pipelines` volume usually accessed under `
 Snakemake compares the input and output ressources. These ressources are files. If the modification date of any of the input files is newer than the output file, snakemake runs the shell command. This behavior is encoded as rules, which transform input files into output files. All rules of a pipeline are defined in a snakefile. We list some important snakemake commands.
 
 Run the snakemake pipeline
-```
+```bash
 snakemake -s <snakefile>
 ```
 
 Generate a report
-```
+```bash
 snakemake -s <snakefile> --report <snakefile.html>
 ```
 
 Generate a summary table displaying the current state of input and output files.
-```
+```bash
 snakemake -s <snakefile> --summary
 ```
 
 Before the snakefile is run, snakemake generates a [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph) which shows the dependencies. This command visualizes the DAG.
-```
+```bash
 snakemake -s <snakefile> --dag | dot -Tpng > snakefile.png
 ```
 
@@ -52,7 +52,7 @@ snakemake -s <snakefile> --dag | dot -Tpng > snakefile.png
 
 The pipelines are named after their snakefile.
 
-**[doc.snakefile](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile):** describes the pipeline for documentation generations. You may see the pipeline's [report](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html).
+**[doc.snakefile](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile):** describes the pipeline for documentation generations. You may view the pipeline's [report](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html).
 
 **[data_prep.snakefile](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile):** prepares the image files for the ML pipeline. It's a complex pipeline because it utilizes interprocess communication (IPC) with `hugin` container. `data_prep.snakefile` requires the following parameters:
 

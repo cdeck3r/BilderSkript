@@ -1,0 +1,34 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+
+/' start
+:Images|
+:Data preparations;
+:Object identification;
+:Object names and positions|
+:Build sequences;
+:Evaluate interestingness metrics;
+:Extract images from interesting sequences;
+:BilderSkript Images| 
+stop '/
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor User
+actor Engineer
+actor Camera
+
+rectangle BilderSkript {
+    User ..> Camera : use
+    User -- (Provide images\n and run system)
+    User -- (Label images)
+
+    (Define image sections) -- Engineer
+    (Label images) -- Engineer
+    (Train object detector) -- Engineer
+}
+
+
+@enduml

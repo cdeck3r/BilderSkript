@@ -37,5 +37,6 @@ There are a couple of activities to perform
 
 BilderSkript relies on widely available open-source ML software. However, there are a couple of interesting research questions on the way.
 
-* **How to automate image preprocessing?** - Image recording activity does not happen in a controlled environment, i.e. lecture rooms changes, light varies, camera postions are not fixed (resulting in varying field of views), varying colors of background, cloths etc.
-* **Transfer learning?** - object identfication ... trained on labeled data from one lecture, apply model to different lecture ... relates to transfer learning?
+* **How to automate image preprocessing?** - Image recording activity does not happen in a controlled environment, i.e. lecture rooms change, the light varies, the camera positions are not fixed (resulting in varying field of views), varying colors of background, cloths etc.
+* **Can we successfully transfer other object identfication models to lecture recordings?** Object identfication utilizes labeled data from one or few lectures for training. Since labeling is laborious, we are interested to transfer trained models from other areas and apply for object identfication in our lecture recordings. 
+

@@ -1,0 +1,29 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+
+interface "File System" as fs
+interface "UNIX Socket" as sock
+
+
+node "Volume" {
+    folder ipc
+    folder "scripts and data"
+}
+
+node container_1 <<container>> 
+node container_2 <<container>>
+
+Volume -up- fs
+
+container_1 - sock : connect
+sock - container_2 : connect
+
+sock ..> fs : store
+
+container_1 ..> fs : read/write data
+container_2 ..> fs : read/write data
+
+
+
+@enduml
