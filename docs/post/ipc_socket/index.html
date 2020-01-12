@@ -157,7 +157,7 @@ img {
 <p>We illustrate the container IPC between the <code>builder</code> container and the <code>hugin</code> container. The <code>hugin</code> container processes all images taken with the 360 camera and converts the fisheye lens images in regular ones using a equirectangular projection. The server script runs on the <code>hugin</code> container while the client script runs on the <code>builder</code> container. The socket between both resides on a shared volume.
 It starts by the snakemake file on the <code>builder</code> calling the <code>hugin.sh</code> script.</p>
 
-<p><img src="uml/ipc_socket.png" alt="ipc socket communication between builder and hugin" /></p>
+<p><img src="uml/ipc_socket_hugin.png" alt="ipc socket communication between builder and hugin" /></p>
 
 <p><strong>Ressources:</strong></p>
 

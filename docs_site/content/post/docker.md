@@ -20,8 +20,10 @@ Docker images contain the various software pipelines from the tool chain. The va
 | Image         | Pipeline      | Notes         |
 | ------------- | ------------- | ------------- |
 | builder       | Build         | makefile, doc, versioning via git and dvc, mlflow exp.|
-| hugin         | Data prep     | image data preparation |
-| ludwig        | ML training   | training and experimentation |
+| hugin         | Data prep     | image data preparation using [hugin](http://hugin.sourceforge.net/) |
+| hugin-vnc     | n/a           | like hugin, but provides VNC server for GUI interaction |
+| mrcnn         | ML training   | object detection |
+| ludwig        | ML training   | classification |
 | cicd          | Deployment pipeline | not yet implemented |
 
 

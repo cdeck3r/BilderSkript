@@ -1,0 +1,35 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+
+|Engineer|
+start
+|data_prep.sh|
+:Start pipeline;
+:Send START message
+to hugin container;
+fork
+|data_prep.sh|
+:Process image in hugin;
+    |Filesystem|
+    :processed images
+    <&folder> <outdir>|
+|data_prep.sh|
+:Receive _SUCCESS_ message
+from hugin container;
+
+fork again
+|data_prep.sh|
+:Read files;
+    |Filesystem|
+    :images
+    <&folder> <imgdir>|
+    detach
+|data_prep.sh|
+
+
+|data_prep.sh|
+end fork
+stop
+
+@enduml

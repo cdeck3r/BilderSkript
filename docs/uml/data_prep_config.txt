@@ -1,0 +1,43 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+
+|Engineer|
+
+start
+:Provide images;
+
+|hugin-vnc|
+
+|Filesystem|
+:images
+<&folder> <imgdir>|
+detach
+
+|Engineer|
+start
+|hugin-vnc|
+:Configure projection;
+|Filesystem|
+:<projection>.pto|
+detach
+
+
+|Engineer|
+start
+|hugin-vnc|
+:Configure perspective control;
+|Filesystem|
+:<perspective control>.pto|
+detach
+
+|Engineer|
+start
+:Configure imgdir and\n
+oudir and .pto files;
+|Filesystem|
+:data_prep.sh|
+
+stop
+
+@enduml

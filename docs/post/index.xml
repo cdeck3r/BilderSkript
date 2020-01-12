@@ -17,7 +17,8 @@
       <pubDate>Sun, 12 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>http://cdeck3r.com/BilderSkript/post/systemdesign/</guid>
-      <description>img { max-width: 100%; height: auto; }  This use case diagram depicts BilderSkript&amp;rsquo;s main services.</description>
+      <description>img { max-width: 100%; height: auto; }  This use case diagram depicts BilderSkript&amp;rsquo;s main services. Note, the shown use cases do not imply an execution order.
+The engineer performs the system setup, configures and trains the system for the user to be beneficial.</description>
     </item>
     
     <item>
@@ -36,7 +37,7 @@ Labeling is usually done manually. A user marks regions within images and assign
       <pubDate>Sat, 04 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>http://cdeck3r.com/BilderSkript/post/pipelines/</guid>
-      <description>img { max-width: 100%; height: auto; }  Pipelines are the fundamental building blocks of BilderSkript.
+      <description>img { max-width: 100%; height: auto; }  Pipelines are the fundamental building blocks of the BilderSkript system.
 Pipeline Definitions The term pipeline is heavily used in machine learning (ML). It generally refers to a sequence of steps to run in order to perform transformations. There are various kinds of pipelines, e.g. data pipelines, machine learning pipelines, deployment pipelines and others. Depending on the pipeline type, it takes a a certain ressource type as input and produces output ressources by the application of the pipeline&amp;rsquo;s transformation steps.</description>
     </item>
     

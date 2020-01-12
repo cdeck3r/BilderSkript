@@ -18,7 +18,7 @@ theme = "onedly"
 #
 [params]
     # project specific params
-    description = "Project's Engineering Documentation"
+    description = "Engineering Documentation"
     author_url = "//cdeck3r.com"
     author_name = "cdeck3r"
     project_url = "//github.com/cdeck3r/BilderSkript"

@@ -37,6 +37,39 @@ There are a couple of activities to perform
 * define a metric of interestingness from the sequence of recognized objects 
 * extract interesting images and compile a lecture notebook from which ultimately creates the BilderSkript
 
+## Quickstart
+
+BilderSkript is a composition of several pipelines. The [engineering documentation](//cdeck3r.com/BilderSkript) contains all details about the implementation and configuration of BilderSkript.
+
+1. Data prep pipeline. The engineering documentation contains the details about the configuration in the [Data prep pipeline section](//cdeck3r.com/BilderSkript#data-prep-pipeline).
+```bash
+docker-compose up -d builder hugin
+docker exec -it bilderskript_builder_1 /bin/bash
+cd /bilderskript/pipelines
+./data_prep.sh
+```
+
+2. Object identification pipeline
+```bash
+...
+```
+
+3. Classification pipeline
+```bash
+...
+```
+
+4. Sequencing pipeline
+```bash
+...
+```
+
+5. Compilation pipeline
+```bash
+...
+```
+
+
 ## Recording hardware
 
 Wide-angle image recording is required to capture the lecturer's presentation. We use a [Insta360 ONE dual-fisheye camera](https://www.insta360.com/product/insta360-one/). While one lens overviews the lecturer's area, the lens pointing to the auditorium is covered to maintain privacy. 

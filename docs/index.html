@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="
 		
-		Project&#39;s Engineering Documentation
+		Engineering Documentation
 		"> 
     
 	<meta name="author" content=" cdeck3r ">  
@@ -123,7 +123,7 @@ body {
 				
 					<div class="intro-message">
 						<h1>BilderSkript</h1>
-						<h3>Project&#39;s Engineering Documentation</h3>
+						<h3>Engineering Documentation</h3>
 						<hr class="intro-divider">
 
 						<ul class="list-inline intro-social-buttons">
@@ -412,9 +412,11 @@ img {
 }
 </style>
 
-<p>This use case diagram depicts BilderSkript&rsquo;s main services.</p>
+<p>This use case diagram depicts BilderSkript&rsquo;s main services. Note, the shown use cases do not imply an execution order.</p>
 
 <p><img src="uml/systemdesign.png" alt="system's dataflow" /></p>
+
+<p>The engineer performs the system setup, configures and trains the system for the user to be beneficial.</p>
 
                 </div>
             </div>
@@ -466,13 +468,25 @@ img {
 <tr>
 <td>hugin</td>
 <td>Data prep</td>
-<td>image data preparation</td>
+<td>image data preparation using <a href="http://hugin.sourceforge.net/">hugin</a></td>
+</tr>
+
+<tr>
+<td>hugin-vnc</td>
+<td>n/a</td>
+<td>like hugin, but provides VNC server for GUI interaction</td>
+</tr>
+
+<tr>
+<td>mrcnn</td>
+<td>ML training</td>
+<td>object detection</td>
 </tr>
 
 <tr>
 <td>ludwig</td>
 <td>ML training</td>
-<td>training and experimentation</td>
+<td>classification</td>
 </tr>
 
 <tr>
@@ -537,7 +551,7 @@ img {
 }
 </style>
 
-<p>Pipelines are the fundamental building blocks of BilderSkript.</p>
+<p>Pipelines are the fundamental building blocks of the BilderSkript system.</p>
 
 <h3 id="pipeline-definitions">Pipeline Definitions</h3>
 
@@ -563,16 +577,67 @@ img {
 
 <p>The pipelines are named after their snakefile.</p>
 
-<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p>
+<ul>
+<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p></li>
 
-<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with <code>hugin</code> container. <code>data_prep.snakefile</code> requires the following parameters:</p>
+<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with the <code>hugin</code> container. <code>data_prep.snakefile</code> requires the following parameters:</p>
 
 <ul>
 <li>imgdir: the directory where the camera images are located</li>
 <li>outdir: the directory where prep&rsquo;ed images as a result of the pipeline execution are stored</li>
 </ul>
 
-<p>The pipeline&rsquo;s default behavior is started by the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.sh"><code>data_prep.sh</code></a> script.</p>
+<p>The pipeline&rsquo;s default behavior is started by the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.sh"><code>data_prep.sh</code></a> script. The pipeline&rsquo;s DAG is shown in <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.png"><code>data_prep.snakefile.png</code></a></p></li>
+</ul>
+
+<h3 id="data-prep-pipeline">Data Prep Pipeline</h3>
+
+<p>The data preparation pipeline comprises of two phases</p>
+
+<ol>
+<li>Configure the pipeline&rsquo;s parameters</li>
+<li>Run the pipeline on the images from the lecture recording</li>
+</ol>
+
+<h4 id="1-configuration">1. Configuration</h4>
+
+<p>The following activity diagram describes the steps to configure the data preparation pipeline.</p>
+
+<p><strong>Precondition:</strong></p>
+
+<ul>
+<li><code>builder</code> and <code>hugin</code> container up and running</li>
+<li>at least one image from lecture recording available</li>
+</ul>
+
+<p><strong>Postcondition:</strong></p>
+
+<ul>
+<li>images directories set</li>
+<li><code>.pto</code> files created</li>
+</ul>
+
+<p><img src="uml/data_prep_config.png" alt="data prep configuration" width="65%" /></p>
+
+<h4 id="2-run-the-pipeline">2. Run the Pipeline</h4>
+
+<p>Finally, the egnineer starts the data prep pipeline and the pipeline processes the input images from the <em>imgdir</em> and places it in the <em>outdir</em>.</p>
+
+<p><strong>Precondition:</strong></p>
+
+<ul>
+<li><code>builder</code> and <code>hugin</code> container up and running</li>
+<li><code>.pto</code> files created</li>
+<li><em>imgdir</em> and <em>outdir</em> image directories set</li>
+</ul>
+
+<p><strong>Postcondition:</strong></p>
+
+<ul>
+<li>images processed placed in <em>outdir</em></li>
+</ul>
+
+<p><img src="uml/data_prep_run.png" alt="data prep run" width="75%" /></p>
 
                 </div>
             </div>
@@ -729,7 +794,7 @@ img {
 <p>We illustrate the container IPC between the <code>builder</code> container and the <code>hugin</code> container. The <code>hugin</code> container processes all images taken with the 360 camera and converts the fisheye lens images in regular ones using a equirectangular projection. The server script runs on the <code>hugin</code> container while the client script runs on the <code>builder</code> container. The socket between both resides on a shared volume.
 It starts by the snakemake file on the <code>builder</code> calling the <code>hugin.sh</code> script.</p>
 
-<p><img src="uml/ipc_socket.png" alt="ipc socket communication between builder and hugin" /></p>
+<p><img src="uml/ipc_socket_hugin.png" alt="ipc socket communication between builder and hugin" /></p>
 
 <p><strong>Ressources:</strong></p>
 

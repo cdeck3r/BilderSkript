@@ -131,7 +131,7 @@ img {
 }
 </style>
 
-<p>Pipelines are the fundamental building blocks of BilderSkript.</p>
+<p>Pipelines are the fundamental building blocks of the BilderSkript system.</p>
 
 <h3 id="pipeline-definitions">Pipeline Definitions</h3>
 
@@ -157,16 +157,67 @@ img {
 
 <p>The pipelines are named after their snakefile.</p>
 
-<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p>
+<ul>
+<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p></li>
 
-<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with <code>hugin</code> container. <code>data_prep.snakefile</code> requires the following parameters:</p>
+<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with the <code>hugin</code> container. <code>data_prep.snakefile</code> requires the following parameters:</p>
 
 <ul>
 <li>imgdir: the directory where the camera images are located</li>
 <li>outdir: the directory where prep&rsquo;ed images as a result of the pipeline execution are stored</li>
 </ul>
 
-<p>The pipeline&rsquo;s default behavior is started by the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.sh"><code>data_prep.sh</code></a> script.</p>
+<p>The pipeline&rsquo;s default behavior is started by the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.sh"><code>data_prep.sh</code></a> script. The pipeline&rsquo;s DAG is shown in <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.png"><code>data_prep.snakefile.png</code></a></p></li>
+</ul>
+
+<h3 id="data-prep-pipeline">Data Prep Pipeline</h3>
+
+<p>The data preparation pipeline comprises of two phases</p>
+
+<ol>
+<li>Configure the pipeline&rsquo;s parameters</li>
+<li>Run the pipeline on the images from the lecture recording</li>
+</ol>
+
+<h4 id="1-configuration">1. Configuration</h4>
+
+<p>The following activity diagram describes the steps to configure the data preparation pipeline.</p>
+
+<p><strong>Precondition:</strong></p>
+
+<ul>
+<li><code>builder</code> and <code>hugin</code> container up and running</li>
+<li>at least one image from lecture recording available</li>
+</ul>
+
+<p><strong>Postcondition:</strong></p>
+
+<ul>
+<li>images directories set</li>
+<li><code>.pto</code> files created</li>
+</ul>
+
+<p><img src="uml/data_prep_config.png" alt="data prep configuration" width="65%" /></p>
+
+<h4 id="2-run-the-pipeline">2. Run the Pipeline</h4>
+
+<p>Finally, the egnineer starts the data prep pipeline and the pipeline processes the input images from the <em>imgdir</em> and places it in the <em>outdir</em>.</p>
+
+<p><strong>Precondition:</strong></p>
+
+<ul>
+<li><code>builder</code> and <code>hugin</code> container up and running</li>
+<li><code>.pto</code> files created</li>
+<li><em>imgdir</em> and <em>outdir</em> image directories set</li>
+</ul>
+
+<p><strong>Postcondition:</strong></p>
+
+<ul>
+<li>images processed placed in <em>outdir</em></li>
+</ul>
+
+<p><img src="uml/data_prep_run.png" alt="data prep run" width="75%" /></p>
 
         </div>
     </div>

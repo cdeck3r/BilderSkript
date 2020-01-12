@@ -13,7 +13,8 @@ img {
 }
 </style>
 
-This use case diagram depicts BilderSkript's main services.
+This use case diagram depicts BilderSkript's main services. Note, the shown use cases do not imply an execution order.
 
 <img src="uml/systemdesign.png" alt="system's dataflow" />
 
+The engineer performs the system setup, configures and trains the system for the user to be beneficial.
