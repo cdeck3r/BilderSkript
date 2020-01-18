@@ -4,20 +4,18 @@
 # Author: cdeck3r
 #
 
+#
+# variables from config.yaml
+#
+DOCS_DIR=os.path.join(*config["doc"]["docs_dir"])
+DOCS_SITE=os.path.join(*config["doc"]["docs_site"])
+HUGO=os.path.join(*config["doc"]["hugo"])
+PLANTUML_JAR=os.path.join(*config["doc"]["plantuml_jar"])
 
-# project's root dir
-PROJECT_DIR="/bilderskript"
-# main tools installed by docker
-SUPPLEMENTAL_DIR="/opt/builder"
 
 #
-# important global variables
+# variables for files
 #
-DOCS_DIR=PROJECT_DIR + "/docs"
-DOCS_SITE=PROJECT_DIR + "/docs_site"
-HUGO=SUPPLEMENTAL_DIR + "/hugo/hugo"
-PLANTUML_JAR=SUPPLEMENTAL_DIR + "/plantuml/plantuml.jar"
-
 # these are the files we check for modifications
 POST_FILES, = glob_wildcards(DOCS_SITE + "/content/post/{postfile}.md")
 # UML file creation
@@ -38,11 +36,9 @@ rule doc:
         DOCS_SITE + "/config.toml"
     output:
         DOCS_DIR + "/index.html"
-    params:
-        docs={DOCS_DIR}
     shell:
         # generate doc
-        "{HUGO} --cleanDestinationDir -v -s {DOCS_SITE} -d {params.docs}"
+        "{HUGO} --cleanDestinationDir -v -s {DOCS_SITE} -d {DOCS_DIR}"
 
 # this rule generates the plantuml diagrams
 rule plantuml:
@@ -54,3 +50,4 @@ rule plantuml:
         outdir=DOCS_SITE + "/content/uml"
      shell:
         "java -jar {PLANTUML_JAR} -tpng -v -o {params.outdir} {input}"
+

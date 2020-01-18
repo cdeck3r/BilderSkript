@@ -1,0 +1,38 @@
+# path or URL to sample sheet (TSV format, columns: sample, condition, ...)
+datasets: datasets.csv
+
+
+dirs:
+    # project's root dir
+    project_dir: &project_dir
+        "/bilderskript"
+    # main tools installed by docker
+    supplemental_dir: &supplemental_dir
+        "/opt/builder"
+    # scripts dir
+    script_dir:
+        - *project_dir
+        - "scripts"
+    log_dir:
+        - *project_dir
+        - "log"
+
+doc:
+    # important variables
+    docs_dir:
+        - *project_dir 
+        - "docs"
+    docs_site: &docs_site
+        - *project_dir 
+        - "docs_site"
+    hugo: 
+        - *supplemental_dir
+        - "hugo/hugo"
+    plantuml_jar:
+        - *supplemental_dir
+        - "plantuml/plantuml.jar"
+
+
+data_prep:
+    
+
