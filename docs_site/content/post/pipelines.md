@@ -99,3 +99,17 @@ Finally, the egnineer starts the data prep pipeline and the pipeline processes t
 * images processed placed in _outdir_
 
 <img src="uml/data_prep_run.png" alt="data prep run" width="75%" />
+
+
+### Doc Pipeline
+
+This pipeline generates 
+
+1. UML diagrams using [plantuml](https://plantuml.com/en/)
+1. the project's website using [hugo](https://gohugo.io/)
+
+Run the pipeline in `/bilderskript/pipelines`
+
+```bash
+snakemake doc
+```

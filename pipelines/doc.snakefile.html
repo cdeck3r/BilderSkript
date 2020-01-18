@@ -346,7 +346,7 @@ table.dataTable tbody>tr.selected,table.dataTable tbody>tr>.selected{background-
     <nav class="navbar fixed-top navbar-dark bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Snakemake Report</a>
       <ul class="nav navbar-nav navbar-right" style="padding-right: 10px;">
-        <li class="text-white">Sat Jan  4 19:13:38 2020 UTC</li>
+        <li class="text-white">Sat Jan 18 05:22:16 2020 UTC</li>
         <li><a class="text-white" href="https://snakemake.readthedocs.io">Snakemake 5.9.1</a></li>
       </ul>
       <!--<input id="searchbar" class="invisible form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
@@ -367,6 +367,12 @@ table.dataTable tbody>tr.selected,table.dataTable tbody>tr>.selected{background-
                 <a class="nav-link" href="#stats">
                   <span data-feather="bar-chart-2"></span>
                   Statistics
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#configuration">
+                  <span data-feather="settings"></span>
+                  Configuration
                 </a>
               </li>
               <li class="nav-item">
@@ -422,6 +428,103 @@ table.dataTable tbody>tr.selected,table.dataTable tbody>tr>.selected{background-
             </div>
           </div>
 
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h2 id="configuration">Configuration</h2>
+          </div>
+          <table class="table">
+            <caption>Configuration files</caption>
+            <thead>
+              <tr>
+                <th scope="col">File</th>
+                <th scope="col">Code</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td>config.yaml</td>
+                  <td>
+                    <a data-toggle="collapse" role="button" href="#configfile-" aria-expanded="false" aria-controls="collapse-env"><span data-feather="plus-circle"></span></a>
+                    <div class="collapse" id="configfile-">
+                      <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre></div></td><td class="code"><div class="source"><pre><span></span><code><span class="c1"># path or URL to sample sheet (TSV format, columns: sample, condition, ...)</span>
+<span class="nt">datasets</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">datasets.csv</span>
+
+
+<span class="nt">dirs</span><span class="p">:</span>
+    <span class="c1"># project&#39;s root dir</span>
+    <span class="nt">project_dir</span><span class="p">:</span> <span class="nl">&amp;project_dir</span>
+        <span class="s">&quot;/bilderskript&quot;</span>
+    <span class="c1"># main tools installed by docker</span>
+    <span class="nt">supplemental_dir</span><span class="p">:</span> <span class="nl">&amp;supplemental_dir</span>
+        <span class="s">&quot;/opt/builder&quot;</span>
+    <span class="c1"># scripts dir</span>
+    <span class="nt">script_dir</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nv">*project_dir</span>
+        <span class="p p-Indicator">-</span> <span class="s">&quot;scripts&quot;</span>
+    <span class="nt">log_dir</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nv">*project_dir</span>
+        <span class="p p-Indicator">-</span> <span class="s">&quot;log&quot;</span>
+
+<span class="nt">doc</span><span class="p">:</span>
+    <span class="c1"># important variables</span>
+    <span class="nt">docs_dir</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nv">*project_dir</span> 
+        <span class="p p-Indicator">-</span> <span class="s">&quot;docs&quot;</span>
+    <span class="nt">docs_site</span><span class="p">:</span> <span class="nl">&amp;docs_site</span>
+        <span class="p p-Indicator">-</span> <span class="nv">*project_dir</span> 
+        <span class="p p-Indicator">-</span> <span class="s">&quot;docs_site&quot;</span>
+    <span class="nt">hugo</span><span class="p">:</span> 
+        <span class="p p-Indicator">-</span> <span class="nv">*supplemental_dir</span>
+        <span class="p p-Indicator">-</span> <span class="s">&quot;hugo/hugo&quot;</span>
+    <span class="nt">plantuml_jar</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nv">*supplemental_dir</span>
+        <span class="p p-Indicator">-</span> <span class="s">&quot;plantuml/plantuml.jar&quot;</span>
+
+
+<span class="nt">data_prep</span><span class="p">:</span>
+    
+</code></pre></div>
+</td></tr></table>
+                    </div>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
 
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h2 id="rules">Rules</h2>
@@ -443,8 +546,8 @@ table.dataTable tbody>tr.selected,table.dataTable tbody>tr>.selected{background-
                 <td>doc</td>
                 <td>1</td>
                 <td>
-                  <a data-toggle="collapse" role="button" href="#output-b0144297-7ffe-40ed-aeb4-f2cbe1b142f6" aria-expanded="false" aria-controls="collapse-output"><span data-feather="plus-circle"></span></a>
-                  <div class="collapse" id="output-b0144297-7ffe-40ed-aeb4-f2cbe1b142f6">
+                  <a data-toggle="collapse" role="button" href="#output-e14adc78-09ac-42fb-be9f-2dfba449743d" aria-expanded="false" aria-controls="collapse-output"><span data-feather="plus-circle"></span></a>
+                  <div class="collapse" id="output-e14adc78-09ac-42fb-be9f-2dfba449743d">
                     <ul class="list-group list-group-flush">
                       <li class="list-group-item">/bilderskript/docs/index.html</li>
                     </ul>
@@ -454,9 +557,9 @@ table.dataTable tbody>tr.selected,table.dataTable tbody>tr>.selected{background-
                 <td>
                 </td>
                 <td>
-                    <a data-toggle="collapse" role="button" href="#code-b0144297-7ffe-40ed-aeb4-f2cbe1b142f6" aria-expanded="false" aria-controls="collapse-env"><span data-feather="plus-circle"></span></a>
-                    <div class="collapse" id="code-b0144297-7ffe-40ed-aeb4-f2cbe1b142f6">
-                      <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="source"><pre><span></span><code><span class="o">{</span>HUGO<span class="o">}</span> --cleanDestinationDir -v -s <span class="o">{</span>DOCS_SITE<span class="o">}</span> -d <span class="o">{</span>params.docs<span class="o">}</span>
+                    <a data-toggle="collapse" role="button" href="#code-e14adc78-09ac-42fb-be9f-2dfba449743d" aria-expanded="false" aria-controls="collapse-env"><span data-feather="plus-circle"></span></a>
+                    <div class="collapse" id="code-e14adc78-09ac-42fb-be9f-2dfba449743d">
+                      <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="source"><pre><span></span><code><span class="o">{</span>HUGO<span class="o">}</span> --cleanDestinationDir -v -s <span class="o">{</span>DOCS_SITE<span class="o">}</span> -d <span class="o">{</span>DOCS_DIR<span class="o">}</span>
 </code></pre></div>
 </td></tr></table>
                     </div>
@@ -464,15 +567,19 @@ table.dataTable tbody>tr.selected,table.dataTable tbody>tr>.selected{background-
               </tr>
               <tr>
                 <td>plantuml</td>
-                <td>4</td>
+                <td>8</td>
                 <td>
-                  <a data-toggle="collapse" role="button" href="#output-2e8c7afa-424b-4a64-b001-e81f093df5fa" aria-expanded="false" aria-controls="collapse-output"><span data-feather="plus-circle"></span></a>
-                  <div class="collapse" id="output-2e8c7afa-424b-4a64-b001-e81f093df5fa">
+                  <a data-toggle="collapse" role="button" href="#output-45b0657e-a15a-4ecf-b6dd-eb05d67d9e1c" aria-expanded="false" aria-controls="collapse-output"><span data-feather="plus-circle"></span></a>
+                  <div class="collapse" id="output-45b0657e-a15a-4ecf-b6dd-eb05d67d9e1c">
                     <ul class="list-group list-group-flush">
+                      <li class="list-group-item">/bilderskript/docs_site/content/uml/data_prep_config.png</li>
+                      <li class="list-group-item">/bilderskript/docs_site/content/uml/data_prep_run.png</li>
                       <li class="list-group-item">/bilderskript/docs_site/content/uml/docker_toolchain.png</li>
                       <li class="list-group-item">/bilderskript/docs_site/content/uml/ipc_call.png</li>
                       <li class="list-group-item">/bilderskript/docs_site/content/uml/ipc_socket.png</li>
+                      <li class="list-group-item">/bilderskript/docs_site/content/uml/ipc_socket_docker.png</li>
                       <li class="list-group-item">/bilderskript/docs_site/content/uml/ipc_socket_hugin.png</li>
+                      <li class="list-group-item">/bilderskript/docs_site/content/uml/systemdesign.png</li>
                     </ul>
                   </div>
                 </td>
@@ -480,8 +587,8 @@ table.dataTable tbody>tr.selected,table.dataTable tbody>tr>.selected{background-
                 <td>
                 </td>
                 <td>
-                    <a data-toggle="collapse" role="button" href="#code-2e8c7afa-424b-4a64-b001-e81f093df5fa" aria-expanded="false" aria-controls="collapse-env"><span data-feather="plus-circle"></span></a>
-                    <div class="collapse" id="code-2e8c7afa-424b-4a64-b001-e81f093df5fa">
+                    <a data-toggle="collapse" role="button" href="#code-45b0657e-a15a-4ecf-b6dd-eb05d67d9e1c" aria-expanded="false" aria-controls="collapse-env"><span data-feather="plus-circle"></span></a>
+                    <div class="collapse" id="code-45b0657e-a15a-4ecf-b6dd-eb05d67d9e1c">
                       <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="source"><pre><span></span><code>java -jar <span class="o">{</span>PLANTUML_JAR<span class="o">}</span> -tpng -v -o <span class="o">{</span>params.outdir<span class="o">}</span> <span class="o">{</span>input<span class="o">}</span>
 </code></pre></div>
 </td></tr></table>
@@ -1003,7 +1110,7 @@ action:function(){this[this.select.items()+"s"]().select()}},selectNone:{text:t(
     <script>
       var rulegraph_spec = {
         "$schema": "https://vega.github.io/schema/vega/v3.json",
-        "width": 171.995,
+        "width": 162.246,
         "height": 110.0,
         "padding": 0,
         "autosize": "none",
@@ -1034,7 +1141,7 @@ action:function(){this[this.select.items()+"s"]().select()}},selectNone:{text:t(
         "data": [
           {
             "name": "node-data",
-            "values": [{'rule': 'doc', 'fx': 51.995, 'fy': 90.0}, {'rule': 'plantuml', 'fx': 51.995, 'fy': 18.0}]
+            "values": [{'rule': 'doc', 'fx': 42.246, 'fy': 90.0}, {'rule': 'plantuml', 'fx': 42.246, 'fy': 18.0}]
           },
           {
             "name": "link-data",
@@ -1129,7 +1236,7 @@ action:function(){this[this.select.items()+"s"]().select()}},selectNone:{text:t(
       var runtimes_spec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "description": "Shows the relationship between horsepower and the numbver of cylinders using tick marks.",
-        "data": {"values": [{'rule': 'doc', 'runtime': 15.968511581420898}, {'rule': 'plantuml', 'runtime': 17.842869997024536}, {'rule': 'plantuml', 'runtime': 17.251682996749878}, {'rule': 'plantuml', 'runtime': 17.60761308670044}, {'rule': 'plantuml', 'runtime': 17.68065094947815}]},
+        "data": {"values": [{'rule': 'doc', 'runtime': -25182.95106267929}, {'rule': 'plantuml', 'runtime': -25181.12745976448}, {'rule': 'plantuml', 'runtime': -25181.023796081543}, {'rule': 'plantuml', 'runtime': -25181.395266771317}, {'rule': 'plantuml', 'runtime': -25182.047921657562}, {'rule': 'plantuml', 'runtime': -25181.53667616844}, {'rule': 'plantuml', 'runtime': -25181.10603070259}, {'rule': 'plantuml', 'runtime': -25180.516162872314}, {'rule': 'plantuml', 'runtime': -25180.4573032856}]},
         "mark": "point",
         "encoding": {
           "x": {"field": "runtime", "type": "quantitative",
@@ -1146,7 +1253,7 @@ action:function(){this[this.select.items()+"s"]().select()}},selectNone:{text:t(
         "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "description": "Timeline of jobs.",
         "data": {
-          "values": [{'rule': 'doc', 'starttime': '2020-01-04T19:13:16.445514', 'endtime': '2020-01-04T19:13:32.414026'}, {'rule': 'plantuml', 'starttime': '2020-01-04T19:13:12.531156', 'endtime': '2020-01-04T19:13:30.374026'}, {'rule': 'plantuml', 'starttime': '2020-01-04T19:13:12.582342', 'endtime': '2020-01-04T19:13:29.834025'}, {'rule': 'plantuml', 'starttime': '2020-01-04T19:13:08.926412', 'endtime': '2020-01-04T19:13:26.534025'}, {'rule': 'plantuml', 'starttime': '2020-01-04T19:13:08.903374', 'endtime': '2020-01-04T19:13:26.584025'}]
+          "values": [{'rule': 'doc', 'starttime': '2020-01-18T12:19:53.840610', 'endtime': '2020-01-18T05:20:10.889547'}, {'rule': 'plantuml', 'starttime': '2020-01-18T11:37:25.227007', 'endtime': '2020-01-18T04:37:44.099547'}, {'rule': 'plantuml', 'starttime': '2020-01-18T11:37:21.733343', 'endtime': '2020-01-18T04:37:40.709547'}, {'rule': 'plantuml', 'starttime': '2020-01-18T11:37:29.194814', 'endtime': '2020-01-18T04:37:47.799547'}, {'rule': 'plantuml', 'starttime': '2020-01-18T11:37:29.797469', 'endtime': '2020-01-18T04:37:47.749547'}, {'rule': 'plantuml', 'starttime': '2020-01-18T11:37:21.676223', 'endtime': '2020-01-18T04:37:40.139547'}, {'rule': 'plantuml', 'starttime': '2020-01-18T11:37:25.805578', 'endtime': '2020-01-18T04:37:44.699547'}, {'rule': 'plantuml', 'starttime': '2020-01-18T11:37:17.085710', 'endtime': '2020-01-18T04:37:36.569547'}, {'rule': 'plantuml', 'starttime': '2020-01-18T11:37:17.106850', 'endtime': '2020-01-18T04:37:36.649547'}]
         },
         "mark": "point",
         "encoding": {
