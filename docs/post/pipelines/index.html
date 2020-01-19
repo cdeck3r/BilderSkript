@@ -146,25 +146,32 @@ img {
 <p>Snakemake compares the input and output ressources. These ressources are files. If the modification date of any of the input files is newer than the output file, snakemake runs the shell command. This behavior is encoded as rules, which transform input files into output files. All rules of a pipeline are defined in a snakefile. We list some important snakemake commands.</p>
 
 <p>Run the snakemake pipeline</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt;</code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake &lt;pipeline name&gt;</code></pre></div>
 <p>Generate a report</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt; --report &lt;snakefile.html&gt;</code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake &lt;pipeline name&gt; --report &lt;snakefile.html&gt;</code></pre></div>
 <p>Generate a summary table displaying the current state of input and output files.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt; --summary</code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake &lt;pipeline name&gt; --summary</code></pre></div>
 <p>Before the snakefile is run, snakemake generates a <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a> which shows the dependencies. This command visualizes the DAG.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake -s &lt;snakefile&gt; --dag | dot -Tpng &gt; snakefile.png</code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake &lt;pipeline name&gt; --dag | dot -Tpng &gt; &lt;pipeline name&gt;.png</code></pre></div>
 <h3 id="important-bilderskript-pipelines">Important BilderSkript Pipelines</h3>
+
+<p>The BilderSkript pipelines follow the guidelines of <a href="https://github.com/snakemake-workflows/docs">The Snakemake-Workflows project</a>. There is a central <code>Snakemake</code> file which includes the configuration and the concrete workflows for the data and ML pipelines.</p>
+
+<p>The workflow&rsquo;s design separates the pipeline specific parameters from the dataset specific ones. It increases the flexibility to apply the pipelines to various datasets.</p>
+
+<p><img src="uml/workflow_design.png" alt="workflow design for all pipelines" width="55%" /></p>
 
 <p>The pipelines are named after their snakefile.</p>
 
 <ul>
 <li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p></li>
 
-<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with the <code>hugin</code> container. <code>data_prep.snakefile</code> requires the following parameters:</p>
+<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with the <code>hugin</code> container. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.html">report</a>.
+<code>data_prep.snakefile</code> requires parameters in <code>config.yaml</code>:</p>
 
 <ul>
-<li>imgdir: the directory where the camera images are located</li>
-<li>outdir: the directory where prep&rsquo;ed images as a result of the pipeline execution are stored</li>
+<li>datasets_idx: line in <code>datasets.csv</code> defining the data to process</li>
+<li>out_dir: the directory where prep&rsquo;ed images as a result of the pipeline execution are stored</li>
 </ul>
 
 <p>The pipeline&rsquo;s default behavior is started by the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.sh"><code>data_prep.sh</code></a> script. The pipeline&rsquo;s DAG is shown in <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.png"><code>data_prep.snakefile.png</code></a></p></li>
@@ -175,13 +182,18 @@ img {
 <p>The data preparation pipeline comprises of two phases</p>
 
 <ol>
-<li>Configure the pipeline&rsquo;s parameters</li>
+<li>Configure the pipeline&rsquo;s parameters
+
+<ul>
+<li><code>config.yaml</code> defines pipeline specific parameters</li>
+<li><code>datasets.csv</code> defines the data input and data-specific processing parameters</li>
+</ul></li>
 <li>Run the pipeline on the images from the lecture recording</li>
 </ol>
 
 <h4 id="1-configuration">1. Configuration</h4>
 
-<p>The following activity diagram describes the steps to configure the data preparation pipeline.</p>
+<p>The following activity diagram describes the steps to configure the data preparation pipeline. Configuration is stored in <code>config.yaml</code> and `data</p>
 
 <p><strong>Precondition:</strong></p>
 
@@ -195,6 +207,7 @@ img {
 <ul>
 <li>images directories set</li>
 <li><code>.pto</code> files created</li>
+<li>(optionally) crop specification defined</li>
 </ul>
 
 <p><img src="uml/data_prep_config.png" alt="data prep configuration" width="65%" /></p>
@@ -208,13 +221,13 @@ img {
 <ul>
 <li><code>builder</code> and <code>hugin</code> container up and running</li>
 <li><code>.pto</code> files created</li>
-<li><em>imgdir</em> and <em>outdir</em> image directories set</li>
+<li>_img<em>dir</em> and _out<em>dir</em> image directories set</li>
 </ul>
 
 <p><strong>Postcondition:</strong></p>
 
 <ul>
-<li>images processed placed in <em>outdir</em></li>
+<li>images processed placed in _out<em>dir</em></li>
 </ul>
 
 <p><img src="uml/data_prep_run.png" alt="data prep run" width="75%" /></p>

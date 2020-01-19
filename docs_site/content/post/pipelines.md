@@ -29,36 +29,49 @@ Snakemake compares the input and output ressources. These ressources are files. 
 
 Run the snakemake pipeline
 ```bash
-snakemake -s <snakefile>
+snakemake <pipeline name>
 ```
 
 Generate a report
 ```bash
-snakemake -s <snakefile> --report <snakefile.html>
+snakemake <pipeline name> --report <snakefile.html>
 ```
 
 Generate a summary table displaying the current state of input and output files.
 ```bash
-snakemake -s <snakefile> --summary
+snakemake <pipeline name> --summary
 ```
 
 Before the snakefile is run, snakemake generates a [DAG](https://en.wikipedia.org/wiki/Directed_acyclic_graph) which shows the dependencies. This command visualizes the DAG.
 ```bash
-snakemake -s <snakefile> --dag | dot -Tpng > snakefile.png
+snakemake <pipeline name> --dag | dot -Tpng > <pipeline name>.png
 ```
 
 
 ### Important BilderSkript Pipelines
 
+The BilderSkript pipelines follow the guidelines of [The Snakemake-Workflows project](https://github.com/snakemake-workflows/docs). There is a central `Snakemake` file which includes the configuration and the concrete workflows for the data and ML pipelines.
+
+The workflow's design separates the pipeline specific parameters from the dataset specific ones. It increases the flexibility to apply the pipelines to various datasets.
+
+<img src="uml/workflow_design.png" alt="workflow design for all pipelines" width="55%" />
+
 The pipelines are named after their snakefile.
 
 * **[doc.snakefile](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile):** describes the pipeline for documentation generations. You may view the pipeline's [report](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html).
 
-* **[data_prep.snakefile](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile):** prepares the image files for the ML pipeline. It's a complex pipeline because it utilizes interprocess communication (IPC) with the `hugin` container. `data_prep.snakefile` requires the following parameters:
-    * imgdir: the directory where the camera images are located
-    * outdir: the directory where prep'ed images as a result of the pipeline execution are stored
+* **[data_prep.snakefile](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile):** prepares the image files for the ML pipeline. It's a complex pipeline because it utilizes interprocess communication (IPC) with the `hugin` container. You may view the pipeline's [report](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.html).
+`data_prep.snakefile` requires parameters in `config.yaml`:
+    * datasets_idx: line in `datasets.csv` defining the data to process
+    * out_dir: the directory where prep'ed images as a result of the pipeline execution are stored
 
     The pipeline's default behavior is started by the [`data_prep.sh`](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.sh) script. The pipeline's DAG is shown in [`data_prep.snakefile.png`](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.png)
+
+Run the following script to create reports for all BilderSkript pipelines
+
+```bash
+snakemake_report.sh
+```
 
 
 ### Data Prep Pipeline
@@ -66,11 +79,13 @@ The pipelines are named after their snakefile.
 The data preparation pipeline comprises of two phases
 
 1. Configure the pipeline's parameters
+    * `config.yaml` defines pipeline specific parameters
+    * `datasets.csv` defines the data input and data-specific processing parameters
 1. Run the pipeline on the images from the lecture recording
 
 #### 1. Configuration
 
-The following activity diagram describes the steps to configure the data preparation pipeline.
+The following activity diagram describes the steps to configure the data preparation pipeline. Configuration is stored in `config.yaml` and `data
 
 **Precondition:**
 
@@ -81,6 +96,7 @@ The following activity diagram describes the steps to configure the data prepara
 
 * images directories set
 * `.pto` files created 
+* (optionally) crop specification defined
 
 <img src="uml/data_prep_config.png" alt="data prep configuration" width="65%" />
 
@@ -92,11 +108,11 @@ Finally, the egnineer starts the data prep pipeline and the pipeline processes t
 
 * `builder` and `hugin` container up and running
 * `.pto` files created
-* _imgdir_ and _outdir_ image directories set
+* _img_dir_ and _out_dir_ image directories set
 
 **Postcondition:**
 
-* images processed placed in _outdir_
+* images processed placed in _out_dir_
 
 <img src="uml/data_prep_run.png" alt="data prep run" width="75%" />
 

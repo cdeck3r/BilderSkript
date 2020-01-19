@@ -1,0 +1,27 @@
+$schema: "http://json-schema.org/draft-06/schema#"
+
+description: an entry in the sample sheet
+properties:
+  lecture:
+    type: string
+    description: lecture name/identifier
+  lecture_date:
+    type: integer
+    description: lecture date in format yyyymmdd
+  img_dir:
+    type: string
+    description: name of the directory with image files
+  pto_flat:
+    type: string
+    description: hugin .pto file for flat projection of fisheye images, i.e. <projection>.pto
+  pto_pc:
+    type: string
+    description: hugin .pto file for perspective control, i.e. <perspective control>.pto
+  crop_spec:
+    type: string
+    description: crop specification
+
+required:
+  - lecture
+  - lecture_date
+  - img_dir

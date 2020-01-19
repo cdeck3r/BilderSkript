@@ -1,0 +1,22 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+skinparam linetype ortho
+
+set namespaceSeparator none
+
+class Snakemake <<file>>
+class config.yaml <<file>>
+class datasets.csv <<file>>
+class pipeline.snakemake <<file>>
+
+Snakemake *-> "1"  config.yaml 
+Snakemake o-->  datasets.csv 
+Snakemake o-->  pipeline.snakemake 
+
+pipeline.snakemake  ..> "supplier" datasets.csv : < data details 
+pipeline.snakemake  <.. config.yaml : < params pipeline 
+
+hide <<file>> circle
+
+@enduml

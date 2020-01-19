@@ -13,7 +13,7 @@ fork
 :Process image in hugin;
     |Filesystem|
     :processed images
-    <&folder> <outdir>|
+    <&folder> <out_dir>|
 |data_prep.sh|
 :Receive _SUCCESS_ message
 from hugin container;
@@ -23,7 +23,7 @@ fork again
 :Read files;
     |Filesystem|
     :images
-    <&folder> <imgdir>|
+    <&folder> <img_dir>|
     detach
 |data_prep.sh|
 

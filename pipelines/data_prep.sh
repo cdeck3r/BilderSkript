@@ -2,7 +2,7 @@
 
 #
 # Calls the data preparation pipeline
-# with all required parameters for the snakemake file.
+# with the necessary command line options
 #
 # Author: cdeck3r
 #
@@ -14,11 +14,9 @@ SCRIPT_NAME=$0
 
 # default values
 TEMP_FILES=" " 
-# suffix defines the image to crop; requires "keep intermediate files..." -> y
-IMG_SUFFIX="flat_pc_resize_mirror"
-CROP_SPEC="300x300+80+25"
 
 # read from input line
+# whether to keep intermediate files or not
 echo ""
 read -t 4 \
      -p "Do you want to keep intermediate files? [y/N]" \
@@ -32,10 +30,8 @@ fi
 # calls the data prep pipeline using snakemake
 # it calls the default rule [all]
 snakemake \
-	--snakefile data_prep.snakefile \
-	--config imgdir=../images/fulltest outdir=../images/fulltest_output width=500 \
-    suffix=$IMG_SUFFIX crop=$CROP_SPEC \
 	$TEMP_FILES \
     --latency-wait 20 \
 	--cores 1 \
+    data_prep \
 	$@

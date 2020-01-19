@@ -11,7 +11,7 @@ start
 
 |Filesystem|
 :images
-<&folder> <imgdir>|
+<&folder> <img_dir>|
 detach
 
 |Engineer|
@@ -19,7 +19,7 @@ start
 |hugin-vnc|
 :Configure projection;
 |Filesystem|
-:<projection>.pto|
+:<hugin_script_dir>/<projection>.pto|
 detach
 
 
@@ -28,15 +28,22 @@ start
 |hugin-vnc|
 :Configure perspective control;
 |Filesystem|
-:<perspective control>.pto|
+:<hugin_script_dir>/<perspective control>.pto|
 detach
 
 |Engineer|
 start
-:Configure imgdir and\n
-oudir and .pto files;
+:Configure datasets parameters 
+(img_dir, .pto files, crop_spec);
 |Filesystem|
-:data_prep.sh|
+:<pipeline_dir>/datasets.csv|
+|Engineer|
+:Configure out_dir for 
+the data_prep pipeline
+and index in datasets;
+|Filesystem|
+:<pipeline_dir>/config.yaml|
+
 
 stop
 

@@ -9,8 +9,11 @@ min_version("5.1.2")
 configfile: "config.yaml"
 # validate(config, schema="schemas/config.schema.yaml")
 
-#samples = pd.read_table(config["datasets"], sep=";").set_index("sample", drop=False)
-#validate(samples, schema="schemas/samples.schema.yaml")
+datasets = pd.read_table(config["datasets"], sep=";")
+validate(datasets, schema="schemas/datasets.schema.yaml")
+
+
+include: "util.py"
 
 
 ##### target rules #####
@@ -18,12 +21,22 @@ configfile: "config.yaml"
 
 ##### setup report #####
 
-# report: "report/workflow.rst"
+report: "report.rst"
 
+#rule report:
+#    input:
+#        "report.rst"
+#    output:
+#        "report.html"
+#    run:
+#        from snakemake.utils import report
+#        with open(input[0], 'r') as fh:
+#            repdesc = fh.readlines()
+#        report("".join(repdesc), output[0])
 
 ##### load rules #####
 
 include: "doc.snakefile"
+include: "data_prep.snakefile"
 
-# include: "data_prep.snakefile"
-#include: "test.snakefile"
+# include: "test.snakefile"

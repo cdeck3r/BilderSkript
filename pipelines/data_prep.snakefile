@@ -5,33 +5,63 @@
 # Author: cdeck3r
 #
 
-import os
-
 #
 # some global variables
 #
-PROJECT_DIR="/bilderskript"
-LOG_DIR=PROJECT_DIR + "/log"
-SCRIPT_DIR=PROJECT_DIR + "/scripts"
+LOG_DIR=os_path(config["dirs"]["log_dir"])
 
-HUGIN_CMD=SCRIPT_DIR + "/hugin/hugin.sh"
-HUGIN_PTO_FILE=SCRIPT_DIR + "/hugin/image_fullframefish_equirectangular93x70.pto"
-HUGIN_PTO_FILE_PERSPECTIVE=SCRIPT_DIR + "/hugin/perspective_control.pto"
+# select the dataset for processing
+# see config.yaml 
+datasets_row=datasets.loc[config["data_prep"]["datasets_idx"]]
+
+#
+# hugin specific params
+#
+HUGIN_CMD=os_path(config["data_prep"]["hugin_cmd"])
+
+#
+# default HUGIN_PTO_FILE is <hugin_scripts>/<lecture_date>_<lecture>_flat.pto
+#
+pto_file=datasets_row["pto_flat"]
+if pd.isnull(pto_file):
+    HUGIN_PTO_FILE=os_path(config["data_prep"]["hugin_scripts"]) \
+                    + "/" \
+                    + str(datasets_row["lecture_date"]) \
+                    + "_" \
+                    + datasets_row["lecture"] \
+                    + "_flat.pto"
+else:
+    HUGIN_PTO_FILE=pto_file
+
+#
+# default HUGIN_PTO_FILE_PERSPECTIVE is <hugin_scripts>/<lecture_date>_<lecture>_pc.pto
+#
+pto_file=datasets_row["pto_pc"]
+if pd.isnull(pto_file):
+    HUGIN_PTO_FILE_PERSPECTIVE=os_path(config["data_prep"]["hugin_scripts"]) \
+                    + "/" \
+                    + str(datasets_row["lecture_date"]) \
+                    + "_" \
+                    + datasets_row["lecture"] \
+                    + "_pc.pto"
+else:
+    HUGIN_PTO_FILE_PERSPECTIVE=pto_file
 
 
 #
 # config parameters
 # Usage: snakemake --config imgdir=../images/input outdir=../images/output width=500
 #
-IMG_DIR=" ".join( expand("{img_dir}", img_dir=config["imgdir"]) )
-IMG_DIR=os.path.abspath(IMG_DIR)
-OUT_DIR=" ".join( expand("{out_dir}", out_dir=config["outdir"]) )
-OUT_DIR=os.path.abspath(OUT_DIR)
-IMG_RESIZE_WIDTH=" ".join( expand("{resize_width}", resize_width=config["width"]) )
+IMG_DIR=os.path.abspath(datasets_row["img_dir"])
+OUT_DIR=os.path.abspath(os_path(config["data_prep"]["out_dir"]))
+IMG_RESIZE_WIDTH=config["data_prep"]["resize_width"]
 
+#
 # params for cropping
-IMG_SUFFIX=" ".join( expand("{img_suffix}", img_suffix=config["suffix"]) )
-CROP_SPEC=" ".join( expand("{crop_spec}", crop_spec=config["crop"]) )
+#
+IMG_SUFFIX="flat_pc_resize_mirror"
+CROP_SPEC=datasets_row["crop_spec"]
+
 
 ##########################
 #
@@ -44,7 +74,7 @@ CROP_SPEC=" ".join( expand("{crop_spec}", crop_spec=config["crop"]) )
 IMG_FILES, = glob_wildcards(IMG_DIR + "/{imgfile}.insp")
 
 # a pseudo-rule that collects the target files
-rule all:
+rule data_prep:
     input: 
          expand(OUT_DIR + "/{imgfile}_flat_pc_resize_mirror.png", imgfile=IMG_FILES)
 

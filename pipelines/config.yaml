@@ -10,7 +10,7 @@ dirs:
     supplemental_dir: &supplemental_dir
         "/opt/builder"
     # scripts dir
-    script_dir:
+    script_dir: &script_dir
         - *project_dir
         - "scripts"
     log_dir:
@@ -32,7 +32,19 @@ doc:
         - *supplemental_dir
         - "plantuml/plantuml.jar"
 
-
 data_prep:
-    
+    datasets_idx:
+        1
+    out_dir:
+        - *project_dir
+        - "images/fulltest_output"
+    resize_width:
+        500
+    hugin_scripts: &hugin_scripts
+        - *script_dir
+        - "hugin"
+    hugin_cmd:
+        - *hugin_scripts
+        - "hugin.sh"
+
 
