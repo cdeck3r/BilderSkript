@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="
+		Train an image classifier using Ludwig
+		"> 
+    
+	<meta name="author" content=" cdeck3r ">  
+    <base href="https://cdeck3r.com/BilderSkript/">
+    <title>Train the Blackboard Image Classifier</title>
+
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
+    <link href="css/bootstrap-social.css" rel="stylesheet">
+
+    
+    
+    
+
+    <style>
+    .navbar {
+    border-color: #e7e7e7;
+}
+
+.content-section-a,
+footer,
+.navbar {
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+.navbar a:link,
+.navbar-default .navbar-nav>li>a {
+  color: #777;
+}
+
+.navbar a:hover,
+.navbar-default .navbar-nav>li>a:hover {
+  color: rgb(51, 51, 51);
+}
+
+.content-section-b {
+  background-color: white;
+  color: #333;
+}
+
+body {
+  color: rgb(51, 51, 51);
+}
+
+.header-container h1,
+.header-container h2,
+.header-container h3,
+.header-container h4 {
+  color: rgb(51, 51, 51);
+}
+ 
+  </style>
+
+</head>
+<body>
+
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        
+        <div class="navbar-header page-scroll" style="margin-left: -15px;">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" style="margin-right: 0px;">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" style="padding-left: 0px;margin-left: 0px;" href="#intro">
+            BilderSkript</a>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+				
+				<li>
+				  <a class="page-scroll" href="//github.com/cdeck3r/BilderSkript">
+                    Github
+                  </a>
+                </li>
+				 
+				
+				<li>
+					<a class="page-scroll" href="//cdeck3r.com">
+                    cdeck3r
+					</a>
+                </li>
+				 
+            </ul>
+        </div>
+        
+    </div>
+    
+</nav>
+
+
+<section id="services">
+   <div class="content-section-a">
+
+      <div class="container">
+
+        <div class="row">
+          <div>
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+            <h2 class="section-heading">Train the Blackboard Image Classifier</h2>
+            
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>The image classifier detects the blackboard&rsquo;s state of writing. It is an interesting BilderSkript context to know whether the writing on the blackboard fills out the blackboard completely, partially, or alternatively, the blackboard is empty.</p>
+
+<h3 id="experiment">Experiment</h3>
+
+<p>We learn a model, a classifier, which maps images to class labels, e.g. full, partial, empty.</p>
+
+<ul>
+<li>utilizes the Ludwig docker container</li>
+<li>runs from command line;</li>
+<li>script tests whether the container already runs and if appropriate spins it up</li>
+<li>utilizes <a href="comet.ml">comet.ml</a> to store experiment results</li>
+<li>manually shutdown the container</li>
+</ul>
+
+<p>For utilizing <a href="comet.ml">comet.ml</a> you need to provide a <code>.comet.env</code> file in the project&rsquo;s directory. The file conatins the API key and the comet&rsquo;s project name.</p>
+
+<p><strong>Walkthrough</strong></p>
+
+<p>Start an experiment from <code>scripts/ludwig</code>.</p>
+
+<p><strong>STEP 1:</strong> Prepare the input dataset</p>
+
+<p>Precondition:</p>
+
+<ul>
+<li>`.png&rsquo; images as input for training the model</li>
+<li>within the <code>&lt;training image path&gt;</code> directory the images are organized in subdirs, where subdir names are the class labels</li>
+<li>experiment name, e.g. <em>stats_lecture</em></li>
+</ul>
+
+<p>Command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ludwig_experiment.sh datacsv &lt;experiment name&gt; &lt;training image path&gt;</code></pre></div>
+<p>Postcondition:</p>
+
+<ul>
+<li>directory created: <code>ludwig/experiements/&lt;experiment name&gt;</code></li>
+<li>directory contains <code>&lt;experiment name&gt;.csv</code>, which links images to class labels</li>
+</ul>
+
+<p><strong>STEP 2:</strong> Learn the model</p>
+
+<p>Precondition: see above</p>
+
+<p>Command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ludwig_experiment.sh experiment &lt;experiment name&gt; &lt;training image path&gt;</code></pre></div>
+<p>Postcondition:</p>
+
+<ul>
+<li>Results available in <code>ludwig/experiements/&lt;experiment name&gt;/results</code></li>
+<li><a href="comet.ml">comet.ml</a> website contains experiment&rsquo;s results</li>
+</ul>
+
+<p><strong>STEP 3:</strong> Visualize and Shutdown</p>
+
+<p>Precondition: the experiment name from above</p>
+
+<p>Command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ludwig_experiment.sh visualize &lt;experiment name&gt; 
+./ludwig_experiment.sh shutdown &lt;experiment name&gt; </code></pre></div>
+<p>Postcondition:</p>
+
+<ul>
+<li><a href="comet.ml">comet.ml</a> website contains for addtional images from the experiment run</li>
+<li>the Ludwig container is removed.</li>
+</ul>
+
+<h3 id="multi-experiments">Multi Experiments</h3>
+
+<p>Multi experiements are repeated experiements which varying parameters. Particularly, we vary the parameters for the image pre-processing.</p>
+
+<p>Start a multi experiment from <code>scripts/ludwig</code>. All directories created during an regular experiment are prefixed by <code>exp&lt;num&gt;_</code> indicating the run number within the multi experiment.</p>
+
+<p>Precondition:</p>
+
+<ul>
+<li>see initial preconditions of a single experiment</li>
+<li>edit <code>ludwig_multi_experiments.sh</code> for
+
+<ul>
+<li>training image path</li>
+<li>parameters to to loop through</li>
+</ul></li>
+</ul>
+
+<p>Command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ludwig_multi_experiments.sh &lt;experiment root name&gt;</code></pre></div>
+<p>Postcondition:</p>
+
+<ul>
+<li>directories with results created: <code>ludwig/experiements/exp&lt;num&gt;_&lt;experiment root name&gt;</code></li>
+<li><a href="comet.ml">comet.ml</a> website contains all experiments&rsquo; results</li>
+</ul>
+
+        </div>
+    </div>
+
+</div>
+</div>
+
+</section>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8" style="padding-left: 0px; width:100%">
+				<ul class="list-inline">
+					<li>
+						<a class="page-scroll" href="#intro">Up</a>
+					</li>
+					<li class="footer-menu-divider">&sdot;</li>
+						<li>
+							<a href="https://cdeck3r.com/BilderSkript/imprint-gdpr/imprint" >Imprint</a>
+						</li>
+					<li class="footer-menu-divider">&sdot;</li>
+						<li>
+							<a href="https://cdeck3r.com/BilderSkript/imprint-gdpr/gdpr" >GDPR</a>
+						</li>
+				 </ul>
+				 <p class="copyright text-muted small" style="text-align:left;">
+                    Copyright &copy; BilderSkript All Rights Reserved 
+                        </br>Built with <a href="http://gohugo.io">Hugo</a> and the <a href="https://github.com/cdeck3r/OneDly-Theme">OneDly project</a> theme.
+                 </p>
+			</div>
+            
+        </div>
+    </div>
+</footer>
+
+<script src="js/jquery-1.11.0.js"></script>
+
+
+<script src="js/jquery.easing.min.js"></script>
+
+
+<script src="js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>
+

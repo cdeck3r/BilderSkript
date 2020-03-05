@@ -28,6 +28,7 @@ rectangle BilderSkript {
     (Define image sections) -- Engineer
     (Label images) -- Engineer
     (Train object detector) -- Engineer
+    (Train classifier) -- Engineer
 }
 
 

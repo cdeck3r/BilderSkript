@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="
+		Preparing the images from the 360 camera
+		"> 
+    
+	<meta name="author" content=" cdeck3r ">  
+    <base href="https://cdeck3r.com/BilderSkript/">
+    <title>[data_prep.snakefile] Pipeline</title>
+
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
+    <link href="css/bootstrap-social.css" rel="stylesheet">
+
+    
+    
+    
+
+    <style>
+    .navbar {
+    border-color: #e7e7e7;
+}
+
+.content-section-a,
+footer,
+.navbar {
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+.navbar a:link,
+.navbar-default .navbar-nav>li>a {
+  color: #777;
+}
+
+.navbar a:hover,
+.navbar-default .navbar-nav>li>a:hover {
+  color: rgb(51, 51, 51);
+}
+
+.content-section-b {
+  background-color: white;
+  color: #333;
+}
+
+body {
+  color: rgb(51, 51, 51);
+}
+
+.header-container h1,
+.header-container h2,
+.header-container h3,
+.header-container h4 {
+  color: rgb(51, 51, 51);
+}
+ 
+  </style>
+
+</head>
+<body>
+
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        
+        <div class="navbar-header page-scroll" style="margin-left: -15px;">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" style="margin-right: 0px;">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" style="padding-left: 0px;margin-left: 0px;" href="#intro">
+            BilderSkript</a>
+        </div>
+        
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+				
+				<li>
+				  <a class="page-scroll" href="//github.com/cdeck3r/BilderSkript">
+                    Github
+                  </a>
+                </li>
+				 
+				
+				<li>
+					<a class="page-scroll" href="//cdeck3r.com">
+                    cdeck3r
+					</a>
+                </li>
+				 
+            </ul>
+        </div>
+        
+    </div>
+    
+</nav>
+
+
+<section id="services">
+   <div class="content-section-a">
+
+      <div class="container">
+
+        <div class="row">
+          <div>
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+            <h2 class="section-heading">[data_prep.snakefile] Pipeline</h2>
+            
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>The data preparation pipeline, <code>data_prep.snakefile</code>, comprises of two phases</p>
+
+<ol>
+<li>Configure the pipeline&rsquo;s parameters
+
+<ul>
+<li><code>config.yaml</code> defines pipeline specific parameters</li>
+<li><code>datasets.csv</code> defines the data input and data-specific processing parameters</li>
+</ul></li>
+<li>Run the pipeline on the images from the lecture recording
+
+<br /></li>
+</ol>
+
+<h3 id="1-configuration">1. Configuration</h3>
+
+<p>The following activity diagram describes the steps to configure the data preparation pipeline. Configuration is stored in <code>config.yaml</code> and <code>dataset.csv</code>.</p>
+
+<p><strong>Precondition:</strong></p>
+
+<ul>
+<li><code>builder</code> and <code>hugin-vnc</code> container up and running</li>
+<li>at least one image from lecture recording available</li>
+</ul>
+
+<p><strong>Postcondition:</strong></p>
+
+<ul>
+<li>images directories set</li>
+<li><code>.pto</code> files created</li>
+<li>(optionally) crop specification defined</li>
+</ul>
+
+<p>The parameter values from above need to be stored in the <code>config.yaml</code> and <code>dataset.csv</code> file. The activity diagram indicates to which file each parameter belongs to.</p>
+
+<p><strong>Commands</strong></p>
+
+<p>Spin up the <code>hugin-vnc</code> container.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose up -d hugin-vnc</code></pre></div>
+<p>Afterwards, use a vnc client to get Hugin&rsquo;s display and create the <code>.pto</code> files. Modify the pipeline&rsquo;s <code>dataset.csv</code> and <code>config.yaml</code> to tell the scripts where to look for the files. The activity diagram below displays the steps to create the files.</p>
+
+<p><img src="uml/data_prep_config.png" alt="data prep configuration" width="65%" /></p>
+
+<h3 id="2-run-the-pipeline">2. Run the Pipeline</h3>
+
+<p>Finally, the engineer starts the data prep pipeline and the pipeline processes the input images from the <em>img_dir</em> and places it in the <em>out_dir</em>.</p>
+
+<p><strong>Precondition:</strong></p>
+
+<ul>
+<li><code>builder</code> and <code>hugin</code> container up and running</li>
+<li><code>.pto</code> files created</li>
+<li><em>img_dir</em> and <em>out_dir</em> image directories set</li>
+</ul>
+
+<p>Parameter values from above are sourced from the the <code>dataset.csv</code> file.</p>
+
+<p><strong>Postcondition:</strong></p>
+
+<ul>
+<li>images processed placed in <em>out_dir</em></li>
+</ul>
+
+<p><strong>Pipeline Start</strong></p>
+
+<p>The following commands start the pipeline. The activity diagram belows depicts the details of the pipeline run.</p>
+
+<p>Spin up the <code>builder</code> and <code>hugin</code> container and get an interactive shell to the <code>builder</code> container.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose up -d builder hugin
+docker exec -it bilderskript_builder_1 /bin/bash</code></pre></div>
+<p>Within the <code>builder</code> container run</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd BilderSkript/pipelines
+./data_prep.sh</code></pre></div>
+<p><img src="uml/data_prep_run.png" alt="data prep run" width="75%" /></p>
+
+        </div>
+    </div>
+
+</div>
+</div>
+
+</section>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8" style="padding-left: 0px; width:100%">
+				<ul class="list-inline">
+					<li>
+						<a class="page-scroll" href="#intro">Up</a>
+					</li>
+					<li class="footer-menu-divider">&sdot;</li>
+						<li>
+							<a href="https://cdeck3r.com/BilderSkript/imprint-gdpr/imprint" >Imprint</a>
+						</li>
+					<li class="footer-menu-divider">&sdot;</li>
+						<li>
+							<a href="https://cdeck3r.com/BilderSkript/imprint-gdpr/gdpr" >GDPR</a>
+						</li>
+				 </ul>
+				 <p class="copyright text-muted small" style="text-align:left;">
+                    Copyright &copy; BilderSkript All Rights Reserved 
+                        </br>Built with <a href="http://gohugo.io">Hugo</a> and the <a href="https://github.com/cdeck3r/OneDly-Theme">OneDly project</a> theme.
+                 </p>
+			</div>
+            
+        </div>
+    </div>
+</footer>
+
+<script src="js/jquery-1.11.0.js"></script>
+
+
+<script src="js/jquery.easing.min.js"></script>
+
+
+<script src="js/bootstrap.min.js"></script>
+
+
+
+</body>
+</html>
+

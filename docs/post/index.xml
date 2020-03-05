@@ -2,82 +2,145 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sections on BilderSkript</title>
-    <link>http://cdeck3r.com/BilderSkript/post/</link>
+    <link>https://cdeck3r.com/BilderSkript/post/</link>
     <description>Recent content in Sections on BilderSkript</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Mar 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://cdeck3r.com/BilderSkript/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cdeck3r.com/BilderSkript/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>[data_prep.snakefile] Pipeline</title>
+      <link>https://cdeck3r.com/BilderSkript/post/034_data_prep_pipeline/</link>
+      <pubDate>Thu, 05 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://cdeck3r.com/BilderSkript/post/034_data_prep_pipeline/</guid>
+      <description>img { max-width: 100%; height: auto; }  The data preparation pipeline, data_prep.snakefile, comprises of two phases
+ Configure the pipeline&amp;rsquo;s parameters  config.yaml defines pipeline specific parameters datasets.csv defines the data input and data-specific processing parameters  Run the pipeline on the images from the lecture recording   1. Configuration The following activity diagram describes the steps to configure the data preparation pipeline. Configuration is stored in config.</description>
+    </item>
+    
+    <item>
+      <title>[doc.snakefile] Pipeline</title>
+      <link>https://cdeck3r.com/BilderSkript/post/039_doc_pipeline/</link>
+      <pubDate>Thu, 05 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://cdeck3r.com/BilderSkript/post/039_doc_pipeline/</guid>
+      <description> img { max-width: 100%; height: auto; }  The pipeline doc.snakefile generates
+ UML diagrams using plantuml the project&amp;rsquo;s website using hugo  Run the pipeline from within the builder container in /bilderskript/pipelines
+snakemake doc</description>
+    </item>
+    
+    <item>
+      <title>[ludwig.snakefile] Pipeline for Blackboard Classification</title>
+      <link>https://cdeck3r.com/BilderSkript/post/035_ludwig_pipeline/</link>
+      <pubDate>Thu, 05 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://cdeck3r.com/BilderSkript/post/035_ludwig_pipeline/</guid>
+      <description>img { max-width: 100%; height: auto; }  The ludwig.snakefile pipeline takes blackboard images as input and assigns labels like full, partial, empty. It indicates the whether the writing on the blackboard fills out the blackboard completely, partially, or alternatively, the blackboard is empty.</description>
+    </item>
+    
+    <item>
+      <title>Development IDE - VS code</title>
+      <link>https://cdeck3r.com/BilderSkript/post/080_vscode_ide/</link>
+      <pubDate>Thu, 05 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://cdeck3r.com/BilderSkript/post/080_vscode_ide/</guid>
+      <description>img { max-width: 100%; height: auto; }  We use VS code as the BilderSkript&amp;rsquo;s development IDE. A docker image encapsulates the IDE and makes it accessible through the web browser. An developer&amp;rsquo;s software and programming effort focuses mostly on writing and editing shell scripts. As a consequence, the docker image provides appropriate extensions to support this actitity.
+Web-based VS code Start VS code
+docker-compose up -d vscode and point the web browser to http://localhost:8080.</description>
+    </item>
+    
+    <item>
+      <title>Train the Blackboard Image Classifier</title>
+      <link>https://cdeck3r.com/BilderSkript/post/040_imgclass/</link>
+      <pubDate>Thu, 05 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://cdeck3r.com/BilderSkript/post/040_imgclass/</guid>
+      <description>img { max-width: 100%; height: auto; }  The image classifier detects the blackboard&amp;rsquo;s state of writing. It is an interesting BilderSkript context to know whether the writing on the blackboard fills out the blackboard completely, partially, or alternatively, the blackboard is empty.
+Experiment We learn a model, a classifier, which maps images to class labels, e.g. full, partial, empty.
+ utilizes the Ludwig docker container runs from command line; script tests whether the container already runs and if appropriate spins it up utilizes comet.</description>
+    </item>
+    
+    <item>
+      <title>BilderSkript Pipelines</title>
+      <link>https://cdeck3r.com/BilderSkript/post/033_bs_pipelines/</link>
+      <pubDate>Mon, 24 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://cdeck3r.com/BilderSkript/post/033_bs_pipelines/</guid>
+      <description>img { max-width: 100%; height: auto; }  The BilderSkript pipelines follow the guidelines of The Snakemake-Workflows project. There is a central Snakemake file which includes the configuration and the concrete workflows for the data and ML pipelines.
+The workflow&amp;rsquo;s design separates the pipeline specific parameters from the dataset specific ones. A separate file stores each parameter set
+ config.yaml contains the pipeline specific parameters. This file exists only once and contains the parameters for all pipelines.</description>
+    </item>
+    
+    <item>
       <title>System Design</title>
-      <link>http://cdeck3r.com/BilderSkript/post/systemdesign/</link>
+      <link>https://cdeck3r.com/BilderSkript/post/005_systemdesign/</link>
       <pubDate>Sun, 12 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/systemdesign/</guid>
+      <guid>https://cdeck3r.com/BilderSkript/post/005_systemdesign/</guid>
       <description>img { max-width: 100%; height: auto; }  This use case diagram depicts BilderSkript&amp;rsquo;s main services. Note, the shown use cases do not imply an execution order.
 The engineer performs the system setup, configures and trains the system for the user to be beneficial.</description>
     </item>
     
     <item>
       <title>Labeling</title>
-      <link>http://cdeck3r.com/BilderSkript/post/labeling/</link>
+      <link>https://cdeck3r.com/BilderSkript/post/050_labeling/</link>
       <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/labeling/</guid>
+      <guid>https://cdeck3r.com/BilderSkript/post/050_labeling/</guid>
       <description>img { max-width: 100%; height: auto; }  This activity assigns names or descriptors to components within an image. Any supervised ML algorithm requires labeled data for training. Successfully trained on the labeled data, the ML algorithm is afterwards enabled to identify and name similar components in images which do not have labels.
 Labeling is usually done manually. A user marks regions within images and assigns labels therewith identifying objects in the image.</description>
     </item>
     
     <item>
       <title>Pipelines</title>
-      <link>http://cdeck3r.com/BilderSkript/post/pipelines/</link>
+      <link>https://cdeck3r.com/BilderSkript/post/032_pipelines/</link>
       <pubDate>Sat, 04 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/pipelines/</guid>
+      <guid>https://cdeck3r.com/BilderSkript/post/032_pipelines/</guid>
       <description>img { max-width: 100%; height: auto; }  Pipelines are the fundamental building blocks of the BilderSkript system.
 Pipeline Definitions The term pipeline is heavily used in machine learning (ML). It generally refers to a sequence of steps to run in order to perform transformations. There are various kinds of pipelines, e.g. data pipelines, machine learning pipelines, deployment pipelines and others. Depending on the pipeline type, it takes a a certain ressource type as input and produces output ressources by the application of the pipeline&amp;rsquo;s transformation steps.</description>
     </item>
     
     <item>
-      <title>Introductionary Example</title>
-      <link>http://cdeck3r.com/BilderSkript/post/intro/</link>
+      <title>APPENDIX: IPC via Shared UNIX Sockets</title>
+      <link>https://cdeck3r.com/BilderSkript/post/092_ipc_socket/</link>
       <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/intro/</guid>
-      <description>img { max-width: 100%; height: auto; }  BilderSkript takes a series of still images as input and compiles visual lecture notes as output. Below we illustrate a step-by-step walkthrough how the software processes the data.
-Image recording: A 360 camera records the entire room. However, the lens towards the audience is covered to maintain privacy. The images have the typical distorted appearance due to the camera&amp;rsquo;s fisheye lenses. Nevertheless, it creates an approx.</description>
-    </item>
-    
-    <item>
-      <title>IPC via Shared UNIX Sockets</title>
-      <link>http://cdeck3r.com/BilderSkript/post/ipc_socket/</link>
-      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://cdeck3r.com/BilderSkript/post/ipc_socket/</guid>
+      <guid>https://cdeck3r.com/BilderSkript/post/092_ipc_socket/</guid>
       <description>img { max-width: 100%; height: auto; }  This is a technical design description on the usage of shared UNIX socket for docker container IPC. Both containers connect to a socket stored on a shared volume, e.g. under the mount point ipc. They exchange simple control messages to run scripts and read and write data from the shared volume.
 The approach utilizes
  socat for creating sockets and socket communication ss to check for the presence of the listening socket.</description>
     </item>
     
     <item>
-      <title>Pipeline Interprocess Communication (IPC)</title>
-      <link>http://cdeck3r.com/BilderSkript/post/ipc/</link>
+      <title>APPENDIX: Pipeline Interprocess Communication (IPC)</title>
+      <link>https://cdeck3r.com/BilderSkript/post/091_ipc/</link>
       <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/ipc/</guid>
+      <guid>https://cdeck3r.com/BilderSkript/post/091_ipc/</guid>
       <description>img { max-width: 100%; height: auto; }  The distribution of pipelines across various docker containers requires interprocess communication between the docker containers. Let&amp;rsquo;s discuss the design for the BilderSkript pipelines.
 IPC Control Problem We have the builder container which controls the execution of all pipelines. A pipeline implements a sequence of processs executions, where some of the processes run in their respective containers. As an example consider the data preparation pipeline.</description>
     </item>
     
     <item>
+      <title>Introductionary Example</title>
+      <link>https://cdeck3r.com/BilderSkript/post/003_intro/</link>
+      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://cdeck3r.com/BilderSkript/post/003_intro/</guid>
+      <description>img { max-width: 100%; height: auto; }  BilderSkript takes a series of still images as input and compiles visual lecture notes as output. Below we illustrate a step-by-step walkthrough how the software processes the data.
+Image recording: A 360 camera records the entire room. However, the lens towards the audience is covered to maintain privacy. The images have the typical distorted appearance due to the camera&amp;rsquo;s fisheye lenses. Nevertheless, it creates an approx.</description>
+    </item>
+    
+    <item>
       <title>About</title>
-      <link>http://cdeck3r.com/BilderSkript/post/about/</link>
+      <link>https://cdeck3r.com/BilderSkript/post/001_about/</link>
       <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/about/</guid>
+      <guid>https://cdeck3r.com/BilderSkript/post/001_about/</guid>
       <description>BilderSkript BilderSkript is a compound created from the following words.
  Bilder [ˈbɪldɐ], (German), images
 Skript [skʁɪpt], (German), a written document or notes
@@ -87,40 +150,40 @@ Technically, it trains a deep neural net on objection recognition and extracts i
     
     <item>
       <title>Docker Container Toolchain</title>
-      <link>http://cdeck3r.com/BilderSkript/post/docker/</link>
+      <link>https://cdeck3r.com/BilderSkript/post/030_docker/</link>
       <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/docker/</guid>
-      <description>img { max-width: 100%; height: auto; }  Docker Images and Volumes Docker images contain the various software pipelines from the tool chain. The various responsibilities within the overall system design motivate the system boundaries induced by the distribution of pipelines across docker images. The following table list the docker images and their respective pipeline functionalities.
-   Image Pipeline Notes     builder Build makefile, doc, versioning via git and dvc, mlflow exp.</description>
+      <guid>https://cdeck3r.com/BilderSkript/post/030_docker/</guid>
+      <description>img { max-width: 100%; height: auto; }  Docker Images and Volumes Docker images contain the various software pipelines from the tool chain. The responsibilities within the overall system design motivate the system boundaries induced by the distribution of pipelines across docker images. The following table list the docker images and their respective pipeline functionalities.
+   Image Pipeline Notes     vscode n/a IDE VS code   builder Build makefile, doc, versioning via git and dvc, mlflow exp.</description>
     </item>
     
     <item>
       <title>Documentation Generation</title>
-      <link>http://cdeck3r.com/BilderSkript/post/documentation/</link>
+      <link>https://cdeck3r.com/BilderSkript/post/090_documentation/</link>
       <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/documentation/</guid>
+      <guid>https://cdeck3r.com/BilderSkript/post/090_documentation/</guid>
       <description>Docu Blog The project&amp;rsquo;s documentation is a form of a single-page blog using the Hugo static webpage generator. It lists notes taken during the development and justifies design decisions. The builder docker image takes care of the generation utilizing the snakemake script, pipelines/doc.snakemake.
 The blog utilizes the OneDly theme. This theme is excluded from git versioning because it originates from a separate repository. One include it as a git submodule.</description>
     </item>
     
     <item>
       <title>Project Definition</title>
-      <link>http://cdeck3r.com/BilderSkript/post/project/</link>
+      <link>https://cdeck3r.com/BilderSkript/post/002_project/</link>
       <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/project/</guid>
+      <guid>https://cdeck3r.com/BilderSkript/post/002_project/</guid>
       <description>Motivation and Goal A lecturer usually provides a lot of supplemental course material such as a written script, slides, reading material, exercises.
 However, students visiting the course&amp;rsquo;s lecture experience an additional channel, which helps them to sort and weight the supplemental material. The way how a lecturer presents the content will let attendees realize the weight and importance of certain parts of the content. Hence, it supports the creation of a red thread throughout entire supplemental material.</description>
     </item>
     
     <item>
       <title>Versioning and Repository Management</title>
-      <link>http://cdeck3r.com/BilderSkript/post/versioning/</link>
+      <link>https://cdeck3r.com/BilderSkript/post/085_versioning/</link>
       <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://cdeck3r.com/BilderSkript/post/versioning/</guid>
+      <guid>https://cdeck3r.com/BilderSkript/post/085_versioning/</guid>
       <description>Pipeline Code and Data Versioning The builder image takes care of versioning using [git]() and [dvc]().
 Pipelines are commonly shared in various volumes.
 Repository Management The project&amp;rsquo;s repository is mounted as separate volume in the builder container. As a consequence, only makefiles in the project&amp;rsquo;s root dir are able to commit changes to the repository. Scripts in subdirectories are not aware that the project&amp;rsquo;s root is under git version control.</description>

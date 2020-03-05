@@ -13,10 +13,14 @@ node "Volume" {
 node hugin <<container>> 
 node builder <<container>>
 node ludwig <<container>>
+node mrcnn <<container>>
+node vscode <<container>>
 
 hugin ..> fs : use
 builder ..> fs : use
 ludwig ..> fs : use
+mrcnn ..> fs : use
+vscode ..> fs : use
 
 fs <.. Volume : located
 

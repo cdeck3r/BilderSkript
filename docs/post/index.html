@@ -11,7 +11,7 @@
 		"> 
     
 	<meta name="author" content=" cdeck3r ">  
-    <base href="http://cdeck3r.com/BilderSkript/">
+    <base href="https://cdeck3r.com/BilderSkript/">
     <title>Sections</title>
 
     
@@ -336,6 +336,32 @@ Below we illustrate a step-by-step walkthrough how the software processes the da
 
 <p><em>tbd. include image</em></p>
 
+<p><strong>Classification:</strong> In particular, if there is a blackboard, it is interesting to know whether the board is empty or not. The classifiers utilizes the identified blackboard from the previous step and assigns class labels, which correspond to the blackboard&rsquo;s state. This step may filter images before it inputs them to the classifier.</p>
+
+<table class='table table-striped table-hover'>
+<thead>
+<tr>
+<th>Label</th>
+<th>Original Image</th>
+<th>Filtered Image</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>empty</td>
+<td><img src="img/blackboard_empty.png" alt="empty blackboard" width="50%" /></td>
+<td><img src="img/blackboard_empty_filter.png" alt="filtered empty blackboard" /></td>
+</tr>
+
+<tr>
+<td>full</td>
+<td><img src="img/blackboard_full.png" alt="full blackboard" width="50%" /></td>
+<td><img src="img/blackboard_full_filter.png" alt="filtered full blackboard" /></td>
+</tr>
+</tbody>
+</table>
+
 <p><strong>Sequencing:</strong> Utilizing the object id, it transforms the set of images into a sequence of object compositions. A step consists of all identified objects in a single image. Please note, each step links back to the original image.</p>
 
 <p><em>tbd. include image</em></p>
@@ -408,9 +434,9 @@ img {
 
 <h3 id="docker-images-and-volumes">Docker Images and Volumes</h3>
 
-<p>Docker images contain the various software pipelines from the tool chain. The various responsibilities within the overall system design motivate the system boundaries induced by the distribution of pipelines across docker images. The following table list the docker images and their respective pipeline functionalities.</p>
+<p>Docker images contain the various software pipelines from the tool chain. The  responsibilities within the overall system design motivate the system boundaries induced by the distribution of pipelines across docker images. The following table list the docker images and their respective pipeline functionalities.</p>
 
-<table>
+<table class='table table-striped table-hover'>
 <thead>
 <tr>
 <th>Image</th>
@@ -420,6 +446,12 @@ img {
 </thead>
 
 <tbody>
+<tr>
+<td>vscode</td>
+<td>n/a</td>
+<td>IDE VS code</td>
+</tr>
+
 <tr>
 <td>builder</td>
 <td>Build</td>
@@ -470,6 +502,8 @@ img {
 <li>${APP_ROOT}/images : data directory</li>
 <li>${APP_ROOT}/src : stores source codes</li>
 <li>${APP_ROOT}/scripts : scripts</li>
+<li>${APP_ROOT}/ludwig : stores experiments, models and prediction</li>
+<li>${APP_ROOT}/vscode : maintains the state of VS code</li>
 <li>${APP_ROOT}/docs :  github&rsquo;s webserver serves the docu blog from this directory</li>
 <li>${APP_ROOT}/docs_site : the docu blog&rsquo;s source</li>
 </ul>
@@ -534,96 +568,6 @@ img {
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake &lt;pipeline name&gt; --summary</code></pre></div>
 <p>Before the snakefile is run, snakemake generates a <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a> which shows the dependencies. This command visualizes the DAG.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake &lt;pipeline name&gt; --dag | dot -Tpng &gt; &lt;pipeline name&gt;.png</code></pre></div>
-<h3 id="important-bilderskript-pipelines">Important BilderSkript Pipelines</h3>
-
-<p>The BilderSkript pipelines follow the guidelines of <a href="https://github.com/snakemake-workflows/docs">The Snakemake-Workflows project</a>. There is a central <code>Snakemake</code> file which includes the configuration and the concrete workflows for the data and ML pipelines.</p>
-
-<p>The workflow&rsquo;s design separates the pipeline specific parameters from the dataset specific ones. It increases the flexibility to apply the pipelines to various datasets.</p>
-
-<p><img src="uml/workflow_design.png" alt="workflow design for all pipelines" width="55%" /></p>
-
-<p>The pipelines are named after their snakefile.</p>
-
-<ul>
-<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p></li>
-
-<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with the <code>hugin</code> container. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.html">report</a>.
-<code>data_prep.snakefile</code> requires parameters in <code>config.yaml</code>:</p>
-
-<ul>
-<li>datasets_idx: line in <code>datasets.csv</code> defining the data to process</li>
-<li>out_dir: the directory where prep&rsquo;ed images as a result of the pipeline execution are stored</li>
-</ul>
-
-<p>The pipeline&rsquo;s default behavior is started by the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.sh"><code>data_prep.sh</code></a> script. The pipeline&rsquo;s DAG is shown in <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.png"><code>data_prep.snakefile.png</code></a></p></li>
-</ul>
-
-<h3 id="data-prep-pipeline">Data Prep Pipeline</h3>
-
-<p>The data preparation pipeline comprises of two phases</p>
-
-<ol>
-<li>Configure the pipeline&rsquo;s parameters
-
-<ul>
-<li><code>config.yaml</code> defines pipeline specific parameters</li>
-<li><code>datasets.csv</code> defines the data input and data-specific processing parameters</li>
-</ul></li>
-<li>Run the pipeline on the images from the lecture recording</li>
-</ol>
-
-<h4 id="1-configuration">1. Configuration</h4>
-
-<p>The following activity diagram describes the steps to configure the data preparation pipeline. Configuration is stored in <code>config.yaml</code> and `data</p>
-
-<p><strong>Precondition:</strong></p>
-
-<ul>
-<li><code>builder</code> and <code>hugin</code> container up and running</li>
-<li>at least one image from lecture recording available</li>
-</ul>
-
-<p><strong>Postcondition:</strong></p>
-
-<ul>
-<li>images directories set</li>
-<li><code>.pto</code> files created</li>
-<li>(optionally) crop specification defined</li>
-</ul>
-
-<p><img src="uml/data_prep_config.png" alt="data prep configuration" width="65%" /></p>
-
-<h4 id="2-run-the-pipeline">2. Run the Pipeline</h4>
-
-<p>Finally, the egnineer starts the data prep pipeline and the pipeline processes the input images from the <em>imgdir</em> and places it in the <em>outdir</em>.</p>
-
-<p><strong>Precondition:</strong></p>
-
-<ul>
-<li><code>builder</code> and <code>hugin</code> container up and running</li>
-<li><code>.pto</code> files created</li>
-<li>_img<em>dir</em> and _out<em>dir</em> image directories set</li>
-</ul>
-
-<p><strong>Postcondition:</strong></p>
-
-<ul>
-<li>images processed placed in _out<em>dir</em></li>
-</ul>
-
-<p><img src="uml/data_prep_run.png" alt="data prep run" width="75%" /></p>
-
-<h3 id="doc-pipeline">Doc Pipeline</h3>
-
-<p>This pipeline generates</p>
-
-<ol>
-<li>UML diagrams using <a href="https://plantuml.com/en/">plantuml</a></li>
-<li>the project&rsquo;s website using <a href="https://gohugo.io/">hugo</a></li>
-</ol>
-
-<p>Run the pipeline in <code>/bilderskript/pipelines</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake doc</code></pre></div>
                 </div>
             </div>
 
@@ -641,7 +585,67 @@ img {
             <div class="row">
                 <div>
                     
-                    <h2 class="section-heading">Pipeline Interprocess Communication (IPC)</h2>
+                    <h2 class="section-heading">BilderSkript Pipelines</h2>
+                    <style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>The BilderSkript pipelines follow the guidelines of <a href="https://github.com/snakemake-workflows/docs">The Snakemake-Workflows project</a>. There is a central <code>Snakemake</code> file which includes the configuration and the concrete workflows for the data and ML pipelines.</p>
+
+<p>The workflow&rsquo;s design separates the pipeline specific parameters from the dataset specific ones. A separate file stores each parameter set</p>
+
+<ul>
+<li><code>config.yaml</code> contains the pipeline specific parameters. This file exists only once and contains the parameters for all pipelines.</li>
+<li><code>dataset.csv</code> stores the parameters relevant for the dataset a pipeline processes. There may be several of these files, one for each class of data for a pipeline. There is no fixed schema. The file&rsquo;s name depends on the content and the pipeline, which sources the file. A pipeline which processes various ML models may utilize a <code>models.csv</code> file to store the set of available models and additional parameters for each model.</li>
+</ul>
+
+<p>The approach increases the flexibility to apply the pipelines to various datasets. The figure below depicts this separation</p>
+
+<p><img src="uml/workflow_design.png" alt="workflow design for all pipelines" /></p>
+
+<p>The pipelines are named after their snakefile. All pipelines files stay in the <code>pipelines/</code> directory relative to the BilderSkript&rsquo;s project dir.</p>
+
+<ul>
+<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p></li>
+
+<li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile">data_prep.snakefile</a>:</strong> prepares the image files for the ML pipeline. It&rsquo;s a complex pipeline because it utilizes interprocess communication (IPC) with the <code>hugin</code> container. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.html">report</a>.
+<code>data_prep.snakefile</code> requires parameters in <code>config.yaml</code>:</p>
+
+<ul>
+<li>datasets_idx: line in <code>datasets.csv</code> defining the data to process</li>
+<li>out_dir: the directory where prep&rsquo;ed images as a result of the pipeline execution are stored</li>
+</ul>
+
+<p>The pipeline&rsquo;s default behavior is started by the <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.sh"><code>data_prep.sh</code></a> script. The pipeline&rsquo;s rule DAG is shown in <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/data_prep.snakefile.png"><code>data_prep.snakefile.png</code></a></p></li>
+
+<li><p><strong>ludwig.snakefile:</strong> detects the blackboard&rsquo;s state of writing, i.e. whether the writing on the blackboard fills out the blackboard completely, partially, or alternatively, the blackboard is empty.</p>
+
+<p>The pipeline&rsquo;s default behavior is started by the [<code>ludwig.sh</code>]</p></li>
+</ul>
+
+<p>Run the following script to create reports for all BilderSkript pipelines</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake_report.sh</code></pre></div>
+                </div>
+            </div>
+
+        </div>
+        
+
+    </div>
+
+	
+    <div class="content-section-b">
+    
+   
+        <div class="container">
+
+            <div class="row">
+                <div>
+                    
+                    <h2 class="section-heading">[data_prep.snakefile] Pipeline</h2>
                     
 
 <style>
@@ -651,80 +655,107 @@ img {
 }
 </style>
 
-<p>The distribution of pipelines across various docker containers requires interprocess communication between the docker containers. Let&rsquo;s discuss the design for the BilderSkript pipelines.</p>
+<p>The data preparation pipeline, <code>data_prep.snakefile</code>, comprises of two phases</p>
 
-<h3 id="ipc-control-problem">IPC Control Problem</h3>
-
-<p>We have the <code>builder</code> container which controls the execution of all pipelines. A pipeline implements a  sequence of processs executions, where some of the processes run in their respective containers. As an example consider the data preparation pipeline. The pipeline in the <code>builder</code> container initiates the image data preparation in the <code>hugin</code> container. Once the process in the <code>hugin</code> container completes the pipeline can continues with the next step.</p>
-
-<p><img src="uml/ipc_call.png" alt="ipc sequence diagram" /></p>
-
-<p>Basically, the sequence diagram above depicts a synchronous remote procedure call (RPC). This is a classical function in many programming languages, e.g. <a href="https://en.wikipedia.org/wiki/Java_remote_method_invocation">Java RMI</a>.</p>
-
-<p><strong>IPC control problem formulation:</strong></p>
-
-<blockquote>
-<p>Implement a synchronous RPC to start processes across containers and that seamlessly integrates into pipelined workflows.</p>
-</blockquote>
-
-<p>Contraints / requirements:</p>
+<ol>
+<li>Configure the pipeline&rsquo;s parameters
 
 <ul>
-<li>low effort for additional network setup</li>
-<li>low effort for access and securing the access control</li>
-<li>script based, preferrably in bash, as it makes it easy to integrate the RPC as shell command.</li>
-</ul>
+<li><code>config.yaml</code> defines pipeline specific parameters</li>
+<li><code>datasets.csv</code> defines the data input and data-specific processing parameters</li>
+</ul></li>
+<li>Run the pipeline on the images from the lecture recording
 
-<p>In the following sections, we discuss some IPC approaches for their qualification as synchronous RPC.</p>
+<br /></li>
+</ol>
 
-<h3 id="file-based-ipc">File-based IPC</h3>
+<h3 id="1-configuration">1. Configuration</h3>
 
-<p>A very simple, but effective approach is the use of files for exchanging messages between container processes. The process in container A writes a message character string into a file on a shared volume from which the process in container B can read the file&rsquo;s content. In this scenario, a single file serves as a buffer between those processes. However, the file access needs to be coordinated, otherwise the processes would overwrite each other&rsquo;s messages. Additionally, to get informed about new messages, the processes need to poll the commonly shared file.</p>
+<p>The following activity diagram describes the steps to configure the data preparation pipeline. Configuration is stored in <code>config.yaml</code> and <code>dataset.csv</code>.</p>
 
-<h3 id="client-server-ipc">Client / Server IPC</h3>
-
-<p>Process within different containers may communicate as networked client and servers. Subsequently, some options:</p>
-
-<ul>
-<li>REST or similar RPC-alike calls across the network</li>
-<li>SSH remote script execution</li>
-<li>Shared UNIX sockets</li>
-</ul>
-
-<p>REST requests are easy to implement, addtionally, a webserver such as nginx or apache is required to receive the requests. Alternatively, one could implement a simple webserver using python and flask. SSH remote script execution needs accounts to login to the remote containers. One needs to enter a password before execution, which limits automation capabilities. Public key access can resolve this problem, but needs caution in handling public and private keys. Both options expose containers to the network. As a consequence, it requires network definition between containers and a firewall to block unauthorized access.</p>
-
-<p>Finally, UNIX sockets appear to be an ideal approach to interprocess communication. Sockets are stored on a  shared volume, therewith enabling a local access control. However, this type of interprocess communication is limited between containers on the same host.</p>
-
-<h3 id="message-queues-and-brokers">Message Queues and Brokers</h3>
-
-<p>A message broker maintains a message queue (MQ), where distirbuted processes can register themselve to exchange messages without directly knowing each other.</p>
-
-<p>Message brokers are a prefered way for decoupled distributed processes, in particular for long running processes executed asynchronously. However, the setup and managment of a MQ takes effort. Processes need to agree on the message format and containers need to reach the broker&rsquo;s queue via the network.</p>
-
-<h3 id="databases-for-ipc">Databases for IPC</h3>
-
-<p>Databases store information, which are accessible by clients. As such, this is related to the file-based IPC. Process information is organized in tables and table attributes store process states, e.g. process execution start or whether a process successfully completed.</p>
-
-<p>Similar to file-based IPC, processes are required to poll the database to receive updates on the process state. Addtionally, the setup and maintenance of even simple DBMS is significant. A simple file based database, e.g. <a href="https://www.sqlite.org/index.html">sqlite</a>, is an attractive solution for this last issue. However, write and read access must be coordinated to avoid (orphaned) file locks.</p>
-
-<h3 id="final-design-decision">Final Design Decision</h3>
-
-<p>As a result of the discussion, BilderSkript implements an interprocess communication using shared UNIX sockets. It combines the charm of file based approaches with the advantage of bi-directional communication. Tool support for scripting is very mature. The next section provides more details how this approach implemented.</p>
-
-<p><strong>Limitation.</strong> The use of UNIX limits IPC between containers on the same host. To overcome one may use <code>socat</code> to forward the UNIX socket to a TCP one. See this <a href="https://stackoverflow.com/questions/24956322/can-docker-port-forward-to-a-unix-file-socket-on-the-host-container">stackoverflow post</a> to get an idea how this can be implemented. However, this would re-open the discussion on network access issues, but enables a migration path to evolve the local host approach to distributed network approach.</p>
-
-<p><strong>Further Ressources:</strong></p>
-
-<p>There are a couple of ressources to follow up on these issues.</p>
+<p><strong>Precondition:</strong></p>
 
 <ul>
-<li><a href="https://www.linode.com/docs/security/authentication/use-public-key-authentication-with-ssh/">https://www.linode.com/docs/security/authentication/use-public-key-authentication-with-ssh/</a></li>
-<li><a href="https://docs.docker.com/engine/examples/running_ssh_service/">Dockerize an SSH service</a> and <a href="https://hub.docker.com/r/rastasheep/ubuntu-sshd/">ubuntu sshd</a></li>
-<li><a href="https://stackoverflow.com/questions/12202587/automatically-enter-ssh-password-with-script">sshpass</a> and <a href="https://docs.docker.com/engine/swarm/#build-support-for-docker-secrets-into-your-images">Docker secret</a></li>
-<li><a href="https://jpetazzo.github.io/2014/06/23/docker-ssh-considered-evil/">Docker ssh considered evil</a></li>
+<li><code>builder</code> and <code>hugin-vnc</code> container up and running</li>
+<li>at least one image from lecture recording available</li>
 </ul>
 
-<p>An interesting op-ed from Bozho&rsquo;s tech blog is <a href="https://techblog.bozho.net/you-probably-dont-need-a-message-queue/">You Probably Don’t Need a Message Queue</a>. It inspired some of the disussion above.</p>
+<p><strong>Postcondition:</strong></p>
+
+<ul>
+<li>images directories set</li>
+<li><code>.pto</code> files created</li>
+<li>(optionally) crop specification defined</li>
+</ul>
+
+<p>The parameter values from above need to be stored in the <code>config.yaml</code> and <code>dataset.csv</code> file. The activity diagram indicates to which file each parameter belongs to.</p>
+
+<p><strong>Commands</strong></p>
+
+<p>Spin up the <code>hugin-vnc</code> container.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose up -d hugin-vnc</code></pre></div>
+<p>Afterwards, use a vnc client to get Hugin&rsquo;s display and create the <code>.pto</code> files. Modify the pipeline&rsquo;s <code>dataset.csv</code> and <code>config.yaml</code> to tell the scripts where to look for the files. The activity diagram below displays the steps to create the files.</p>
+
+<p><img src="uml/data_prep_config.png" alt="data prep configuration" width="65%" /></p>
+
+<h3 id="2-run-the-pipeline">2. Run the Pipeline</h3>
+
+<p>Finally, the engineer starts the data prep pipeline and the pipeline processes the input images from the <em>img_dir</em> and places it in the <em>out_dir</em>.</p>
+
+<p><strong>Precondition:</strong></p>
+
+<ul>
+<li><code>builder</code> and <code>hugin</code> container up and running</li>
+<li><code>.pto</code> files created</li>
+<li><em>img_dir</em> and <em>out_dir</em> image directories set</li>
+</ul>
+
+<p>Parameter values from above are sourced from the the <code>dataset.csv</code> file.</p>
+
+<p><strong>Postcondition:</strong></p>
+
+<ul>
+<li>images processed placed in <em>out_dir</em></li>
+</ul>
+
+<p><strong>Pipeline Start</strong></p>
+
+<p>The following commands start the pipeline. The activity diagram belows depicts the details of the pipeline run.</p>
+
+<p>Spin up the <code>builder</code> and <code>hugin</code> container and get an interactive shell to the <code>builder</code> container.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose up -d builder hugin
+docker exec -it bilderskript_builder_1 /bin/bash</code></pre></div>
+<p>Within the <code>builder</code> container run</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd BilderSkript/pipelines
+./data_prep.sh</code></pre></div>
+<p><img src="uml/data_prep_run.png" alt="data prep run" width="75%" /></p>
+
+                </div>
+            </div>
+
+        </div>
+        
+
+    </div>
+
+	 
+    <div class="content-section-a">
+    
+   
+        <div class="container">
+
+            <div class="row">
+                <div>
+                    
+                    <h2 class="section-heading">[ludwig.snakefile] Pipeline for Blackboard Classification</h2>
+                    <style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>The <code>ludwig.snakefile</code> pipeline takes blackboard images as input and assigns labels like full, partial, empty. It indicates the whether the writing on the blackboard fills out the blackboard completely, partially, or alternatively, the blackboard is empty.</p>
 
                 </div>
             </div>
@@ -743,48 +774,23 @@ img {
             <div class="row">
                 <div>
                     
-                    <h2 class="section-heading">IPC via Shared UNIX Sockets</h2>
-                    
-
-<style>
+                    <h2 class="section-heading">[doc.snakefile] Pipeline</h2>
+                    <style>
 img {
   max-width: 100%;
   height: auto;
 }
 </style>
 
-<p>This is a technical design description on the usage of shared UNIX socket for docker container IPC. Both containers connect to a socket stored on a shared volume, e.g. under the mount point <code>ipc</code>. They exchange simple control messages to run scripts and read and write data from the shared volume.</p>
+<p>The pipeline <code>doc.snakefile</code> generates</p>
 
-<p><img src="uml/ipc_socket_docker.png" alt="ipc socket between docker containers" /></p>
+<ol>
+<li>UML diagrams using <a href="https://plantuml.com/en/">plantuml</a></li>
+<li>the project&rsquo;s website using <a href="https://gohugo.io/">hugo</a></li>
+</ol>
 
-<p>The approach utilizes</p>
-
-<ul>
-<li><a href="https://linux.die.net/man/1/socat"><code>socat</code></a> for creating sockets and socket communication</li>
-<li><a href="https://linux.die.net/man/8/ss"><code>ss</code></a> to check for the presence of the listening socket.</li>
-</ul>
-
-<p>It follows a classical client / server approach where the server initializes the socket and waits for the client to start the communication. The following sequence diagrams depicts the interaction over the socket.</p>
-
-<p><img src="uml/ipc_socket.png" alt="ipc socket sequence diagram" /></p>
-
-<p>Here are the script calls for the server and client.</p>
-
-<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_server.sh">Server</a>:</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ipc_socket_server.sh &lt;socket name&gt; &lt;path/to/server_app.sh&gt;</code></pre></div>
-<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_client.sh">Client</a>:</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ipc_socket_client.sh &lt;socket name&gt; &lt;path/to/client_app.sh&gt;</code></pre></div>
-<h3 id="cross-container-ipc-example">Cross Container IPC Example</h3>
-
-<p>We illustrate the container IPC between the <code>builder</code> container and the <code>hugin</code> container. The <code>hugin</code> container processes all images taken with the 360 camera and converts the fisheye lens images in regular ones using a equirectangular projection. The server script runs on the <code>hugin</code> container while the client script runs on the <code>builder</code> container. The socket between both resides on a shared volume.
-It starts by the snakemake file on the <code>builder</code> calling the <code>hugin.sh</code> script.</p>
-
-<p><img src="uml/ipc_socket_hugin.png" alt="ipc socket communication between builder and hugin" /></p>
-
-<p><strong>Ressources:</strong></p>
-
-<p>A brief tutorial on <code>socat</code> is the <a href="https://blog.travismclarke.com/post/socat-tutorial/">Socat Cheatsheet</a> from Travis Clarke.</p>
-
+<p>Run the pipeline from within the <code>builder</code> container in <code>/bilderskript/pipelines</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">snakemake doc</code></pre></div>
                 </div>
             </div>
 
@@ -795,6 +801,126 @@ It starts by the snakemake file on the <code>builder</code> calling the <code>hu
 
 	 
     <div class="content-section-a">
+    
+   
+        <div class="container">
+
+            <div class="row">
+                <div>
+                    
+                    <h2 class="section-heading">Train the Blackboard Image Classifier</h2>
+                    
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>The image classifier detects the blackboard&rsquo;s state of writing. It is an interesting BilderSkript context to know whether the writing on the blackboard fills out the blackboard completely, partially, or alternatively, the blackboard is empty.</p>
+
+<h3 id="experiment">Experiment</h3>
+
+<p>We learn a model, a classifier, which maps images to class labels, e.g. full, partial, empty.</p>
+
+<ul>
+<li>utilizes the Ludwig docker container</li>
+<li>runs from command line;</li>
+<li>script tests whether the container already runs and if appropriate spins it up</li>
+<li>utilizes <a href="comet.ml">comet.ml</a> to store experiment results</li>
+<li>manually shutdown the container</li>
+</ul>
+
+<p>For utilizing <a href="comet.ml">comet.ml</a> you need to provide a <code>.comet.env</code> file in the project&rsquo;s directory. The file conatins the API key and the comet&rsquo;s project name.</p>
+
+<p><strong>Walkthrough</strong></p>
+
+<p>Start an experiment from <code>scripts/ludwig</code>.</p>
+
+<p><strong>STEP 1:</strong> Prepare the input dataset</p>
+
+<p>Precondition:</p>
+
+<ul>
+<li>`.png&rsquo; images as input for training the model</li>
+<li>within the <code>&lt;training image path&gt;</code> directory the images are organized in subdirs, where subdir names are the class labels</li>
+<li>experiment name, e.g. <em>stats_lecture</em></li>
+</ul>
+
+<p>Command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ludwig_experiment.sh datacsv &lt;experiment name&gt; &lt;training image path&gt;</code></pre></div>
+<p>Postcondition:</p>
+
+<ul>
+<li>directory created: <code>ludwig/experiements/&lt;experiment name&gt;</code></li>
+<li>directory contains <code>&lt;experiment name&gt;.csv</code>, which links images to class labels</li>
+</ul>
+
+<p><strong>STEP 2:</strong> Learn the model</p>
+
+<p>Precondition: see above</p>
+
+<p>Command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ludwig_experiment.sh experiment &lt;experiment name&gt; &lt;training image path&gt;</code></pre></div>
+<p>Postcondition:</p>
+
+<ul>
+<li>Results available in <code>ludwig/experiements/&lt;experiment name&gt;/results</code></li>
+<li><a href="comet.ml">comet.ml</a> website contains experiment&rsquo;s results</li>
+</ul>
+
+<p><strong>STEP 3:</strong> Visualize and Shutdown</p>
+
+<p>Precondition: the experiment name from above</p>
+
+<p>Command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ludwig_experiment.sh visualize &lt;experiment name&gt; 
+./ludwig_experiment.sh shutdown &lt;experiment name&gt; </code></pre></div>
+<p>Postcondition:</p>
+
+<ul>
+<li><a href="comet.ml">comet.ml</a> website contains for addtional images from the experiment run</li>
+<li>the Ludwig container is removed.</li>
+</ul>
+
+<h3 id="multi-experiments">Multi Experiments</h3>
+
+<p>Multi experiements are repeated experiements which varying parameters. Particularly, we vary the parameters for the image pre-processing.</p>
+
+<p>Start a multi experiment from <code>scripts/ludwig</code>. All directories created during an regular experiment are prefixed by <code>exp&lt;num&gt;_</code> indicating the run number within the multi experiment.</p>
+
+<p>Precondition:</p>
+
+<ul>
+<li>see initial preconditions of a single experiment</li>
+<li>edit <code>ludwig_multi_experiments.sh</code> for
+
+<ul>
+<li>training image path</li>
+<li>parameters to to loop through</li>
+</ul></li>
+</ul>
+
+<p>Command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ludwig_multi_experiments.sh &lt;experiment root name&gt;</code></pre></div>
+<p>Postcondition:</p>
+
+<ul>
+<li>directories with results created: <code>ludwig/experiements/exp&lt;num&gt;_&lt;experiment root name&gt;</code></li>
+<li><a href="comet.ml">comet.ml</a> website contains all experiments&rsquo; results</li>
+</ul>
+
+                </div>
+            </div>
+
+        </div>
+        
+
+    </div>
+
+	
+    <div class="content-section-b">
     
    
         <div class="container">
@@ -890,6 +1016,54 @@ img {
 
     </div>
 
+	 
+    <div class="content-section-a">
+    
+   
+        <div class="container">
+
+            <div class="row">
+                <div>
+                    
+                    <h2 class="section-heading">Development IDE - VS code</h2>
+                    
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>We use VS code as the BilderSkript&rsquo;s development IDE. A docker image encapsulates the IDE and makes it accessible through the web browser. An developer&rsquo;s software and programming effort focuses mostly on writing and editing shell scripts. As a consequence, the docker image provides appropriate extensions to support this actitity.</p>
+
+<h3 id="web-based-vs-code">Web-based VS code</h3>
+
+<p>Start VS code</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose up -d vscode</code></pre></div>
+<p>and point the web browser to <a href="http://localhost:8080">http://localhost:8080</a>.</p>
+
+<p>The vscode container starts with the BilderSkript repo mounted and opened. It stores its state, e.g. last file open, extensions, other settings, in the <code>vscode</code> directory within the BilderSkript&rsquo;s project dir.</p>
+
+<h3 id="extensions">Extensions</h3>
+
+<p>BilderSkript&rsquo;s vscode docker image and repo comes pre-installed with following extentions especially for working with shell scripts.</p>
+
+<ul>
+<li><a href="https://github.com/mvdan/sh">shfmt</a></li>
+<li><a href="https://github.com/koalaman/shellcheck">shellchecker</a></li>
+</ul>
+
+<p>The shellchecker runs on-the-fly and provides quick fixes for better coding quality of shell scripts. The shfmt tool reformats the shell script. Use ´shift + alt + f` to reformat the script.</p>
+
+                </div>
+            </div>
+
+        </div>
+        
+
+    </div>
+
 	
     <div class="content-section-b">
     
@@ -976,6 +1150,167 @@ snakemake -s doc.snakemake</code></pre>
 
     </div>
 
+	
+    <div class="content-section-b">
+    
+   
+        <div class="container">
+
+            <div class="row">
+                <div>
+                    
+                    <h2 class="section-heading">APPENDIX: Pipeline Interprocess Communication (IPC)</h2>
+                    
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>The distribution of pipelines across various docker containers requires interprocess communication between the docker containers. Let&rsquo;s discuss the design for the BilderSkript pipelines.</p>
+
+<h3 id="ipc-control-problem">IPC Control Problem</h3>
+
+<p>We have the <code>builder</code> container which controls the execution of all pipelines. A pipeline implements a  sequence of processs executions, where some of the processes run in their respective containers. As an example consider the data preparation pipeline. The pipeline in the <code>builder</code> container initiates the image data preparation in the <code>hugin</code> container. Once the process in the <code>hugin</code> container completes the pipeline can continues with the next step.</p>
+
+<p><img src="uml/ipc_call.png" alt="ipc sequence diagram" /></p>
+
+<p>Basically, the sequence diagram above depicts a synchronous remote procedure call (RPC). This is a classical function in many programming languages, e.g. <a href="https://en.wikipedia.org/wiki/Java_remote_method_invocation">Java RMI</a>.</p>
+
+<p><strong>IPC control problem formulation:</strong></p>
+
+<blockquote>
+<p>Implement a synchronous RPC to start processes across containers and that seamlessly integrates into pipelined workflows.</p>
+</blockquote>
+
+<p>Contraints / requirements:</p>
+
+<ul>
+<li>low effort for additional network setup</li>
+<li>low effort for access and securing the access control</li>
+<li>script based, preferrably in bash, as it makes it easy to integrate the RPC as shell command.</li>
+</ul>
+
+<p>In the following sections, we discuss some IPC approaches for their qualification as synchronous RPC.</p>
+
+<h3 id="file-based-ipc">File-based IPC</h3>
+
+<p>A very simple, but effective approach is the use of files for exchanging messages between container processes. The process in container A writes a message character string into a file on a shared volume from which the process in container B can read the file&rsquo;s content. In this scenario, a single file serves as a buffer between those processes. However, the file access needs to be coordinated, otherwise the processes would overwrite each other&rsquo;s messages. Additionally, to get informed about new messages, the processes need to poll the commonly shared file.</p>
+
+<h3 id="client-server-ipc">Client / Server IPC</h3>
+
+<p>Process within different containers may communicate as networked client and servers. Subsequently, some options:</p>
+
+<ul>
+<li>REST or similar RPC-alike calls across the network</li>
+<li>SSH remote script execution</li>
+<li>Shared UNIX sockets</li>
+</ul>
+
+<p>REST requests are easy to implement, addtionally, a webserver such as nginx or apache is required to receive the requests. Alternatively, one could implement a simple webserver using python and flask. SSH remote script execution needs accounts to login to the remote containers. One needs to enter a password before execution, which limits automation capabilities. Public key access can resolve this problem, but needs caution in handling public and private keys. Both options expose containers to the network. As a consequence, it requires network definition between containers and a firewall to block unauthorized access.</p>
+
+<p>Finally, UNIX sockets appear to be an ideal approach to interprocess communication. Sockets are stored on a  shared volume, therewith enabling a local access control. However, this type of interprocess communication is limited between containers on the same host.</p>
+
+<h3 id="message-queues-and-brokers">Message Queues and Brokers</h3>
+
+<p>A message broker maintains a message queue (MQ), where distirbuted processes can register themselve to exchange messages without directly knowing each other.</p>
+
+<p>Message brokers are a prefered way for decoupled distributed processes, in particular for long running processes executed asynchronously. However, the setup and managment of a MQ takes effort. Processes need to agree on the message format and containers need to reach the broker&rsquo;s queue via the network.</p>
+
+<h3 id="databases-for-ipc">Databases for IPC</h3>
+
+<p>Databases store information, which are accessible by clients. As such, this is related to the file-based IPC. Process information is organized in tables and table attributes store process states, e.g. process execution start or whether a process successfully completed.</p>
+
+<p>Similar to file-based IPC, processes are required to poll the database to receive updates on the process state. Addtionally, the setup and maintenance of even simple DBMS is significant. A simple file based database, e.g. <a href="https://www.sqlite.org/index.html">sqlite</a>, is an attractive solution for this last issue. However, write and read access must be coordinated to avoid (orphaned) file locks.</p>
+
+<h3 id="final-design-decision">Final Design Decision</h3>
+
+<p>As a result of the discussion, BilderSkript implements an interprocess communication using shared UNIX sockets. It combines the charm of file based approaches with the advantage of bi-directional communication. Tool support for scripting is very mature. The next section provides more details how this approach implemented.</p>
+
+<p><strong>Limitation.</strong> The use of UNIX limits IPC between containers on the same host. To overcome one may use <code>socat</code> to forward the UNIX socket to a TCP one. See this <a href="https://stackoverflow.com/questions/24956322/can-docker-port-forward-to-a-unix-file-socket-on-the-host-container">stackoverflow post</a> to get an idea how this can be implemented. However, this would re-open the discussion on network access issues, but enables a migration path to evolve the local host approach to distributed network approach.</p>
+
+<p><strong>Further Ressources:</strong></p>
+
+<p>There are a couple of ressources to follow up on these issues.</p>
+
+<ul>
+<li><a href="https://www.linode.com/docs/security/authentication/use-public-key-authentication-with-ssh/">https://www.linode.com/docs/security/authentication/use-public-key-authentication-with-ssh/</a></li>
+<li><a href="https://docs.docker.com/engine/examples/running_ssh_service/">Dockerize an SSH service</a> and <a href="https://hub.docker.com/r/rastasheep/ubuntu-sshd/">ubuntu sshd</a></li>
+<li><a href="https://stackoverflow.com/questions/12202587/automatically-enter-ssh-password-with-script">sshpass</a> and <a href="https://docs.docker.com/engine/swarm/#build-support-for-docker-secrets-into-your-images">Docker secret</a></li>
+<li><a href="https://jpetazzo.github.io/2014/06/23/docker-ssh-considered-evil/">Docker ssh considered evil</a></li>
+</ul>
+
+<p>An interesting op-ed from Bozho&rsquo;s tech blog is <a href="https://techblog.bozho.net/you-probably-dont-need-a-message-queue/">You Probably Don’t Need a Message Queue</a>. It inspired some of the disussion above.</p>
+
+                </div>
+            </div>
+
+        </div>
+        
+
+    </div>
+
+	 
+    <div class="content-section-a">
+    
+   
+        <div class="container">
+
+            <div class="row">
+                <div>
+                    
+                    <h2 class="section-heading">APPENDIX: IPC via Shared UNIX Sockets</h2>
+                    
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
+<p>This is a technical design description on the usage of shared UNIX socket for docker container IPC. Both containers connect to a socket stored on a shared volume, e.g. under the mount point <code>ipc</code>. They exchange simple control messages to run scripts and read and write data from the shared volume.</p>
+
+<p><img src="uml/ipc_socket_docker.png" alt="ipc socket between docker containers" /></p>
+
+<p>The approach utilizes</p>
+
+<ul>
+<li><a href="https://linux.die.net/man/1/socat"><code>socat</code></a> for creating sockets and socket communication</li>
+<li><a href="https://linux.die.net/man/8/ss"><code>ss</code></a> to check for the presence of the listening socket.</li>
+</ul>
+
+<p>It follows a classical client / server approach where the server initializes the socket and waits for the client to start the communication. The following sequence diagrams depicts the interaction over the socket.</p>
+
+<p><img src="uml/ipc_socket.png" alt="ipc socket sequence diagram" /></p>
+
+<p>Here are the script calls for the server and client.</p>
+
+<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_server.sh">Server</a>:</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ipc_socket_server.sh &lt;socket name&gt; &lt;path/to/server_app.sh&gt;</code></pre></div>
+<p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/scripts/ipc_socket_client.sh">Client</a>:</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./ipc_socket_client.sh &lt;socket name&gt; &lt;path/to/client_app.sh&gt;</code></pre></div>
+<h3 id="cross-container-ipc-example">Cross Container IPC Example</h3>
+
+<p>We illustrate the container IPC between the <code>builder</code> container and the <code>hugin</code> container. The <code>hugin</code> container processes all images taken with the 360 camera and converts the fisheye lens images in regular ones using a equirectangular projection. The server script runs on the <code>hugin</code> container while the client script runs on the <code>builder</code> container. The socket between both resides on a shared volume.
+It starts by the snakemake file on the <code>builder</code> calling the <code>hugin.sh</code> script.</p>
+
+<p><img src="uml/ipc_socket_hugin.png" alt="ipc socket communication between builder and hugin" /></p>
+
+<p><strong>Ressources:</strong></p>
+
+<p>A brief tutorial on <code>socat</code> is the <a href="https://blog.travismclarke.com/post/socat-tutorial/">Socat Cheatsheet</a> from Travis Clarke.</p>
+
+                </div>
+            </div>
+
+        </div>
+        
+
+    </div>
+
 
 </section>
 
@@ -990,11 +1325,11 @@ snakemake -s doc.snakemake</code></pre>
 					</li>
 					<li class="footer-menu-divider">&sdot;</li>
 						<li>
-							<a href="http://cdeck3r.com/BilderSkript/imprint-gdpr/imprint" >Imprint</a>
+							<a href="https://cdeck3r.com/BilderSkript/imprint-gdpr/imprint" >Imprint</a>
 						</li>
 					<li class="footer-menu-divider">&sdot;</li>
 						<li>
-							<a href="http://cdeck3r.com/BilderSkript/imprint-gdpr/gdpr" >GDPR</a>
+							<a href="https://cdeck3r.com/BilderSkript/imprint-gdpr/gdpr" >GDPR</a>
 						</li>
 				 </ul>
 				 <p class="copyright text-muted small" style="text-align:left;">
