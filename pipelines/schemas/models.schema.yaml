@@ -1,0 +1,24 @@
+$schema: "http://json-schema.org/draft-06/schema#"
+
+description: an entry in the sample sheet
+properties:
+  model_name:
+    type: string
+    description: a chosen name for a model 
+  model_path:
+    type: string
+    description: path to the models weights and other metadata about the model
+  img_filter_spec:
+    type: string
+    description: convert's spec string for image pre-processing
+  comet_url:
+    type: string
+    description: the URL to the model's experiment performance
+  notes:
+    type: string
+    description: any notes to add
+
+required:
+  - model_name
+  - model_path
+  - img_filter_spec

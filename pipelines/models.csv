@@ -1,0 +1,5 @@
+model_name;model_path;img_filter_spec;comet_url;notes
+impure_filter;/bilderskript/ludwig/models/impure_filter;"-negate -normalize";;"several notes"
+pure_filter_posterize;/bilderskript/ludwig/models/pure_filter_posterize;"-posterize 4 -normalize";https://www.comet.ml/cdeck3r/bilderskript/40f39a35b4ad42588b65dc8f8231846d;"several notes"
+impure_filter_posterize_resize;/bilderskript/ludwig/models/impure_filter_posterize_resize;"-posterize 4 -resize 128x128!";https://www.comet.ml/cdeck3r/bilderskript/949201c2a3f74347927c74cd5e8ef540;"all images are resized to fixed dimensions of 128x128"
+pure_filter_posterize_resize;/bilderskript/ludwig/models/pure_filter_posterize_resize;"-posterize 4 -resize 128x128!";https://www.comet.ml/cdeck3r/bilderskript/7ac3b5be3e524bc4ad580f4ddcab81f3;"all images are resized to fixed dimensions of 128x128"
