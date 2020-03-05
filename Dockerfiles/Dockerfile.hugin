@@ -20,13 +20,13 @@ USER root
 # pre-requisites
 #
 RUN apt-get update \
-&& apt-get install -y \
-   socat iproute2 lsof \
-   vnc4server \
-&& apt-get install -y \
-   hugin \
-&& apt-get clean \
-&& rm -rf /var/lib/apt/lists/*
+    && apt-get install -y \
+        socat iproute2 lsof \
+        vnc4server \
+    && apt-get install -y \
+        hugin \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 5901
 

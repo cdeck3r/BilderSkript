@@ -1,0 +1,48 @@
+#
+# This dockerfile shall enable the usage of Ludwig
+# with jupyter
+#
+# Source: https://github.com/uber/ludwig/blob/master/Dockerfile
+#
+
+# because Ludwig's requirements.txt need tf 1.15.2
+FROM tensorflow/tensorflow:1.15.2-py3-jupyter
+# commit sha corresponds to ludwig's use of tensorflow 1.15.2
+ARG LUDWIG_COMMIT_SHA=34e3af570f34dc8facd805fd44771ce3701ceed2
+ARG LUDWIG_URL=https://github.com/uber/ludwig/archive/${LUDWIG_COMMIT_SHA}.zip
+
+RUN apt-get update && apt-get install -y \
+        apt-utils \
+        software-properties-common \
+        socat iproute2 lsof \
+        wget curl unzip \
+        git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
+RUN pip install --upgrade pip
+
+#
+# Source: https://github.com/uber/ludwig/blob/master/Dockerfile
+#
+RUN mkdir -p /tmp/ && cd /tmp \
+    && curl -L -o ludwig.zip "${LUDWIG_URL}" \
+    && unzip ludwig.zip && mv ludwig-"${LUDWIG_COMMIT_SHA}" ludwig \
+    && cd ludwig/ \
+    && pip install -r requirements.txt \
+    && pip install -r requirements_image.txt \
+    && pip install -r requirements_serve.txt \
+    && pip install -r requirements_viz.txt \
+    && python setup.py install \
+    && pip install comet_ml
+
+#     && pip install -r requirements_text.txt \
+#    && pip install -r requirements_audio.txt \
+
+# WORKDIR is the notebook dir
+WORKDIR /data
+EXPOSE 8888
+CMD ["bash", "-c", "source /etc/bash.bashrc && jupyter notebook --notebook-dir=/data --ip 0.0.0.0 --no-browser --allow-root"]
+
+# ENTRYPOINT ["ludwig"]

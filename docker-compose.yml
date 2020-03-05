@@ -1,6 +1,22 @@
 version: '3'
 
 services:
+# VS code in browser
+# IDE for development running in docker and
+# accessed in browser
+  vscode:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: Dockerfile.vscode
+    container_name: vscode
+    image: vscode:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - vscode:/home/coder/.local/share/code-server
+      - repo:/BilderSkriptRepo
+    command: ["--auth", "none", "/BilderSkriptRepo"]
+     
 # hugin is an Open Source panorama stitcher and graphical user interface (GUI) 
 # for Panorama tools. 
 # It also provides a number of additional components and command line tools.
@@ -22,6 +38,27 @@ services:
     stdin_open: true
     tty: true
 
+# Ludwig is a toolbox that allows to train and test deep learning models
+# without the need to write code. 
+  ludwig:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: Dockerfile.ludwig
+    image: ludwig:latest
+    env_file:
+      - .comet.env
+    volumes:
+      - ipc:${APP_ROOT}/ipc
+      - images:${APP_ROOT}/images
+      - ludwig:${APP_ROOT}/ludwig
+      - log:${APP_ROOT}/log
+      - scripts:${APP_ROOT}/scripts
+    command:
+      /bilderskript/scripts/ipc_socket_server.sh ludwig.sock /bilderskript/scripts/ludwig/ludwig_server_app.sh
+    ipc: host
+    stdin_open: true
+    tty: true
+
 # Builder contains all tooling for the BilderSkript application
 # It defines and runs pipelines.
   builder:
@@ -35,6 +72,7 @@ services:
       - pipelines:${APP_ROOT}/pipelines
       - log:${APP_ROOT}/log
       - images:${APP_ROOT}/images
+      - ludwig:${APP_ROOT}/ludwig
       - src:${APP_ROOT}/src
       - scripts:${APP_ROOT}/scripts
       - docs:${APP_ROOT}/docs
@@ -58,8 +96,8 @@ services:
       - scripts:${APP_ROOT}/scripts
       - hugin-vnc:/hugin-vnc
     command:
-       /bin/bash
-#      /hugin-vnc/hugin.sh
+#       /bin/bash
+      /hugin-vnc/hugin.sh
     ipc: host
     stdin_open: true
     tty: true
@@ -80,6 +118,16 @@ volumes:
       type: none
       o: bind
       device: ${VOL_DIR}/pipelines
+  vscode:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/vscode
+  code-server:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/code-server
   log:
     driver_opts:
       type: none
@@ -90,6 +138,11 @@ volumes:
       type: none
       o: bind
       device: ${VOL_DIR}/images
+  ludwig:
+    driver_opts:
+      type: none
+      o: bind
+      device: ${VOL_DIR}/ludwig
   hugin-vnc:
     driver_opts:
       type: none

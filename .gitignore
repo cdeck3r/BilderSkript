@@ -2,13 +2,20 @@
 # Created by https://www.gitignore.io/api/ssh,hugo,java,python
 # Edit at https://www.gitignore.io/?templates=ssh,hugo,java,python
 
-
 ### BilderSkript ###
 # project specific excludes
-images
+*.insp
+images/*
+!images/**/.gitkeep
+ludwig/*
+!ludwig/**/.gitkeep
+
 pipelines/.snakemake
 
 .env
+.comet.env
+
+
 
 ### Hugo ###
 # Generated files by hugo
@@ -156,3 +163,4 @@ dmypy.json
 **/.ssh/known_hosts
 
 # End of https://www.gitignore.io/api/ssh,hugo,java,python
+
