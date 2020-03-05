@@ -1,5 +1,6 @@
 # path or URL to sample sheet (TSV format, columns: sample, condition, ...)
 datasets: datasets.csv
+models: models.csv
 
 
 dirs:
@@ -34,10 +35,10 @@ doc:
 
 data_prep:
     datasets_idx:
-        1
+        2
     out_dir:
         - *project_dir
-        - "images/fulltest_output"
+        - "images/output"
     resize_width:
         500
     hugin_scripts: &hugin_scripts
@@ -47,4 +48,15 @@ data_prep:
         - *hugin_scripts
         - "hugin.sh"
 
-
+ludwig:
+    models_idx:
+        1
+    out_dir:
+        - *project_dir
+        - "ludwig/predict"
+    ludwig_scripts: &ludwig_scripts
+        - *script_dir
+        - "ludwig"
+    ludwig_cmd:
+        - *ludwig_scripts
+        - "ludwig.sh"

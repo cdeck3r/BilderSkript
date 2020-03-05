@@ -10,6 +10,7 @@ configfile: "config.yaml"
 # validate(config, schema="schemas/config.schema.yaml")
 
 datasets = pd.read_table(config["datasets"], sep=";")
+models = pd.read_table(config["models"], sep=";")
 validate(datasets, schema="schemas/datasets.schema.yaml")
 
 
@@ -38,5 +39,6 @@ report: "report.rst"
 
 include: "doc.snakefile"
 include: "data_prep.snakefile"
+include: "ludwig.snakefile"
 
 # include: "test.snakefile"

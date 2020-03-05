@@ -27,14 +27,14 @@ hugin() {
 
    cd $(dirname "${_IMG_INPUT}")
    # set symlink
-   ln -s "$(basename ${_IMG_INPUT})" image.jpg
+   ln -s "$(basename ${_IMG_INPUT})" image.png
    # copy .pto file into IMG_INPUT directory
    cp "${_PTO}" .
    # start hugin
    hugin_executor --stitching --prefix="${_PREFIX}" "$(basename ${_PTO})" >&2
    # clean up
    rm -rf "$(basename ${_PTO})"
-   rm -rf ./image.jpg
+   rm -rf ./image.png
 }
 
 

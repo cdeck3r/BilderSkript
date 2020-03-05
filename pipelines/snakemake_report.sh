@@ -16,7 +16,9 @@ for f in $(ls *.snakefile)
 do
     PIPELINE_NAME="${f%.*}"
     PIPELINE_REPORT=${f}.html
+    PIPELINE_GRAPH=${f}.png
     # create the report 
     snakemake ${PIPELINE_NAME} --report ${PIPELINE_REPORT}
-
+    snakemake ${PIPELINE_NAME} --rulegraph | dot -Tpng > ${PIPELINE_GRAPH}
+    
 done
