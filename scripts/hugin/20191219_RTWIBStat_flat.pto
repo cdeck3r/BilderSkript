@@ -1,11 +1,11 @@
 # hugin project file
 #hugin_ptoversion 2
-p f2 w2878 h2166 v93  E7.2259 R0 S716,2878,280,2085 n"TIFF_m c:LZW r:CROP"
+p f0 w2878 h1831 v110  E7.2259 R0 S269,2637,407,1571 n"TIFF_m c:LZW r:CROP"
 m g1 i0 f0 m2 p0.00784314
 
 # image lines
 #-hugin  autoCenterCrop=1 cropFactor=1
-i w6912 h3456 f2 v360 Ra0 Rb0 Rc0 Rd0 Re0 Eev7.2259 Er1 Eb1 r-5.57265968129236 p-11.7636442414453 y25.5745397104247 TrX0 TrY0 TrZ0 Tpy0 Tpp0 j0 a0 b0.001 c0 d-1728 e0 g0 t0 Va1 Vb0 Vc0 Vd0 Vx0 Vy0  S0,3456,0,3456 Vm5 n"image.png"
+i w6912 h3456 f2 v360 Ra0 Rb0 Rc0 Rd0 Re0 Eev7.2259 Er1 Eb1 r3.2354179804074 p-11.3640296589137 y-9.69766462950715 TrX0 TrY0 TrZ0 Tpy0 Tpp0 j0 a0 b0.001 c0 d-1728 e0 g0 t0 Va1 Vb0 Vc0 Vd0 Vx0 Vy0  S0,3456,0,3456 Vm5 n"image.png"
 
 
 # specify variables that should be optimized

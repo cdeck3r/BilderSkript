@@ -5,7 +5,7 @@ m g1 i0 f0 m2 p0.00784314
 
 # image lines
 #-hugin  cropFactor=1
-i w2162 h1805 f4 v69.867 Ra0 Rb0 Rc0 Rd0 Re0 Eev0 Er1 Eb1 r3.90887322224173 p13.9357224438565 y-28.8500712298508 TrX0 TrY0 TrZ0 Tpy0 Tpp0 j0 a0 b0 c0 d0 e-99.5 g0 t0 Va1 Vb0 Vc0 Vd0 Vx0 Vy0  Vm5 n"image.jpg"
+i w2162 h1805 f4 v69.867 Ra0 Rb0 Rc0 Rd0 Re0 Eev0 Er1 Eb1 r3.90887322224173 p13.9357224438565 y-28.8500712298508 TrX0 TrY0 TrZ0 Tpy0 Tpp0 j0 a0 b0 c0 d0 e-99.5 g0 t0 Va1 Vb0 Vc0 Vd0 Vx0 Vy0  Vm5 n"image.png"
 
 
 # specify variables that should be optimized

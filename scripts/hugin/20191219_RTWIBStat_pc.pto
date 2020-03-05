@@ -1,19 +1,23 @@
 # hugin project file
 #hugin_ptoversion 2
-p f2 w2878 h2166 v93  E7.2259 R0 S716,2878,280,2085 n"TIFF_m c:LZW r:CROP"
+p f0 w3000 h1040 v121  E0 R0 S44,2329,0,879 n"TIFF_m c:LZW r:CROP"
 m g1 i0 f0 m2 p0.00784314
 
 # image lines
-#-hugin  autoCenterCrop=1 cropFactor=1
-i w6912 h3456 f2 v360 Ra0 Rb0 Rc0 Rd0 Re0 Eev7.2259 Er1 Eb1 r-5.57265968129236 p-11.7636442414453 y25.5745397104247 TrX0 TrY0 TrZ0 Tpy0 Tpp0 j0 a0 b0.001 c0 d-1728 e0 g0 t0 Va1 Vb0 Vc0 Vd0 Vx0 Vy0  S0,3456,0,3456 Vm5 n"image.png"
+#-hugin  cropFactor=1
+i w2368 h1164 f0 v106.513256134541 Ra0 Rb0 Rc0 Rd0 Re0 Eev0 Er1 Eb1 r-0.858073685638146 p11.7756787941279 y-7.96057340439724 TrX0 TrY0 TrZ0 Tpy0 Tpp0 j0 a0 b0 c0 d0 e-108.980573543016 g0 t0 Va1 Vb0 Vc0 Vd0 Vx0 Vy0  Vm5 n"image.png"
 
 
 # specify variables that should be optimized
+v v0
 v Ra0
 v Rb0
 v Rc0
 v Rd0
 v Re0
+v r0
+v p0
+v y0
 v Vb0
 v Vc0
 v Vd0
@@ -21,6 +25,10 @@ v
 
 
 # control points
+c n0 N0 x188 y252 X77.3333333333333 Y672 t1
+c n0 N0 x89 y676 X2287 Y723.5 t2
+c n0 N0 x1558.66666666667 y175.333333333333 X1600.5 Y704.5 t1
+c n0 N0 x201 y247 X2142.66666666667 Y136 t2
 
 #hugin_optimizeReferenceImage 0
 #hugin_blender enblend
@@ -47,5 +55,5 @@ v
 #hugin_outputImageTypeHDRCompression LZW
 #hugin_outputStacksMinOverlap 0.7
 #hugin_outputLayersExposureDiff 0.5
-#hugin_optimizerMasterSwitch 1
+#hugin_optimizerMasterSwitch 6
 #hugin_optimizerPhotoMasterSwitch 21
