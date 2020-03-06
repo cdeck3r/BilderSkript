@@ -25,7 +25,7 @@ The approach increases the flexibility to apply the pipelines to various dataset
 
 <img src="uml/workflow_design.png" alt="workflow design for all pipelines" />
 
-The pipelines are named after their snakefile. All pipelines files stay in the `pipelines/` directory relative to the BilderSkript's project dir.
+The pipelines are named after their snakefile. All pipelines files stay in the `/bilderskript/pipelines` directory relative to the BilderSkript's project dir.
 
 * **[doc.snakefile](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile):** describes the pipeline for documentation generations. You may view the pipeline's [report](https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html).
 
@@ -41,3 +41,8 @@ The pipelines are named after their snakefile. All pipelines files stay in the `
     The pipeline's default behavior is started by the [`ludwig.sh`]
 
 
+Run the following script to create reports for all BilderSkript pipelines
+
+```bash
+snakemake_report.sh
+```
