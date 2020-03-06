@@ -32,4 +32,4 @@ BilderSkript's vscode docker image and repo comes pre-installed with following e
 * [shfmt](https://github.com/mvdan/sh)
 * [shellchecker](https://github.com/koalaman/shellcheck)
 
-The shellchecker runs on-the-fly and provides quick fixes for better coding quality of shell scripts. The shfmt tool reformats the shell script. Use ´shift + alt + f` to reformat the script.
+The shellchecker runs on-the-fly and provides quick fixes for better coding quality of shell scripts. The shfmt tool reformats the shell script. Use `shift + alt + f` to reformat the script.
