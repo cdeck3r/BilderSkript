@@ -15,6 +15,7 @@ services:
     volumes:
       - vscode:/home/coder/.local/share/code-server
       - repo:/BilderSkriptRepo
+      - ${VOL_DIR}/.gitconfig:/home/coder/.gitconfig
     command: ["--auth", "none", "/BilderSkriptRepo"]
      
 # hugin is an Open Source panorama stitcher and graphical user interface (GUI) 
@@ -123,11 +124,6 @@ volumes:
       type: none
       o: bind
       device: ${VOL_DIR}/vscode
-  code-server:
-    driver_opts:
-      type: none
-      o: bind
-      device: ${VOL_DIR}/code-server
   log:
     driver_opts:
       type: none

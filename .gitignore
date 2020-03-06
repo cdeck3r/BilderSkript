@@ -14,6 +14,7 @@ pipelines/.snakemake
 
 .env
 .comet.env
+.gitconfig
 
 
 
