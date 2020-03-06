@@ -105,3 +105,10 @@ Postcondition:
 
 * directories with results created: `ludwig/experiements/exp<num>_<experiment root name>`
 * [comet.ml](comet.ml) website contains all experiments' results
+
+
+### Training Process
+
+The following activity diagram illustrates the overall sequence of actions for running one or more experiments. The swimlane `Experiments` depicts all artifacts which relate to an experiment. When an experiment is repeated with different parameters the filtered images, the datacsv file and the resulting model are created under the new experiment name.
+
+<img src="uml/ludwig_multi_exp" alt="Ludwig Multi Experiments" />

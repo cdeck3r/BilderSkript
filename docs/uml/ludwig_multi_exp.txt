@@ -1,0 +1,78 @@
+@startumlsc_modern
+skinparam monochrome true
+skinparam componentStyle uml2
+
+
+|ludwig_multiple_experiements.sh|
+|builder|
+|ludwig|
+|#AntiqueWhite|Experiment|
+|<&person>Engineer|
+
+|<&person>Engineer|
+start
+:Label images;
+
+|Experiment|
+:labelled images
+<&folder> <images/train>|
+
+|<&person>Engineer|
+:Design model;
+
+|Experiment|
+:model definition
+<&file> ludwig/models/model_definition.yaml|
+detach
+
+|ludwig_multiple_experiements.sh|
+start
+repeat
+:Select image
+filter params;
+:Spin up container
+<&reload>builder;
+
+|builder|
+:convert;
+
+|Experiment|
+:filtered images
+<&folder> images/train|
+
+|ludwig_multiple_experiements.sh|
+:Spin up container
+<&reload>ludwig;
+
+|ludwig|
+:datacsv;
+
+|Experiment|
+:csv
+<&file> <EXP_DIR>/<exp_name>.csv|
+
+|ludwig_multiple_experiements.sh|
+:Start experiment;
+
+|ludwig|
+:experiment;
+
+|Experiment|
+:model
+<&folder> <EXP_DIR/results>|
+
+|ludwig_multiple_experiements.sh|
+:Visualize results;
+
+|ludwig|
+:visualize;
+:upload to
+<&cloud>comet.ml;
+
+|ludwig_multiple_experiements.sh|
+repeat while (more params?)
+:Shutdown containers;
+stop
+
+
+@enduml

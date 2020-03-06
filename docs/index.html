@@ -645,7 +645,7 @@ img {
 
 <p><img src="uml/workflow_design.png" alt="workflow design for all pipelines" /></p>
 
-<p>The pipelines are named after their snakefile. All pipelines files stay in the <code>pipelines/</code> directory relative to the BilderSkript&rsquo;s project dir.</p>
+<p>The pipelines are named after their snakefile. All pipelines files stay in the <code>/bilderskript/pipelines</code> directory relative to the BilderSkript&rsquo;s project dir.</p>
 
 <ul>
 <li><p><strong><a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile">doc.snakefile</a>:</strong> describes the pipeline for documentation generations. You may view the pipeline&rsquo;s <a href="https://github.com/cdeck3r/BilderSkript/blob/master/pipelines/doc.snakefile.html">report</a>.</p></li>
@@ -813,7 +813,7 @@ img {
             <div class="row">
                 <div>
                     
-                    <h2 class="section-heading">[doc.snakefile] Pipeline</h2>
+                    <h2 class="section-heading">[doc.snakefile] Pipeline Generating the Blog</h2>
                     <style>
 img {
   max-width: 100%;
@@ -949,6 +949,12 @@ img {
 <li>directories with results created: <code>ludwig/experiements/exp&lt;num&gt;_&lt;experiment root name&gt;</code></li>
 <li><a href="comet.ml">comet.ml</a> website contains all experiments&rsquo; results</li>
 </ul>
+
+<h3 id="training-process">Training Process</h3>
+
+<p>The following activity diagram illustrates the overall sequence of actions for running one or more experiments. The swimlane <code>Experiments</code> depicts all artifacts which relate to an experiment. When an experiment is repeated with different parameters the filtered images, the datacsv file and the resulting model are created under the new experiment name.</p>
+
+<p><img src="uml/ludwig_multi_exp" alt="Ludwig Multi Experiments" /></p>
 
                 </div>
             </div>
@@ -1093,7 +1099,21 @@ img {
 <li><a href="https://github.com/koalaman/shellcheck">shellchecker</a></li>
 </ul>
 
-<p>The shellchecker runs on-the-fly and provides quick fixes for better coding quality of shell scripts. The shfmt tool reformats the shell script. Use ´shift + alt + f` to reformat the script.</p>
+<p>The shellchecker runs on-the-fly and provides quick fixes for better coding quality of shell scripts. The shfmt tool reformats the shell script. Use <code>shift + alt + f</code> to reformat the script.</p>
+
+<h3 id="git">Git</h3>
+
+<p>Git version control within the vscode image misses <code>user.name</code> and <code>user.email</code> for git actions like commit. There is an extensive discussion on <a href="https://stackoverflow.com/questions/42318673/changing-the-git-user-inside-visual-studio-code">https://stackoverflow.com/questions/42318673/changing-the-git-user-inside-visual-studio-code</a>. The main message is</p>
+
+<blockquote>
+<p>Changing the git user inside Visual Studio Code, is not inside rather outside.</p>
+</blockquote>
+
+<p>This would require a developer to run <code>git config --global user....</code> commands on within vscode&rsquo;s CLI.</p>
+
+<p>BilderSkript&rsquo;s <code>docker-compose.yml</code> file maps a .gitconfig file from the project dir onto the vscode&rsquo;s container <code>$HOME/.gitconfig</code>. As a result, it makes git configuration data available to the vscode container.</p>
+
+<p>By default, the <code>.gitconfig</code> is included in the project&rsquo;s <code>.gitignore</code> file to avoid accidentially committing private git configuration details into the public repo.</p>
 
                 </div>
             </div>
