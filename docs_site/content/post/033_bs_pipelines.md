@@ -40,8 +40,4 @@ The pipelines are named after their snakefile. All pipelines files stay in the `
 
     The pipeline's default behavior is started by the [`ludwig.sh`]
 
-Run the following script to create reports for all BilderSkript pipelines
 
-```bash
-snakemake_report.sh
-```

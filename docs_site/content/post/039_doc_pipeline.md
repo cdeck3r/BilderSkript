@@ -24,3 +24,9 @@ Run the pipeline from within the `builder` container in `/bilderskript/pipelines
 ```bash
 snakemake doc
 ```
+
+Run the following script to create reports for all BilderSkript pipelines
+
+```bash
+snakemake_report.sh
+```
