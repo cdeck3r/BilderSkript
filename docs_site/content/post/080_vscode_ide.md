@@ -38,7 +38,7 @@ The shellchecker runs on-the-fly and provides quick fixes for better coding qual
 
 Git version control within the vscode image misses `user.name` and `user.email` for git actions like commit. There is an extensive discussion on https://stackoverflow.com/questions/42318673/changing-the-git-user-inside-visual-studio-code. The main message is
 
-> Changing the git user inside Visual Studio Code, is not inside rather outside.
+>Changing the git user inside Visual Studio Code, is not inside rather outside.
 
 This would require a developer to run `git config --global user....` commands on within vscode's CLI.
 
