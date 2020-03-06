@@ -1,5 +1,5 @@
 +++
-title = "[doc.snakefile] Pipeline"
+title = "[doc.snakefile] Pipeline Generating the Blog"
 description = "Creates the docu blog"
 date = "2020-03-05"
 author = "Christian Decker"
