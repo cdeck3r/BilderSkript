@@ -48,7 +48,7 @@ filter params;
 :datacsv;
 
 |Experiment|
-:csv
+:datacsv
 <&file> <EXP_DIR>/<exp_name>.csv|
 
 |ludwig_multiple_experiements.sh|

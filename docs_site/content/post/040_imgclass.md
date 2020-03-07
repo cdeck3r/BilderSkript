@@ -17,7 +17,7 @@ The image classifier detects the blackboard's state of writing. It is an interes
 
 ### Experiment
 
-We learn a model, a classifier, which maps images to class labels, e.g. full, partial, empty.
+We learn a model, a classifier, which maps images to class labels, e.g. full, partial, empty. The features are:
 
 * utilizes the Ludwig docker container
 * runs from command line; 
@@ -109,6 +109,8 @@ Postcondition:
 
 ### Training Process
 
-The following activity diagram illustrates the overall sequence of actions for running one or more experiments. The swimlane `Experiments` depicts all artifacts which relate to an experiment. When an experiment is repeated with different parameters the filtered images, the datacsv file and the resulting model are created under the new experiment name.
+The following activity diagram illustrates the overall sequence of actions for running one or more experiments. The swimlane `Experiment` depicts all artifacts which relate to an experiment. When an experiment is repeated with different parameters the filtered images, the datacsv file and the resulting model are created under the new experiment name.
+
+**Note:** The training process does not utilize a snakemake pipeline. It is a script started on the host platform, which invokes the toolchain in docker containers.
 
 <img src="uml/ludwig_multi_exp.png" alt="Ludwig Multi Experiments" width="75%" />
