@@ -5,7 +5,7 @@ m g1 i0 f0 m2 p0.00784314
 
 # image lines
 #-hugin  autoCenterCrop=1 cropFactor=1
-i w6912 h3456 f2 v360 Ra0 Rb0 Rc0 Rd0 Re0 Eev7.2259 Er1 Eb1 r3.2354179804074 p-11.3640296589137 y-9.69766462950715 TrX0 TrY0 TrZ0 Tpy0 Tpp0 j0 a0 b0.001 c0 d-1728 e0 g0 t0 Va1 Vb0 Vc0 Vd0 Vx0 Vy0  S0,3456,0,3456 Vm5 n"IMG_20200110_095108_001.png"
+i w6912 h3456 f2 v360 Ra0 Rb0 Rc0 Rd0 Re0 Eev7.2259 Er1 Eb1 r3.2354179804074 p-11.3640296589137 y-9.69766462950715 TrX0 TrY0 TrZ0 Tpy0 Tpp0 j0 a0 b0.001 c0 d-1728 e0 g0 t0 Va1 Vb0 Vc0 Vd0 Vx0 Vy0  S0,3456,0,3456 Vm5 n"image.png"
 
 
 # specify variables that should be optimized
