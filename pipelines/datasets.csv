@@ -2,3 +2,5 @@ lecture;lecture_date;img_dir;pto_flat;pto_pc;crop_spec
 RTWIBSE;20191219;/bilderskript/images/20191219_RTWIBSE;;;300x300+80+25
 RTWIBSE;20191219;/bilderskript/images/fulltest;;;300x300+80+25
 RTWIBStat;20191219;/bilderskript/images/testing;;;300x300+80+25
+RTWIBStat;20200109;/bilderskript/images/20200109_RTWIBStat;/bilderskript/scripts/hugin/RTWIBStatNet_flat.pto;/bilderskript/scripts/hugin/RTWIBStatNet_pc.pto;300x300+80+25
+RTWIBNet1;20200110;/bilderskript/images/20200110_RTWIBNet1;/bilderskript/scripts/hugin/RTWIBStatNet_flat.pto;/bilderskript/scripts/hugin/RTWIBStatNet_pc.pto;300x300+80+25
