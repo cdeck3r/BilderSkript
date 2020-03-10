@@ -48,7 +48,7 @@ def image_samples():
 # collect the output files
 rule samples:
     input:
-        expand(SAMPLES_DIR + "/{imgs.imgdirname}" + "/{imgs.imgfile}", imgs=image_samples())
+        [SAMPLES_DIR + "/{imgdirname}/{imgfile}".format(imgdirname=s.imgdirname, imgfile=s.imgfile) for s in image_samples()]
 
 rule copy_sample_image:
     input:
