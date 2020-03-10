@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 #
 # This script implements a client application. 
@@ -20,13 +21,12 @@ source ${PROJECT_DIR}/scripts/funcs.sh
 #########################################
 # Checks
 #########################################
-
+log_echo "INFO" "Start checks ..." 
 # check docker
 # we expect the script to execute within the docker container
 check_docker
 #
 # Check other tools
-log_echo "INFO" "Start checks ..." 
 log_echo "INFO" "Checks done." 
 
 #########################################

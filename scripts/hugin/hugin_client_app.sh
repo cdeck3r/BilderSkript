@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 #
 # This script implements a client application. 

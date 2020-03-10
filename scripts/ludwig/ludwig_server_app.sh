@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 # this directory is the script directory
 SCRIPT_DIR="$( cd "$(dirname "$0")" ; pwd -P )"

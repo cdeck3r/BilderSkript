@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 #
 # Calls the ludwig classification

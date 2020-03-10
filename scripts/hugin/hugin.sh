@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 #
 # This script writes the hugin.cfg containing the params 
