@@ -7,6 +7,9 @@ dirs:
     # project's root dir
     project_dir: &project_dir
         "/bilderskript"
+    images_dir: &images_dir
+        - *project_dir
+        - "images"
     # main tools installed by docker
     supplemental_dir: &supplemental_dir
         "/opt/builder"
@@ -35,7 +38,7 @@ doc:
 
 data_prep:
     datasets_idx:
-        2
+        3
     out_dir:
         - *project_dir
         - "images/output"
@@ -60,3 +63,12 @@ ludwig:
     ludwig_cmd:
         - *ludwig_scripts
         - "ludwig.sh"
+
+samples:
+    seed:
+        1234
+    num_samples:
+        10
+    samples_dir:
+        - *images_dir
+        - "samples"

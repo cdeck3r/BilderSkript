@@ -40,5 +40,6 @@ report: "report.rst"
 include: "doc.snakefile"
 include: "data_prep.snakefile"
 include: "ludwig.snakefile"
+include: "samples.snakefile"
 
 # include: "test.snakefile"
