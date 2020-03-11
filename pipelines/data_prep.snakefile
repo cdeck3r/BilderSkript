@@ -113,7 +113,7 @@ rule img_resize:
     message:
         "Resize the image"
     shell:
-        "convert -resize {IMG_RESIZE_WIDTH} \"{input}\" \"{output}\" "
+        "convert -resize {IMG_RESIZE_WIDTH} +repage \"{input}\" \"{output}\" "
 
 # ... and mirror it
 rule img_mirror:
@@ -143,4 +143,4 @@ rule img_crop_afile:
     message:
         "Crop the image"
     shell:
-        "convert -crop {CROP_SPEC} \"{input}\" \"{output}\"  "
+        "convert -crop {CROP_SPEC} +repage \"{input}\" \"{output}\"  "
