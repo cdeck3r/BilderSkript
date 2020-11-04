@@ -8,18 +8,18 @@ author = "Christian Decker"
 Information according to § 5 TMG
 
 Christian Decker    
-Danziger Str. 6    
-71034 Böblingen    
+Schleichlingstr. 9    
+76327 Pfinztal    
 
 #### Contact:
-Phone: +49 7121 271 4105    
+Phone: +49 721 47046729           
 E-Mail: info@cdeck3r.com   
 
 #### Responsible for content according to § 55 Abs. 2 RStV:
 
 Christian Decker    
-Danziger Str. 6     
-71034 Böblingen    
+Schleichlingstr. 9    
+76327 Pfinztal    
 
 #### Disclaimer:
 
